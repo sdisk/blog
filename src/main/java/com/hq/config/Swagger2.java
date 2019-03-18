@@ -21,7 +21,7 @@ public class Swagger2
     /**
      * swagger2开关
      */
-    @Value("${spring.swagger.show}")
+    @Value("${tyche.swagger.open}")
     private boolean swaggerShow;
 
     @Bean
