@@ -14,14 +14,18 @@ public class Constants
     /**
      * 网站配置
      */
-    private static Map<String,String> initConfig = new HashMap<>();
+    public static Map<String, String> initConfig = new HashMap<>();
 
     /**
      * session
      */
-    private static final String LOGIN_SESSION_KEY = "login_user";
+    public static final String LOGIN_SESSION_KEY = "login_user";
     /**
      * cookie
      */
-    private static final String USER_IN_COOKIE = "U_C_ID";
+    public static final String USER_IN_COOKIE = "U_C_ID";
+    /**
+     * aes加密加盐
+     */
+    public static final String AES_SALT = "123456789abcdefghijklmnpqrstuvwxyz";
 }
