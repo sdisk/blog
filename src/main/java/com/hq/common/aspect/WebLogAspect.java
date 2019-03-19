@@ -6,6 +6,7 @@ import com.hq.common.log.LogTaskFactory;
 import com.hq.model.User;
 import com.hq.utils.ToolUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
@@ -36,7 +37,7 @@ public class WebLogAspect {
 
 
     @Before("cutService()")
-    public void doBefore(ProceedingJoinPoint point){
+    public void doBefore(JoinPoint point){
         startTime.set(System.currentTimeMillis());
         //请求的内容
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -83,20 +84,31 @@ public class WebLogAspect {
 
         //判断用户是否登录，未登录就不做日志
         //Todo
-        User user = ToolUtil.getLoginUser();
-
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
+                .getRequestAttributes
+                ()).getRequest();
+        User user = ToolUtil.getLoginUser(request);
+        if(null == user){
+            return;
+        }
         //获取拦截方法的参数
+        String className = target.getClass().getName();
+        Object [] params = point.getArgs();
         Parameter[] parameters = method.getParameters();
+        //看下区别
+        log.debug(params.toString());
+        log.debug(parameters.toString());
         //获取操作名称
         BussinessLog bussinessLog = target.getClass().getAnnotation(BussinessLog.class);
         String key = bussinessLog.key();
         String value = bussinessLog.value();
 
         StringBuilder sb = new StringBuilder();
-        for (Object param : parameters){
+        for (Object param : params){
             sb.append(param);
             sb.append("&");
         }
-        LogManager.getLogManager().executeLog(LogTaskFactory.operationLog(user));
+        LogManager.getLogManager().executeLog(LogTaskFactory.operationLog(user.getUid(), key,
+                className,methodName,sb.substring(0,sb.length()-1)));
     }
 }

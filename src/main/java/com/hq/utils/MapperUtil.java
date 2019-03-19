@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.hq.common.SpringContextHolder;
 
 /**
- * @program: blog
- * @description:
  * @author: Mr.Huang
  * @create: 2019-03-19 14:44
  **/

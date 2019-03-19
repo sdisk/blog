@@ -21,13 +21,13 @@ public class Swagger2
     /**
      * swagger2开关
      */
-    @Value("${tyche.swagger.open}")
-    private boolean swaggerShow;
+    @Value("${tyche.swagger-open}")
+    private boolean swaggerOpen;
 
     @Bean
     public Docket createRestApi(){
         return new Docket(DocumentationType.SWAGGER_2)
-                .enable(swaggerShow)
+                .enable(swaggerOpen)
                 .apiInfo(apiInfo())
                 .select()
                 //当前包的路径
