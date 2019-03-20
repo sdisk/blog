@@ -1,12 +1,13 @@
 package com.hq.service;
 
-import org.springframework.stereotype.Service;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.hq.model.User;
 
 /**
  * Created by huang on 19/3/2019.
  */
-@Service
-public interface UserService
+public interface UserService extends IService<User>
 {
 
+    User getUserInfoById(Integer uid);
 }

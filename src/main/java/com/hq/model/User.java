@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
  * @program: blog
  * @description:
@@ -53,4 +55,9 @@ public class User extends Model<User> {
      * 用户组
      */
     private String groupName;
+
+    @Override
+    protected Serializable pkVal() {
+        return this.uid;
+    }
 }

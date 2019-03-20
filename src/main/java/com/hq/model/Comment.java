@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -17,6 +18,7 @@ import java.util.Date;
 @TableName("t_comment")
 public class Comment extends Model<Comment>
 {
+    private static final long serialVersionUID = -1766761827879578447L;
     /**
      * 主键
      */
@@ -26,6 +28,7 @@ public class Comment extends Model<Comment>
      * 关联的文章表主键
      */
     private Integer cid;
+
     private Date createTime;
     /**
      * 评论者
@@ -71,5 +74,10 @@ public class Comment extends Model<Comment>
      * 评论内容
      */
     private String content;
+
+    @Override
+    protected Serializable pkVal() {
+        return this.coid;
+    }
 }
 

@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -61,4 +62,9 @@ public class OperationLog extends Model<OperationLog> {
      * 备注
      */
     private String message;
+
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
+    }
 }

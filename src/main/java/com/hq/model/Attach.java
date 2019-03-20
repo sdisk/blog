@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -17,6 +18,7 @@ import java.util.Date;
 @TableName("t_attach")
 public class Attach extends Model<Attach>
 {
+    private static final long serialVersionUID = -4146469185787114394L;
     /**
      * 主键编号
      */
@@ -42,5 +44,10 @@ public class Attach extends Model<Attach>
      * 创建的时间
      */
     private Date createTime;
+
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
+    }
 }
 

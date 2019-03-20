@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
  * Created by huang on 19/3/2019.
  */
@@ -13,6 +15,7 @@ import lombok.Setter;
 @TableName("t_meta")
 public class Meta extends Model<Meta>
 {
+    private static final long serialVersionUID = 7958014447426554919L;
     /**
      * 项目主键
      */
@@ -43,4 +46,9 @@ public class Meta extends Model<Meta>
     private Integer sort;
 
     private Integer parentId;
+
+    @Override
+    protected Serializable pkVal() {
+        return this.mid;
+    }
 }

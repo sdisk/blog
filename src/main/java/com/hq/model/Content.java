@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
  * @description: 文章内容
  * @author: Mr.Huang
@@ -94,4 +96,9 @@ public class Content extends Model<Content> {
      * 允许可见
      */
     private Integer allowShow;
+
+    @Override
+    protected Serializable pkVal() {
+        return this.cid;
+    }
 }

@@ -1,5 +1,7 @@
 package com.hq.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Getter;
@@ -13,6 +15,8 @@ import lombok.Setter;
 @TableName("t_relationships")
 public class RelationShip extends Model<RelationShip>
 {
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
     /**
      *文章主键编号
      */
