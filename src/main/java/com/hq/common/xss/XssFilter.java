@@ -27,7 +27,7 @@ public class XssFilter implements Filter {
         //过滤xss攻击，wrap操作
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String servletPath = httpServletRequest.getServletPath();
-        if (null != servletPath && urlExclusion.contains(servletPath)){
+        if (null != urlExclusion && urlExclusion.contains(servletPath)){
             chain.doFilter(request, response);
         } else{
             chain.doFilter(new XssHttpServletRequestWrapper(httpServletRequest), response);
