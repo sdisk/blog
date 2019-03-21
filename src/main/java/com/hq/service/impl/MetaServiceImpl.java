@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: blog
@@ -38,7 +40,11 @@ public class MetaServiceImpl extends ServiceImpl<MetaMapper, Meta> implements Me
             if (limit < 1 || limit > Constants.MAX_POSTS){
                 limit = 10;
             }
-
+            Map<String, Object> paraMap = new HashMap<>();
+            paraMap.put("type", type);
+            paraMap.put("order", orderby);
+            paraMap.put("limit", limit);
+            return metaMapper.selectMetaDtoByMap(paraMap);
         }
         return null;
     }

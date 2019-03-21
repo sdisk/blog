@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hq.dao.MetaMapper">
+    <sql id="BASE_TABLE">
+        t_meta
+    </sql>
+    
+    <sql id="RELATION_SHIP_TABLE">
+        <include refid="com.hq.dao.RelationShipMapper.BASE_TABLE" />
+    </sql>
+    
+    <sql id="BASE_COLUMN">
+        m.id, m.name, m.slug, m.type, m.description, m.sort,m.parent,
+    </sql>
+
+    <resultMap id="BaseResultMap" type="com.hq.model.Meta">
+        <id column="mid" javaType="INTEGER" property="mid" />
+        <result column="name" javaType="VARCHAR" property="name" />
+        <result column="slug" javaType="VARCHAR" property="slug" />
+        <result column="type" javaType="VARCHAR" property="type" />
+        <result column="description" javaType="VARCHAR" property="description" />
+        <result column="sort" javaType="VARCHAR" property="sort" />
+        <result column="parentId" javaType="VARCHAR" property="parentId" />
+    </resultMap>
+
+    <resultMap id="MetaDto" type="com.hq.dto.MetaDto" extends="BaseResultMap">
+        <result column="count" javaType="INTEGER" property="count"/>
+    </resultMap>
+
+    <select id="selectMetaDtoByMap" resultMap="MetaDto" parameterType="Map" >
+        SELECT
+            m.*,
+            count(re.cid) as count
+        FROM <include refid="BASE_TABLE" /> AS m
+        LEFT  JOIN <include refid="RELATION_SHIP_TABLE" /> AS re ON m.mid = re.mid
+        WHERE m.type = #{type }
+        GROUP BY m.mid
+        ORDER BY #{order}
+        limit #{limit}
+    </select>
+</mapper>
