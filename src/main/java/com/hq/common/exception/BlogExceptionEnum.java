@@ -16,7 +16,15 @@ public enum BlogExceptionEnum implements ServiceExceptionEnum{
      * 错误的请求
      */
     REQUEST_NULL(400, "请求有错误"),
-    SERVER_ERROR(500, "服务器异常");
+    SERVER_ERROR(500, "服务器异常"),
+
+    /**
+     * 登录错误请求
+     */
+    USERNAME_PASSWORD_ENPTY(400, "用户名或密码为空"),
+    USERNAME_PASSWORD_ERROR(400, "用户名不存在或密码错误"),
+    USER_NO_LOGIN(400, "用户未登录")
+
     ;
     private Integer code;
     private String message;

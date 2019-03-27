@@ -12,6 +12,7 @@ import com.hq.utils.ToolUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -22,6 +23,7 @@ public abstract class BaseController {
 
     @Autowired
     private ContentService contentService;
+
     @Autowired
     private MetaService metaService;
 
@@ -53,5 +55,11 @@ public abstract class BaseController {
         request.setAttribute("links", links);
 
         return this;
+    }
+    /**
+     * 获得session
+     */
+    public HttpSession getSession(HttpServletRequest request){
+        return request.getSession(true);
     }
 }

@@ -10,4 +10,6 @@ public interface UserService extends IService<User>
 {
 
     User getUserInfoById(Integer uid);
+
+    User login(String username, String password);
 }

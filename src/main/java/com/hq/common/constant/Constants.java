@@ -21,6 +21,10 @@ public class Constants
      */
     public static final String LOGIN_SESSION_KEY = "login_user";
     /**
+     * kaptcha
+     */
+    public static final String KAPTCHA_SESSION_KEY = "KAPTCHA_SESSION";
+    /**
      * cookie
      */
     public static final String USER_IN_COOKIE = "U_C_ID";
@@ -28,6 +32,10 @@ public class Constants
      * aes加密加盐
      */
     public static final String AES_SALT = "123456789abcdefghijklmnpqrstuvwxyz";
+    /**
+     * 用户密码加密加盐
+     */
+    public static final String USER_SALT = "135792468abcdefgh";
 
     /**
      * 最大获取文章条数

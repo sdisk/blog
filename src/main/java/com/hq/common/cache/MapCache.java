@@ -34,7 +34,7 @@ public class MapCache
     /**
      * 读取一个缓存
      */
-    private <T> T get(String key){
+    public  <T> T get(String key){
         CacheObject cacheObject = cachePool.get(key);
         if (null != cacheObject){
             long cur = System.currentTimeMillis() / 1000;
@@ -106,7 +106,7 @@ public class MapCache
     /**
      * 清空缓存
      */
-    private void clean(){
+    public void clean(){
         cachePool.clear();
     }
 
