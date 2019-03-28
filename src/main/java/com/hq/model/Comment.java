@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -29,7 +30,10 @@ public class Comment extends Model<Comment>
      */
     private Integer cid;
 
-    private Date createTime;
+    /**
+     * 创建时间
+     */
+    private Timestamp createTime;
     /**
      * 评论者
      */

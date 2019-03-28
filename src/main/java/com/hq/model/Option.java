@@ -12,8 +12,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@TableName("t_options")
-public class Options extends Model<Options>
+@TableName("t_option")
+public class Option extends Model<Option>
 {
     private static final long serialVersionUID = 6953189479922330735L;
 

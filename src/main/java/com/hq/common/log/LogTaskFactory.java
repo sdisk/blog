@@ -52,6 +52,20 @@ public class LogTaskFactory {
         };
     }
 
+    public static TimerTask loginLog(LoginLogType loginLogType, Integer userId, String msg, String ip){
+        return new TimerTask() {
+            @Override
+            public void run() {
+                try{
+                    LoginLog loginLog = LogFactory.createLoginLog(loginLogType, userId, msg, ip);
+                    loginLogMapper.insert(loginLog);
+                } catch (Exception e){
+                    log.error("创建{}日志异常!", loginLogType.getMessage(), e);
+                }
+
+            }
+        };
+    }
     public static TimerTask exitLog(Integer userId, String ip){
         return new TimerTask() {
             @Override

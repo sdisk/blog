@@ -11,7 +11,9 @@ public enum LoginLogType {
     LOGIN(1,"登录"),
     LOGIN_FAIL(2,"登录失败"),
     EXIT(3,"退出登录"),
-    LOGIN_EXCEPTION(4,"登录异常");
+    LOGIN_EXCEPTION(4,"登录异常"),
+    UP_PASSWORD(5,"修改密码"),
+    UP_PASSWORD_EXCEPTION(6,"修改密码异常");
 
     Integer code;
     String message;

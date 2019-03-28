@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -37,7 +38,7 @@ public class OperationLog extends Model<OperationLog> {
     /**
      * 用户id
      */
-    private Integer userid;
+    private Integer userId;
     /**
      * 类名称
      */
@@ -53,7 +54,7 @@ public class OperationLog extends Model<OperationLog> {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private Timestamp createTime;
     /**
      * 是否成功
      */

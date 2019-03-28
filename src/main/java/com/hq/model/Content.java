@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * @description: 文章内容
@@ -41,13 +42,13 @@ public class Content extends Model<Content> {
      */
     private String slug;
     /**
-     * 内容生成时的GMT unix时间戳
+     * 创建时间
      */
-    private Integer created;
+    private Timestamp createTime;
     /**
-     * 内容更改时的GMT unix时间戳
+     * 内容更改时间
      */
-    private Integer modified;
+    private Timestamp modifyTime;
     /**
      * 内容文字
      */

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -42,7 +43,7 @@ public class LoginLog extends Model<LoginLog> {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private Timestamp createTime;
     /**
      * 是否执行成功
      */

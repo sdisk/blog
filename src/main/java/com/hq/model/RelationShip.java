@@ -12,7 +12,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-@TableName("t_relationships")
+@TableName("t_relationship")
 public class RelationShip extends Model<RelationShip>
 {
     @TableId(value = "id", type = IdType.AUTO)

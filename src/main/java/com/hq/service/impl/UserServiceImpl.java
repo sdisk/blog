@@ -37,7 +37,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password)){
             throw new BlogException(BlogExceptionEnum.USERNAME_PASSWORD_ENPTY);
         }
-        String pwd = ToolUtil.MD5encode(username+password+ Constants.USER_SALT);
-        return null;
+        String pwd = ToolUtil.MD5encode(username + password + Constants.USER_SALT);
+        QueryWrapper wrapper = new QueryWrapper<User>();
+        wrapper.eq("username", username);
+        wrapper.eq("password", pwd);
+        User user = userMapper.selectOne(wrapper);
+        if (null == user){
+            throw new BlogException(BlogExceptionEnum.USERNAME_PASSWORD_ERROR);
+        }
+        return user;
     }
 }

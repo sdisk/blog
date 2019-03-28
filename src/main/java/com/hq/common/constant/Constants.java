@@ -38,6 +38,11 @@ public class Constants
     public static final String USER_SALT = "135792468abcdefgh";
 
     /**
+     * 密码错误次数
+     */
+    public static final int RETRY_TIME = 3;
+
+    /**
      * 最大获取文章条数
      */
     public static final int MAX_POSTS = 9999;

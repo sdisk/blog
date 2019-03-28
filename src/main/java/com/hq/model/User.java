@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * @program: blog
@@ -40,17 +41,17 @@ public class User extends Model<User> {
      */
     private String screenName;
     /**
-     * 用户注册时的GMT unix时间戳
+     * 用户注册时间
      */
-    private Integer created;
+    private Timestamp created;
     /**
      * 最后活动时间
      */
-    private Integer activated;
+    private Timestamp activated;
     /**
      * 上次登录最后活跃时间
      */
-    private Integer logged;
+    private Timestamp logged;
     /**
      * 用户组
      */

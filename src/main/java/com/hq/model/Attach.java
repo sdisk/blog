@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  * Created by huang on 19/3/2019.
@@ -43,7 +43,7 @@ public class Attach extends Model<Attach>
     /**
      * 创建的时间
      */
-    private Date createTime;
+    private Timestamp createTime;
 
     @Override
     protected Serializable pkVal() {

@@ -526,4 +526,12 @@ public class ToolUtil {
         return false;
     }
 
+    public static User cleanPwd(User user) {
+        if (StringUtils.isBlank(user.getPassword())){
+            return user;
+        } else {
+            user.setPassword("");
+            return user;
+        }
+    }
 }

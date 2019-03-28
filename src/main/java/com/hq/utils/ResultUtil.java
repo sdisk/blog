@@ -8,7 +8,7 @@ import com.hq.common.rest.Result;
 public class ResultUtil
 {
     private static final Integer CODE_SUCCESS = 200;
-    private static final Integer CODE_FAIL = 500;
+    private static final Integer CODE_FAIL = 400;
     private static final String MSG_SUCCESS = "success";
     private static final String MSG_FAIL = "fail";
 
@@ -26,6 +26,12 @@ public class ResultUtil
         Result result = new Result();
         result.setCode(CODE_FAIL);
         result.setMsg(MSG_FAIL);
+        return result;
+    }
+    public static Result fail(String msg){
+        Result result = new Result();
+        result.setCode(CODE_FAIL);
+        result.setMsg(msg);
         return result;
     }
     public static Result fail(Integer code,String msg){

@@ -1,5 +1,6 @@
-package com.hq.controller;
+package com.hq.controller.admin;
 
+import com.hq.controller.BaseController;
 import com.hq.service.UserService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
