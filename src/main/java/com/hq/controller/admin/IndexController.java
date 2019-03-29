@@ -11,6 +11,7 @@ import com.hq.service.OptionsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,37 +30,8 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @Api("网站后台首页")
 @RequestMapping("/admin")
+@Slf4j
 public class IndexController extends BaseController {
 
-    @Autowired
-    private ContentService contentService;
 
-    @Autowired
-    private OptionsService optionsService;
-
-    @ApiIgnore
-    @GetMapping(value = {"/about", "/about/index"})
-    public String getAbout(HttpServletRequest request){
-        this.blogBaseData(request, null);
-        request.setAttribute("active", "about");
-        return "site/about";
-    }
-
-    @ApiOperation("blog首页")
-    @GetMapping(value = {"/blog/", "/blog/index"})
-    public String blogIndex(HttpServletRequest request,
-                            @ApiParam(name = "limit", value = "页数",  required = false)
-                            @RequestParam(name = "limit", required = false, defaultValue = "11") int limit){
-        return this.blogIndex(request, 1, limit);
-    }
-
-    @ApiOperation("blog首页-分页")
-    @GetMapping(value = "/blog/page/{b}")
-    public String blogIndex(HttpServletRequest request, @PathVariable("p") int p ,
-                            @RequestParam(value = "limit", required = false, defaultValue = "11") int limit){
-        p = p < 0 || p > Constants.MAX_PAGE ? 1 : p;
-        ContentQuery query = new ContentQuery();
-        query.setType(Types.ARTICLE.getType());
-        PageInfo<Content> articles = contentService.getArticlesByQuery(query, p, limit);
-    }
 }
