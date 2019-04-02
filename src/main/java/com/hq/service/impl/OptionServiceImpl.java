@@ -1,10 +1,9 @@
 package com.hq.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.hq.dao.OptionsMapper;
-import com.hq.model.Options;
-import com.hq.service.OptionsService;
-import io.swagger.models.Operation;
+import com.hq.dao.OptionMapper;
+import com.hq.model.Option;
+import com.hq.service.OptionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -18,15 +17,15 @@ import java.util.List;
  **/
 @Service
 @Slf4j
-public class OptionsServiceImpl extends ServiceImpl<OptionsMapper, Options> implements OptionsService {
+public class OptionServiceImpl extends ServiceImpl<OptionMapper, Option> implements OptionService {
 
     @Override
-    public Operation getOptionByName(String site_record) {
+    public Option getOptionByName(String site_record) {
         return null;
     }
 
     @Override
-    public List<Options> getOptions() {
+    public List<Option> getOptions() {
         return null;
     }
 }

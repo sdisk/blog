@@ -14,4 +14,6 @@ import java.util.Map;
 public interface MetaMapper extends BaseMapper<Meta> {
 
     List<MetaDto> selectMetaDtoByMap(Map<String, Object> paraMap);
+
+    Long getMetasCountByType(String type);
 }

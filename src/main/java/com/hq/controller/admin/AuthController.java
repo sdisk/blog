@@ -58,7 +58,7 @@ public class AuthController extends BaseController
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ApiOperation("登录")
-    @BussinessLog("用户登录")
+    //@BussinessLog("用户登录")
     public @ResponseBody
     Result login(HttpServletRequest request, HttpServletResponse response,
                  @ApiParam(name = "username", value = "用户名", required = true) @RequestParam(name =
@@ -108,7 +108,7 @@ public class AuthController extends BaseController
 
     @RequestMapping(value = "/logout",method = RequestMethod.POST)
     @ApiOperation("注销")
-    @BussinessLog("用户注销")
+    //@BussinessLog("用户注销")
     public void logout(HttpServletRequest request, HttpServletResponse response){
         User user = super.getLoginUser(request);
         if (null == user){
@@ -135,7 +135,7 @@ public class AuthController extends BaseController
 
     @RequestMapping(value = "upPwd", method = RequestMethod.POST)
     @ApiOperation("修改密码")
-    @BussinessLog("用户修改密码")
+    //@BussinessLog("用户修改密码")
     public @ResponseBody Result upPwd(HttpServletRequest request, HttpServletResponse response,
                                       @ApiParam(name = "oldPassword" ,required = true)
                                       @RequestParam(name = "oldPassword", required = true) String oldPassword,

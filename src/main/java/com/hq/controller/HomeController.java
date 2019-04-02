@@ -1,8 +1,7 @@
 package com.hq.controller;
 
 import com.hq.common.annotion.BussinessLog;
-import com.hq.service.SiteService;
-import com.hq.service.UserService;
+import com.hq.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -30,10 +30,23 @@ public class HomeController extends BaseController{
     @Autowired
     private UserService userService;
 
-    @ApiOperation("进入首页")
-    @RequestMapping(value = {"", "/index"}, method = RequestMethod.GET)
-    @BussinessLog("进入后台首页")
-    public String index(HttpServletRequest request){
-        //得到最新的文章
+    @Autowired
+    private ContentService contentService;
+
+    @Autowired
+    private CommentService commentService;
+    @Autowired
+    private MetaService metaService;
+
+    @Autowired
+    private OptionService optionService;
+
+
+    @ApiIgnore
+    @RequestMapping(value = {"/about", "/about/index"}, method = RequestMethod.GET)
+    public String getAbout(HttpServletRequest request){
+        super.blogBaseData(request, null);
+        request.setAttribute("active", "about");
+        return "site/about";
     }
 }

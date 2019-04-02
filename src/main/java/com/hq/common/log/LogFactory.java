@@ -6,6 +6,7 @@ import com.hq.common.constant.state.LoginLogType;
 import com.hq.model.LoginLog;
 import com.hq.model.OperationLog;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -25,7 +26,7 @@ public class LogFactory {
         loginLog.setMessage(msg);
         loginLog.setIp(ip);
         loginLog.setSucceed(LogSucceed.SUCCESS.getMessage());
-        loginLog.setCreateTime(new Date());
+        loginLog.setCreateTime(new Timestamp(System.currentTimeMillis()));
         return loginLog;
     }
     /**
@@ -35,12 +36,12 @@ public class LogFactory {
         OperationLog operationLog = new OperationLog();
         operationLog.setLogName(bussinessName);
         operationLog.setLogType(bussinessLogType.getMessage());
-        operationLog.setUserid(userId);
+        operationLog.setUserId(userId);
         operationLog.setClassName(clazzName);
         operationLog.setMethod(methodName);
         operationLog.setSucceed(logSucceed.getMessage());
         operationLog.setMessage(msg);
-        operationLog.setCreateTime(new Date());
+        operationLog.setCreateTime(new Timestamp(System.currentTimeMillis()));
         return operationLog;
     }
 

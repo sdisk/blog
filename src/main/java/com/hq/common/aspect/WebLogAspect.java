@@ -83,12 +83,11 @@ public class WebLogAspect {
         String methodName = method.getName();
 
         //判断用户是否登录，未登录就不做日志
-        //Todo
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
                 .getRequestAttributes
                 ()).getRequest();
         User user = ToolUtil.getLoginUser(request);
-        if(null == user){
+        if (null == user){
             return;
         }
         //获取拦截方法的参数
@@ -109,6 +108,6 @@ public class WebLogAspect {
             sb.append("&");
         }
         LogManager.getLogManager().executeLog(LogTaskFactory.operationLog(user.getUid(), key,
-                className,methodName,sb.substring(0,sb.length()-1)));
+                className, methodName, sb.substring(0, sb.length() - 1)));
     }
 }

@@ -1,8 +1,22 @@
 package com.hq.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.hq.common.constant.Types;
+import com.hq.dao.AttachMapper;
+import com.hq.dao.CommentMapper;
+import com.hq.dao.ContentMapper;
+import com.hq.dao.MetaMapper;
+import com.hq.dto.StatisticsDto;
+import com.hq.model.Comment;
+import com.hq.model.Content;
 import com.hq.service.SiteService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @program: blog
@@ -14,4 +28,59 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class SiteServiceImpl implements SiteService {
 
+    private static final String CACHE_PREFIX = "siteCache";
+
+    private static final int PAGESIZE = 10;
+
+    @Autowired
+    private CommentMapper commentMapper;
+
+    @Autowired
+    private ContentMapper contentMapper;
+
+    @Autowired
+    private MetaMapper metaMapper;
+
+    @Autowired
+    private AttachMapper attachMapper;
+
+
+    @Override
+    @Cacheable(value = CACHE_PREFIX, key = "'comments_' + #p0")
+    public List<Comment> getComments(int commentNum) {
+        if (commentNum < 0 || commentNum > PAGESIZE){
+            commentNum = PAGESIZE;
+        }
+        Wrapper wrapper = new QueryWrapper<Comment>().orderByDesc("createTime").last(" limit " + commentNum);
+        return commentMapper.selectList(wrapper);
+    }
+
+    @Override
+    @Cacheable(value = CACHE_PREFIX, key = "'articles_' + #p0")
+    public List<Content> getArticles(int articleNum) {
+        if (articleNum < 0 || articleNum > PAGESIZE){
+            articleNum = PAGESIZE;
+        }
+        Wrapper wrapper = new QueryWrapper<Content>().orderByDesc("createTime").last(" limit " + articleNum);
+        return contentMapper.selectList(wrapper);
+    }
+
+    @Override
+    @Cacheable(value = CACHE_PREFIX, key = "'statistics_'")
+    public StatisticsDto getStatistics() {
+        //文章总数量
+        Integer artices = contentMapper.selectCount(new QueryWrapper<>());
+        //评论总数量
+        Integer comments = commentMapper.selectCount(new QueryWrapper<>());
+        //链接总数量
+        Long links = metaMapper.getMetasCountByType(Types.LINK.getType());
+        //附件总数量
+        Integer attachs = attachMapper.selectCount(new QueryWrapper<>());
+        StatisticsDto dto = new StatisticsDto();
+        dto.setArticles(artices.longValue());
+        dto.setComments(comments.longValue());
+        dto.setLinks(links);
+        dto.setAttachs(attachs.longValue());
+        return dto;
+    }
 }
