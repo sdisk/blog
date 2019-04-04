@@ -1,11 +1,7 @@
 package com.hq.controller.admin;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hq.common.annotion.BussinessLog;
 import com.hq.common.constant.Constants;
-import com.hq.common.log.LogManager;
-import com.hq.common.log.LogTaskFactory;
 import com.hq.common.rest.Result;
 import com.hq.controller.BaseController;
 import com.hq.dto.StatisticsDto;

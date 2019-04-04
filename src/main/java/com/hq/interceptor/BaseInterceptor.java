@@ -3,12 +3,11 @@ package com.hq.interceptor;
 import com.hq.common.cache.MapCache;
 import com.hq.common.constant.Constants;
 import com.hq.common.constant.Types;
-import com.hq.model.Options;
+import com.hq.model.Option;
 import com.hq.model.User;
-import com.hq.service.OptionsService;
+import com.hq.service.OptionService;
 import com.hq.service.UserService;
 import com.hq.utils.*;
-import io.swagger.models.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -41,7 +40,7 @@ public class BaseInterceptor implements HandlerInterceptor
     private UserService userService;
 
     @Autowired
-    private OptionsService optionsService;
+    private OptionService optionService;
 
     @Autowired
     private Commons commons;
@@ -70,8 +69,8 @@ public class BaseInterceptor implements HandlerInterceptor
         }
         //对需要后台登录的地址排除
         if (uri.startsWith("/admin") && !uri.startsWith("/admin/login") && null == user
-                && !uri.startsWith("/admin/css") && !uri.startsWith("/admin/images")
-                && !uri.startsWith("/admin/js") && !uri.startsWith("/admin/plugins")
+                && !uri.startsWith("/admin/admin") && !uri.startsWith("/admin/images")
+                && !uri.startsWith("/admin/error") && !uri.startsWith("/admin/plugins")
                 && !uri.startsWith("/admin/editormd")){
             //重定向到登录页
             response.sendRedirect(request.getContextPath() + "/amdin/login");
@@ -91,7 +90,7 @@ public class BaseInterceptor implements HandlerInterceptor
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object
             handler, ModelAndView modelAndView) throws Exception
     {
-        Operation op = optionsService.getOptionByName(WEB_SITE_RECORD);
+        Option op = optionService.getOptionByName(WEB_SITE_RECORD);
         //将公用方法给前端
         request.setAttribute(WEB_COMMONS, commons);
         request.setAttribute(WEB_OPTION, op);
@@ -107,7 +106,7 @@ public class BaseInterceptor implements HandlerInterceptor
     }
     private void initSiteConfig(HttpServletRequest request){
         if (Constants.initConfig.isEmpty()){
-            List<Options> options = optionsService.getOptions();
+            List<Option> options = optionService.getOptions();
             Map<String, String> querys = new HashMap<>();
             options.forEach(option -> {
                 querys.put(option.getName(), option.getValue());

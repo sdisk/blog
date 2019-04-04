@@ -39,7 +39,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         //添加过滤规则
         filterRegistrationBean.addUrlPatterns("/*");
         //添加不需要忽略的格式信息
-        filterRegistrationBean.addInitParameter("exclusions","/static/*,*.js,*.gif,*.jpg,*.png,*.css,,*.html,*.ico,/druid,/druid/*");
+        filterRegistrationBean.addInitParameter("exclusions","/static/*,*.error,*.gif,*.jpg,*.png,*.admin,,*.html,*.ico,/druid,/druid/*");
         //用于监控页面的用户名显示，登录后需要主要将username注入进来
         filterRegistrationBean.addInitParameter("principalSessionName", "username");
         return filterRegistrationBean;
