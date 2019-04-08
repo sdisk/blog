@@ -2,6 +2,7 @@ package com.hq.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.hq.dto.MetaDto;
+import com.hq.dto.MetaQuery;
 import com.hq.model.Meta;
 
 import java.util.List;
@@ -22,4 +23,11 @@ public interface MetaService extends IService<Meta> {
      * @return
      */
     List<MetaDto> getMetaList(String type, String orderby, int limit);
+
+    /**
+     * 获取所有的项目
+     * @param metaQuery 查询条件
+     * @return
+     */
+    List<Meta> getMetas(MetaQuery metaQuery);
 }

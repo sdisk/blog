@@ -97,6 +97,19 @@
 <script type="text/javascript">
     /*<![CDATA[*/
         var hui = new $.hui();
+        function checkForm() {
+            hui.post({
+                url:'/amdin/login',
+                data:$("#loginForm").serialize(),
+                success:function (result) {
+                    if(result && result.code=='200'){
+                        window.location.href="/amdin/index"
+                    } else{
+                        hui.alertError(result.msg || '登录失败');
+                    }
+                }
+            })
+        }
     /*]]>*/
 </script>
 </body>

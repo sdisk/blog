@@ -2,6 +2,7 @@ package com.hq.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.hq.dto.MetaDto;
+import com.hq.dto.MetaQuery;
 import com.hq.model.Meta;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface MetaMapper extends BaseMapper<Meta> {
     List<MetaDto> selectMetaDtoByMap(Map<String, Object> paraMap);
 
     Long getMetasCountByType(String type);
+
+    List<Meta> getMetasByMetaQuery(MetaQuery metaQuery);
 }

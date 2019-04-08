@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hq.common.constant.Constants;
 import com.hq.dao.MetaMapper;
 import com.hq.dto.MetaDto;
+import com.hq.dto.MetaQuery;
 import com.hq.model.Meta;
 import com.hq.service.MetaService;
 import lombok.extern.slf4j.Slf4j;
@@ -47,5 +48,11 @@ public class MetaServiceImpl extends ServiceImpl<MetaMapper, Meta> implements Me
             return metaMapper.selectMetaDtoByMap(paraMap);
         }
         return null;
+    }
+
+    @Override
+    @Cacheable(value = "metaCaches",key = "'meta_'+#p0")
+    public List<Meta> getMetas(MetaQuery metaQuery) {
+        return metaMapper.getMetasByMetaQuery(metaQuery);
     }
 }

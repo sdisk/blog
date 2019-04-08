@@ -292,8 +292,8 @@ public class Commons {
     public static String gravatar(String email) {
         String avatarUrl = "https://github.com/identicons/";
         if (StringUtils.isBlank(email)) {
-            //email = "huang50179@163.com";
-            email = "user@hanshuai.xin";
+            email = "huang50179@163.com";
+            //email = "user@hanshuai.xin";
         }
         String hash = ToolUtil.MD5encode(email.trim().toLowerCase());
         return avatarUrl + hash + ".png";

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='保存文章',active='publish'">
+<head th:replace="admin/header :: headerFragment(${title},${active})">
+</head>
+<link th:href="@{/admin/plugins/tagsinput/jquery.tagsinput.css}" rel="stylesheet"/>
+<link th:href="@{/admin/plugins/select2.dist.css/select2-bootstrap.css}" rel="stylesheet"/>
+<link th:href="@{/admin/plugins/toggles/toggles.css}" rel="stylesheet"/>
+
+<link href="//cdn.bootcss.com/multi-select/0.9.12/css/multi-select.css" rel="stylesheet"/>
+<link href="//cdn.bootcss.com/select2/3.4.8/select2.min.css" rel="stylesheet"/>
+<link th:href="@{/admin/plugins/md/css/style.css}" rel="stylesheet"/>
+<!-- editor.md -->
+<link th:href="@{/admin/editormd/css/editormd.css}" rel="stylesheet"/>
+<style>
+    #tags_tagsinput {
+        background-color: #fafafa;
+        border: 1px solid #eeeeee;
+    }
+
+    #tags_addTag input {
+        width: 100%;
+    }
+
+    #tags_addTag {
+        margin-top: -5px;
+    }
+</style>
+<body class="fixed-left">
+<div id="wrapper">
+    <div th:replace="admin/header :: header-body"></div>
+    <div class="content-page">
+        <div class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4 class="page-title">
+                            <th:block th:if="${null != contents}">编辑文章</th:block>
+                            <th:block th:unless="${null != contents}">发布文章</th:block>
+                        </h4>
+                    </div>
+                    <div class="col-md-12">
+                        <!-- novalidate 提交表单时不对其进行验证 -->
+                        <form id="articleForm" role="form" novalidate="novalidate">
+                            <input type="hidden" name="categories" id="categories"/>
+                            <input type="hidden" name="type" id="type"/>
+                            <input type="hidden" name="cid" id="cid" th:value="${contents!=null and contents.cid!=null}?${contents.cid}:''"/>
+                            <input type="hidden" name="status" id="status" th:value="${contents!=null and contents.status!=null}?${contents.status}:'publish'"/>
+                            <input type="hidden" name="allowComment" id="allow_comment" th:value="${contents!=null and contents.allowComment!=null}?${contents.allowComment}:true"/>
+                            <input type="hidden" name="allowPing" id="allow_ping" th:value="${contents!=null and contents.allowPing!=null}?${contents.allowPing}:true"/>
+                            <input type="hidden" name="allowFeed" id="allow_feed" th:value="${contents!=null and contents.allowFeed!=null}?${contents.allowFeed}:true"/>
+                            <input type="hidden" name="content" id="content-editor"/>
+                        </form>
+                    </div>
+                </div>
+                <div th:replace="admin/footer :: footer-content"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="admin/footer :: footer"></div>
+<script type="text/javascript"></script>
+</body>
+</html>
