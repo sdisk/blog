@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='文章管理',active='acticle'">
+<head th:replace="admin/header :: headerFragment(${title},${active})">
+</head>
+<body id="wrapper">
+    <div th:replace="admin/header:: header-body"></div>
+    <div class="content-page">
+        <div class="content">
+            <div class="container">
+                <div class="row">
+
+                </div>
+                <div th:replace="admin/footer :: footer-content"></div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="admin/footer :: footer"></div>
+</body>
+<script type="text/javascript">
+
+</script>
+</html>
