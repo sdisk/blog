@@ -9,7 +9,7 @@ import com.hq.dao.ContentMapper;
 import com.hq.dao.MetaMapper;
 import com.hq.dto.StatisticsDto;
 import com.hq.model.Comment;
-import com.hq.model.Content;
+import com.hq.model.Contents;
 import com.hq.service.SiteService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,11 +57,11 @@ public class SiteServiceImpl implements SiteService {
 
     @Override
     @Cacheable(value = CACHE_PREFIX, key = "'articles_' + #p0")
-    public List<Content> getArticles(int articleNum) {
+    public List<Contents> getArticles(int articleNum) {
         if (articleNum < 0 || articleNum > PAGESIZE){
             articleNum = PAGESIZE;
         }
-        Wrapper wrapper = new QueryWrapper<Content>().orderByDesc("createTime").last(" limit " + articleNum);
+        Wrapper wrapper = new QueryWrapper<Contents>().orderByDesc("createTime").last(" limit " + articleNum);
         return contentMapper.selectList(wrapper);
     }
 

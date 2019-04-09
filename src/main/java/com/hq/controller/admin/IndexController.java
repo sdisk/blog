@@ -6,7 +6,7 @@ import com.hq.common.rest.Result;
 import com.hq.controller.BaseController;
 import com.hq.dto.StatisticsDto;
 import com.hq.model.Comment;
-import com.hq.model.Content;
+import com.hq.model.Contents;
 import com.hq.model.OperationLog;
 import com.hq.model.User;
 import com.hq.service.OperationLogService;
@@ -60,7 +60,7 @@ public class IndexController extends BaseController {
     @BussinessLog("访问首页")
     public String index(HttpServletRequest request){
         List<Comment> comments = siteService.getComments(COMMENT_NUM);
-        List<Content> contents = siteService.getArticles(ARTICLE_NUM);
+        List<Contents> contents = siteService.getArticles(ARTICLE_NUM);
         StatisticsDto statisticsDto = siteService.getStatistics();
         List<OperationLog> logs = operationLogService.getLogs(LOG_NUM);
 

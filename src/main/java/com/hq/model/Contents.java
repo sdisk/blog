@@ -18,7 +18,7 @@ import java.sql.Timestamp;
 @Setter
 @Getter
 @TableName("t_content")
-public class Content extends Model<Content> {
+public class Contents extends Model<Contents> {
 
     private static final long serialVersionUID = -337266141919123755L;
 

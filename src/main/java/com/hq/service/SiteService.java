@@ -2,7 +2,7 @@ package com.hq.service;
 
 import com.hq.dto.StatisticsDto;
 import com.hq.model.Comment;
-import com.hq.model.Content;
+import com.hq.model.Contents;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
 public interface SiteService {
     List<Comment> getComments(int commentNum);
 
-    List<Content> getArticles(int articleNum);
+    List<Contents> getArticles(int articleNum);
 
     StatisticsDto getStatistics();
 }
