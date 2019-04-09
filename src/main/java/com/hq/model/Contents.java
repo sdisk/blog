@@ -25,7 +25,7 @@ public class Contents extends Model<Contents> {
     /**
      * 文章的主键编号
      */
-    @TableId(value = "id",type = IdType.AUTO)
+    @TableId(value = "cid",type = IdType.AUTO)
     private Integer cid;
 
     /**

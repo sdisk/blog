@@ -23,7 +23,7 @@ public class User extends Model<User> {
 
     private static final long serialVersionUID = -6907457327025809937L;
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "uid", type = IdType.AUTO)
     private Integer uid;
 
     private String userName;
