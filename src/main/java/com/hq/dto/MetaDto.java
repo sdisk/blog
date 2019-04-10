@@ -1,6 +1,5 @@
 package com.hq.dto;
 
-import com.hq.model.Meta;
 import lombok.Getter;
 import lombok.Setter;
 

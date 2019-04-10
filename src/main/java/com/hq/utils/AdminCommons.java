@@ -1,6 +1,5 @@
 package com.hq.utils;
 
-import com.hq.model.Meta;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 

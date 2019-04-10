@@ -8,8 +8,6 @@ import com.hq.common.rest.Result;
 import com.hq.controller.BaseController;
 import com.hq.dto.ContentQuery;
 import com.hq.dto.MetaQuery;
-import com.hq.model.Contents;
-import com.hq.model.Meta;
 import com.hq.service.ContentService;
 import com.hq.service.MetaService;
 import com.hq.utils.ResultUtil;

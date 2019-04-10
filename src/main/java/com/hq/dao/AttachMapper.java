@@ -1,6 +1,7 @@
 package com.hq.dao;
 
-import com.hq.entity.Attach;
+import com.hq.model.Attach;
+
 import java.util.List;
 
 public interface AttachMapper {

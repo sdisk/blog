@@ -1,185 +1,93 @@
-package com.hq.entity;
+package com.hq.model;
 
-import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
 
-public class Contents {
+import java.io.Serializable;
+import java.sql.Timestamp;
+
+@Getter
+@Setter
+public class Contents implements Serializable
+{
+    private static final long serialVersionUID = -3121979221729526368L;
+
     private Integer cid;
 
+    /**
+     * 内容标题
+     */
     private String title;
 
-    private String titlepic;
+    /**
+     * 标题图片
+     */
+    private String titlePic;
 
+    /**
+     * 内容缩略名
+     */
     private String slug;
 
-    private Date createtime;
-
-    private Date modifytime;
-
-    private Integer authorid;
-
-    private String type;
-
-    private String status;
-
-    private String tags;
-
-    private String categories;
-
-    private Integer hits;
-
-    private Integer commentsnum;
-
-    private Boolean allowcomment;
-
-    private Boolean allowping;
-
-    private Boolean allowfeed;
-
-    private Boolean allowshow;
-
+    /**
+     * 文章内容
+     */
     private String content;
 
-    public Integer getCid() {
-        return cid;
-    }
+    private Timestamp createTime;
 
-    public void setCid(Integer cid) {
-        this.cid = cid;
-    }
+    private Timestamp modifyTime;
 
-    public String getTitle() {
-        return title;
-    }
+    private Integer authorId;
 
-    public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
-    }
+    /**
+     * 内容类别
+     */
+    private String type;
 
-    public String getTitlepic() {
-        return titlepic;
-    }
+    /**
+     * 内容状态
+     */
+    private String status;
 
-    public void setTitlepic(String titlepic) {
-        this.titlepic = titlepic == null ? null : titlepic.trim();
-    }
+    /**
+     * 标签列表
+     */
+    private String tags;
 
-    public String getSlug() {
-        return slug;
-    }
+    /**
+     * 分类列表
+     */
+    private String categories;
 
-    public void setSlug(String slug) {
-        this.slug = slug == null ? null : slug.trim();
-    }
+    /**
+     * 点击数
+     */
+    private Integer hits;
 
-    public Date getCreatetime() {
-        return createtime;
-    }
+    /**
+     * 内容评论数
+     */
+    private Integer commentsNum;
 
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
+    /**
+     * 是否允许评论
+     */
+    private Boolean allowComment;
 
-    public Date getModifytime() {
-        return modifytime;
-    }
+    /**
+     * 是否ping
+     */
+    private Boolean allowPing;
 
-    public void setModifytime(Date modifytime) {
-        this.modifytime = modifytime;
-    }
+    /**
+     * 是否允许出现在聚合中
+     */
+    private Boolean allowFeed;
 
-    public Integer getAuthorid() {
-        return authorid;
-    }
+    /**
+     * 是否公开可见
+     */
+    private Boolean allowShow;
 
-    public void setAuthorid(Integer authorid) {
-        this.authorid = authorid;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
-    }
-
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags == null ? null : tags.trim();
-    }
-
-    public String getCategories() {
-        return categories;
-    }
-
-    public void setCategories(String categories) {
-        this.categories = categories == null ? null : categories.trim();
-    }
-
-    public Integer getHits() {
-        return hits;
-    }
-
-    public void setHits(Integer hits) {
-        this.hits = hits;
-    }
-
-    public Integer getCommentsnum() {
-        return commentsnum;
-    }
-
-    public void setCommentsnum(Integer commentsnum) {
-        this.commentsnum = commentsnum;
-    }
-
-    public Boolean getAllowcomment() {
-        return allowcomment;
-    }
-
-    public void setAllowcomment(Boolean allowcomment) {
-        this.allowcomment = allowcomment;
-    }
-
-    public Boolean getAllowping() {
-        return allowping;
-    }
-
-    public void setAllowping(Boolean allowping) {
-        this.allowping = allowping;
-    }
-
-    public Boolean getAllowfeed() {
-        return allowfeed;
-    }
-
-    public void setAllowfeed(Boolean allowfeed) {
-        this.allowfeed = allowfeed;
-    }
-
-    public Boolean getAllowshow() {
-        return allowshow;
-    }
-
-    public void setAllowshow(Boolean allowshow) {
-        this.allowshow = allowshow;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
-    }
 }

@@ -1,11 +1,10 @@
 package com.hq.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hq.common.constant.Types;
 import com.hq.dao.AttachMapper;
 import com.hq.dao.CommentMapper;
-import com.hq.dao.ContentMapper;
+import com.hq.dao.ContentsMapper;
 import com.hq.dao.MetaMapper;
 import com.hq.dto.StatisticsDto;
 import com.hq.model.Comment;
@@ -36,7 +35,7 @@ public class SiteServiceImpl implements SiteService {
     private CommentMapper commentMapper;
 
     @Autowired
-    private ContentMapper contentMapper;
+    private ContentsMapper contentsMapper;
 
     @Autowired
     private MetaMapper metaMapper;
@@ -51,8 +50,7 @@ public class SiteServiceImpl implements SiteService {
         if (commentNum < 0 || commentNum > PAGESIZE){
             commentNum = PAGESIZE;
         }
-        QueryWrapper wrapper = new QueryWrapper<Comment>().orderByDesc("createTime").last(" limit " + commentNum);
-        return commentMapper.selectList(wrapper);
+        return null;
     }
 
     @Override
@@ -61,26 +59,26 @@ public class SiteServiceImpl implements SiteService {
         if (articleNum < 0 || articleNum > PAGESIZE){
             articleNum = PAGESIZE;
         }
-        QueryWrapper wrapper = new QueryWrapper<Contents>().orderByDesc("createTime").last(" limit " + articleNum);
-        return contentMapper.selectList(wrapper);
+        return null;
     }
 
     @Override
     @Cacheable(value = CACHE_PREFIX, key = "'statistics_'")
     public StatisticsDto getStatistics() {
         //文章总数量
-        Integer artices = contentMapper.selectCount(new QueryWrapper<>());
-        //评论总数量
-        Integer comments = commentMapper.selectCount(new QueryWrapper<>());
-        //链接总数量
-        Long links = metaMapper.getMetasCountByType(Types.LINK.getType());
-        //附件总数量
-        Integer attachs = attachMapper.selectCount(new QueryWrapper<>());
-        StatisticsDto dto = new StatisticsDto();
-        dto.setArticles(artices.longValue());
-        dto.setComments(comments.longValue());
-        dto.setLinks(links);
-        dto.setAttachs(attachs.longValue());
-        return dto;
+//        Integer artices = contentMapper.selectCount(new QueryWrapper<>());
+//        //评论总数量
+//        Integer comments = commentMapper.selectCount(new QueryWrapper<>());
+//        //链接总数量
+//        Long links = metaMapper.getMetasCountByType(Types.LINK.getType());
+//        //附件总数量
+//        Integer attachs = attachMapper.selectCount(new QueryWrapper<>());
+//        StatisticsDto dto = new StatisticsDto();
+//        dto.setArticles(artices.longValue());
+//        dto.setComments(comments.longValue());
+//        dto.setLinks(links);
+//        dto.setAttachs(attachs.longValue());
+//        return dto;
+        return null;
     }
 }

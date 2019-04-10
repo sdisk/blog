@@ -1,6 +1,7 @@
 package com.hq.dao;
 
-import com.hq.entity.Contents;
+import com.hq.model.Contents;
+
 import java.util.List;
 
 public interface ContentsMapper {

@@ -1,7 +1,5 @@
 package com.hq.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.hq.dao.OptionMapper;
 import com.hq.model.Option;
 import com.hq.service.OptionService;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +15,7 @@ import java.util.List;
  **/
 @Service
 @Slf4j
-public class OptionServiceImpl extends ServiceImpl<OptionMapper, Option> implements OptionService {
+public class OptionServiceImpl  implements OptionService {
 
     @Override
     public Option getOptionByName(String site_record) {

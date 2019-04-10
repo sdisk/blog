@@ -1,33 +1,26 @@
-package com.hq.entity;
+package com.hq.model;
 
-public class Relationship {
+import lombok.Getter;
+import lombok.Setter;
+
+import java.io.Serializable;
+
+@Setter
+@Getter
+public class Relationship implements Serializable
+{
+    private static final long serialVersionUID = -2168591279925987893L;
+
     private Integer id;
 
+    /**
+     * 文章主键编号
+     */
     private Integer cid;
 
+    /**
+     * 项目编号
+     */
     private Integer mid;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getCid() {
-        return cid;
-    }
-
-    public void setCid(Integer cid) {
-        this.cid = cid;
-    }
-
-    public Integer getMid() {
-        return mid;
-    }
-
-    public void setMid(Integer mid) {
-        this.mid = mid;
-    }
 }

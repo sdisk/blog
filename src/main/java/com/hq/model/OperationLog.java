@@ -1,115 +1,67 @@
-package com.hq.entity;
+package com.hq.model;
 
-import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
 
-public class OperationLog {
+import java.io.Serializable;
+import java.sql.Timestamp;
+
+@Setter
+@Getter
+public class OperationLog implements Serializable
+{
+    private static final long serialVersionUID = -8360214973406105195L;
+
     private Integer id;
 
-    private String logtype;
+    /**
+     * 日志类型
+     */
+    private String logType;
 
-    private String logname;
+    /**
+     * 日志名称
+     */
+    private String logName;
 
-    private Integer userid;
+    /**
+     * 日志创建人
+     */
+    private Integer userId;
 
-    private String classname;
+    /**
+     * 类名
+     */
+    private String className;
 
+    /**
+     * 方法名
+     */
     private String method;
 
+    /**
+     * 产生数据
+     */
     private String data;
 
-    private Date createtime;
+    /**
+     * 创建时间
+     */
+    private Timestamp createTime;
 
+    /**
+     * 是否成功
+     */
     private String succeed;
 
+    /**
+     * 产生日志的ip
+     */
     private String ip;
 
+    /**
+     * 日志创建消息
+     */
     private String messgae;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getLogtype() {
-        return logtype;
-    }
-
-    public void setLogtype(String logtype) {
-        this.logtype = logtype == null ? null : logtype.trim();
-    }
-
-    public String getLogname() {
-        return logname;
-    }
-
-    public void setLogname(String logname) {
-        this.logname = logname == null ? null : logname.trim();
-    }
-
-    public Integer getUserid() {
-        return userid;
-    }
-
-    public void setUserid(Integer userid) {
-        this.userid = userid;
-    }
-
-    public String getClassname() {
-        return classname;
-    }
-
-    public void setClassname(String classname) {
-        this.classname = classname == null ? null : classname.trim();
-    }
-
-    public String getMethod() {
-        return method;
-    }
-
-    public void setMethod(String method) {
-        this.method = method == null ? null : method.trim();
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data == null ? null : data.trim();
-    }
-
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
-
-    public String getSucceed() {
-        return succeed;
-    }
-
-    public void setSucceed(String succeed) {
-        this.succeed = succeed == null ? null : succeed.trim();
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip == null ? null : ip.trim();
-    }
-
-    public String getMessgae() {
-        return messgae;
-    }
-
-    public void setMessgae(String messgae) {
-        this.messgae = messgae == null ? null : messgae.trim();
-    }
 }

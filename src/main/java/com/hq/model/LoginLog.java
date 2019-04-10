@@ -1,75 +1,46 @@
-package com.hq.entity;
+package com.hq.model;
 
-import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
 
-public class LoginLog {
+import java.io.Serializable;
+import java.sql.Timestamp;
+
+@Getter
+@Setter
+public class LoginLog implements Serializable
+{
+    private static final long serialVersionUID = -4239214059185713074L;
+
     private Integer id;
 
-    private String logname;
+    /**
+     * 日志名称
+     */
+    private String logName;
 
-    private Integer userid;
+    /**
+     * 日志创建人
+     */
+    private Integer userId;
 
-    private Date createtime;
+    /**
+     * 日志创建时间
+     */
+    private Timestamp createTime;
 
+    /**
+     * 日志创建是否成功
+     */
     private String succeed;
 
+    /**
+     * 产生日志的ip
+     */
     private String ip;
 
+    /**
+     * 日志创建消息
+     */
     private String messgae;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getLogname() {
-        return logname;
-    }
-
-    public void setLogname(String logname) {
-        this.logname = logname == null ? null : logname.trim();
-    }
-
-    public Integer getUserid() {
-        return userid;
-    }
-
-    public void setUserid(Integer userid) {
-        this.userid = userid;
-    }
-
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
-
-    public String getSucceed() {
-        return succeed;
-    }
-
-    public void setSucceed(String succeed) {
-        this.succeed = succeed == null ? null : succeed.trim();
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip == null ? null : ip.trim();
-    }
-
-    public String getMessgae() {
-        return messgae;
-    }
-
-    public void setMessgae(String messgae) {
-        this.messgae = messgae == null ? null : messgae.trim();
-    }
 }

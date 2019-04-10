@@ -1,9 +1,11 @@
 package com.hq.dao;
 
-import com.hq.entity.Option;
+import com.hq.model.Option;
+
 import java.util.List;
 
 public interface OptionMapper {
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(Option record);

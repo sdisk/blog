@@ -1,6 +1,7 @@
 package com.hq.dao;
 
-import com.hq.entity.Comment;
+import com.hq.model.Comment;
+
 import java.util.List;
 
 public interface CommentMapper {

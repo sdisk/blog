@@ -1,6 +1,7 @@
 package com.hq.dao;
 
-import com.hq.entity.OperationLog;
+import com.hq.model.OperationLog;
+
 import java.util.List;
 
 public interface OperationLogMapper {

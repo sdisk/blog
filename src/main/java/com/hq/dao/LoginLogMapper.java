@@ -1,6 +1,7 @@
 package com.hq.dao;
 
-import com.hq.entity.LoginLog;
+import com.hq.model.LoginLog;
+
 import java.util.List;
 
 public interface LoginLogMapper {

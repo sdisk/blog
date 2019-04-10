@@ -1,65 +1,40 @@
-package com.hq.entity;
+package com.hq.model;
 
-import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
 
-public class Attach {
+import java.io.Serializable;
+import java.sql.Timestamp;
+
+@Getter
+@Setter
+public class Attach implements Serializable
+{
+
+    private static final long serialVersionUID = 1257745521256362926L;
+
+    /**
+     * 主键编号
+     */
     private Integer id;
 
+    /**
+     * 文件名称
+     */
     private String fname;
 
+    /**
+     * 文件类型
+     */
     private String ftype;
 
-    private Integer creatorid;
-
-    private Date createtime;
-
+    /**
+     * 文件的地址
+     */
     private String fkey;
 
-    public Integer getId() {
-        return id;
-    }
+    private Integer creatorId;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private Timestamp createtime;
 
-    public String getFname() {
-        return fname;
-    }
-
-    public void setFname(String fname) {
-        this.fname = fname == null ? null : fname.trim();
-    }
-
-    public String getFtype() {
-        return ftype;
-    }
-
-    public void setFtype(String ftype) {
-        this.ftype = ftype == null ? null : ftype.trim();
-    }
-
-    public Integer getCreatorid() {
-        return creatorid;
-    }
-
-    public void setCreatorid(Integer creatorid) {
-        this.creatorid = creatorid;
-    }
-
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
-
-    public String getFkey() {
-        return fkey;
-    }
-
-    public void setFkey(String fkey) {
-        this.fkey = fkey == null ? null : fkey.trim();
-    }
 }

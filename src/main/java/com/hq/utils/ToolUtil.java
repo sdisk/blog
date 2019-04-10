@@ -2,7 +2,6 @@ package com.hq.utils;
 
 import com.hq.common.constant.Constants;
 import com.hq.common.exception.BlogException;
-import com.hq.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.commonmark.Extension;

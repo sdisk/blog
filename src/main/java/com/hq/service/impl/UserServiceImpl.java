@@ -1,8 +1,6 @@
 package com.hq.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hq.common.constant.Constants;
 import com.hq.common.exception.BlogException;
 import com.hq.common.exception.BlogExceptionEnum;
@@ -21,7 +19,7 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 @Slf4j
-public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;

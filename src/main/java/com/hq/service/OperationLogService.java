@@ -1,6 +1,6 @@
 package com.hq.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+
 import com.hq.model.OperationLog;
 
 import java.util.List;
@@ -11,6 +11,6 @@ import java.util.List;
  * @author: Mr.Huang
  * @create: 2019-04-02 10:12
  **/
-public interface OperationLogService extends IService<OperationLog> {
+public interface OperationLogService {
     List<OperationLog> getLogs(int logNum);
 }

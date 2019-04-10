@@ -9,7 +9,6 @@ import com.hq.common.log.LogManager;
 import com.hq.common.log.LogTaskFactory;
 import com.hq.common.rest.Result;
 import com.hq.controller.BaseController;
-import com.hq.model.User;
 import com.hq.service.UserService;
 import com.hq.utils.ResultUtil;
 import com.hq.utils.ToolUtil;

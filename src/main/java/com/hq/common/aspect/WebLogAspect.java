@@ -3,7 +3,6 @@ package com.hq.common.aspect;
 import com.hq.common.annotion.BussinessLog;
 import com.hq.common.log.LogManager;
 import com.hq.common.log.LogTaskFactory;
-import com.hq.model.User;
 import com.hq.utils.ToolUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;

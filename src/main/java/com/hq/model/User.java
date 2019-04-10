@@ -1,105 +1,63 @@
-package com.hq.entity;
+package com.hq.model;
 
-import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
 
-public class User {
+import java.io.Serializable;
+import java.sql.Timestamp;
+
+@Setter
+@Getter
+public class User implements Serializable
+{
+
+    private static final long serialVersionUID = 6204845789383511114L;
+
     private Integer uid;
 
+    /**
+     * 用户名
+     */
     private String username;
 
+    /**
+     * 用户密码
+     */
     private String password;
 
+    /**
+     * 用户邮箱
+     */
     private String email;
 
-    private String homeurl;
+    /**
+     * 主页地址
+     */
+    private String homeUrl;
 
-    private String screenname;
+    /**
+     * 用户显示名
+     */
+    private String screenName;
 
-    private Date created;
+    /**
+     * 用户创建时间
+     */
+    private Timestamp created;
 
-    private Date activated;
+    /**
+     * 用户最后活跃时间
+     */
+    private Timestamp activated;
 
-    private Date logged;
+    /**
+     * 用户最后登录时间
+     */
+    private Timestamp logged;
 
-    private String groupname;
+    /**
+     * 用户组
+     */
+    private String groupName;
 
-    public Integer getUid() {
-        return uid;
-    }
-
-    public void setUid(Integer uid) {
-        this.uid = uid;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
-    }
-
-    public String getHomeurl() {
-        return homeurl;
-    }
-
-    public void setHomeurl(String homeurl) {
-        this.homeurl = homeurl == null ? null : homeurl.trim();
-    }
-
-    public String getScreenname() {
-        return screenname;
-    }
-
-    public void setScreenname(String screenname) {
-        this.screenname = screenname == null ? null : screenname.trim();
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public Date getActivated() {
-        return activated;
-    }
-
-    public void setActivated(Date activated) {
-        this.activated = activated;
-    }
-
-    public Date getLogged() {
-        return logged;
-    }
-
-    public void setLogged(Date logged) {
-        this.logged = logged;
-    }
-
-    public String getGroupname() {
-        return groupname;
-    }
-
-    public void setGroupname(String groupname) {
-        this.groupname = groupname == null ? null : groupname.trim();
-    }
 }

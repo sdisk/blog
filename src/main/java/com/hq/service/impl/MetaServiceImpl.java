@@ -1,6 +1,5 @@
 package com.hq.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hq.common.constant.Constants;
 import com.hq.dao.MetaMapper;
 import com.hq.dto.MetaDto;
@@ -27,7 +26,7 @@ import java.util.Map;
 @Slf4j
 @Service
 @CacheConfig(cacheNames = {"blogCache"})
-public class MetaServiceImpl extends ServiceImpl<MetaMapper, Meta> implements MetaService {
+public class MetaServiceImpl implements MetaService {
 
     @Autowired
     private MetaMapper metaMapper;

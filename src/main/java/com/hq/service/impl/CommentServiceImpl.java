@@ -1,9 +1,6 @@
 package com.hq.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.PageInfo;
 import com.hq.dao.CommentMapper;
 import com.hq.dto.CommentQuery;
 import com.hq.model.Comment;
@@ -21,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  **/
 @Service
 @Slf4j
-public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
+public class CommentServiceImpl implements CommentService {
 
     @Autowired
     private CommentMapper commentMapper;
@@ -38,11 +35,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         STATUS_MAP.put("not_audit", STATUS_BLANK);
     }
     @Override
-    public IPage<Comment> getCommentsByQuery(CommentQuery commentQuery, int page, int limit) {
-        Page<Comment> ipage = new Page<>(page, limit);
-        QueryWrapper<Comment> wrapper = new QueryWrapper();
-        wrapper.orderByDesc("createTime");
-        IPage<Comment> commentPage =  commentMapper.selectPage(ipage, wrapper);
-        return commentPage;
+    public PageInfo<Comment> getCommentsByQuery(CommentQuery commentQuery, int page, int limit) {
+
+        return null;
     }
 }

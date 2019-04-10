@@ -1,11 +1,8 @@
 package com.hq.controller.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.pagehelper.PageInfo;
 import com.hq.controller.BaseController;
 import com.hq.dto.CommentQuery;
-import com.hq.model.Comment;
-import com.hq.model.User;
 import com.hq.service.CommentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

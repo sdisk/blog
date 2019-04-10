@@ -12,6 +12,7 @@ import java.util.List;
  * @create: 2019-03-29 11:21
  **/
 public interface SiteService {
+
     List<Comment> getComments(int commentNum);
 
     List<Contents> getArticles(int articleNum);

@@ -1,7 +1,5 @@
 package com.hq.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.hq.dao.OperationLogMapper;
 import com.hq.model.OperationLog;
 import com.hq.service.OperationLogService;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +15,7 @@ import java.util.List;
  **/
 @Service
 @Slf4j
-public class OperationLogServiceImpl extends ServiceImpl<OperationLogMapper, OperationLog> implements OperationLogService {
+public class OperationLogServiceImpl implements OperationLogService {
     @Override
     public List<OperationLog> getLogs(int logNum) {
         return null;

@@ -3,11 +3,8 @@ package com.hq.common.log;
 import com.hq.common.constant.state.BussinessLogType;
 import com.hq.common.constant.state.LogSucceed;
 import com.hq.common.constant.state.LoginLogType;
-import com.hq.model.LoginLog;
-import com.hq.model.OperationLog;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * @description: 日志对象工厂

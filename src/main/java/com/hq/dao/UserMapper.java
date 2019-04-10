@@ -1,6 +1,7 @@
 package com.hq.dao;
 
-import com.hq.entity.User;
+import com.hq.model.User;
+
 import java.util.List;
 
 public interface UserMapper {

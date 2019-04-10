@@ -1,8 +1,7 @@
 package com.hq.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageInfo;
-import com.hq.dao.ContentMapper;
+import com.hq.dao.ContentsMapper;
 import com.hq.dto.ContentQuery;
 import com.hq.model.Contents;
 import com.hq.service.ContentService;
@@ -18,10 +17,10 @@ import org.springframework.stereotype.Service;
  **/
 @Slf4j
 @Service
-public class ContentServiceImpl extends ServiceImpl<ContentMapper, Contents> implements ContentService {
+public class ContentServiceImpl implements ContentService {
 
     @Autowired
-    private ContentMapper contentMapper;
+    private ContentsMapper contentsMapper;
 
     @Override
     public PageInfo<Contents> getArticlesByQuery(ContentQuery query, int p, int limit) {
