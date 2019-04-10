@@ -51,7 +51,7 @@ public class SiteServiceImpl implements SiteService {
         if (commentNum < 0 || commentNum > PAGESIZE){
             commentNum = PAGESIZE;
         }
-        Wrapper wrapper = new QueryWrapper<Comment>().orderByDesc("createTime").last(" limit " + commentNum);
+        QueryWrapper wrapper = new QueryWrapper<Comment>().orderByDesc("createTime").last(" limit " + commentNum);
         return commentMapper.selectList(wrapper);
     }
 
@@ -61,7 +61,7 @@ public class SiteServiceImpl implements SiteService {
         if (articleNum < 0 || articleNum > PAGESIZE){
             articleNum = PAGESIZE;
         }
-        Wrapper wrapper = new QueryWrapper<Contents>().orderByDesc("createTime").last(" limit " + articleNum);
+        QueryWrapper wrapper = new QueryWrapper<Contents>().orderByDesc("createTime").last(" limit " + articleNum);
         return contentMapper.selectList(wrapper);
     }
 

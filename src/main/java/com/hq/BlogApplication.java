@@ -7,8 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 
 @SpringBootApplication
-@MapperScan(basePackages = {"com.hq.dao"})
 @EnableCaching
+@MapperScan("com.hq.dao")
 @Slf4j
 public class BlogApplication {
 

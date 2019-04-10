@@ -10,6 +10,7 @@ import com.hq.service.MetaService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ import java.util.Map;
  **/
 @Slf4j
 @Service
+@CacheConfig(cacheNames = {"blogCache"})
 public class MetaServiceImpl extends ServiceImpl<MetaMapper, Meta> implements MetaService {
 
     @Autowired

@@ -44,12 +44,12 @@
 			<version>2.0.0</version>
 		</dependency>-->
 
-		<dependency>
+		<!--<dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus-boot-starter</artifactId>
 			<version>3.0.6</version>
-			<!--<version>3.1.0</version>-->
-		</dependency>
+			&lt;!&ndash;<version>3.1.0</version>&ndash;&gt;
+		</dependency>-->
 
 		<!--<dependency>
 			<groupId>com.baomidou</groupId>
@@ -61,12 +61,6 @@
 			<artifactId>mybatis-plus-generate</artifactId>
 			<version>${mybatis-plus.version}</version>
 		</dependency>-->
-
-		<!-- EhCache -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-cache</artifactId>
-		</dependency>
 
 		<!-- druid -->
 		<dependency>
@@ -118,6 +112,17 @@
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper-spring-boot-starter</artifactId>
 			<version>1.2.5</version>
+		</dependency>
+
+		<!-- EhCache -->
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
 		</dependency>
 
 		<dependency>
