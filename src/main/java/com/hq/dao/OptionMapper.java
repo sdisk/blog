@@ -1,11 +1,16 @@
 package com.hq.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.hq.model.Option;
+import com.hq.entity.Option;
+import java.util.List;
 
-/**
- * @author: Mr.Huang
- * @create: 2019-03-20 16:56
- **/
-public interface OptionMapper extends BaseMapper<Option> {
+public interface OptionMapper {
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(Option record);
+
+    Option selectByPrimaryKey(Integer id);
+
+    List<Option> selectAll();
+
+    int updateByPrimaryKey(Option record);
 }

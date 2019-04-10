@@ -1,54 +1,83 @@
-package com.hq.model;
+package com.hq.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.io.Serializable;
-
-/**
- * Created by huang on 19/3/2019.
- */
-@Setter
-@Getter
-@TableName("t_meta")
-public class Meta extends Model<Meta>
-{
-    private static final long serialVersionUID = 7958014447426554919L;
-    /**
-     * 项目主键
-     */
+public class Meta {
     private Integer mid;
-    /**
-     * 名称
-     */
+
     private String name;
-    /**
-     * 项目缩略名
-     */
+
     private String slug;
-    /**
-     * 项目类型
-     */
+
     private String type;
-    /**
-     * 对于的文章类型
-     */
-    private String contentType;
-    /**
-     * 选项描述
-     */
+
+    private String contenttype;
+
     private String description;
-    /**
-     * 项目排序
-     */
+
     private Integer sort;
 
-    private Integer parentId;
+    private Integer parentid;
 
-    @Override
-    protected Serializable pkVal() {
-        return this.mid;
+    public Integer getMid() {
+        return mid;
+    }
+
+    public void setMid(Integer mid) {
+        this.mid = mid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug == null ? null : slug.trim();
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type == null ? null : type.trim();
+    }
+
+    public String getContenttype() {
+        return contenttype;
+    }
+
+    public void setContenttype(String contenttype) {
+        this.contenttype = contenttype == null ? null : contenttype.trim();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description == null ? null : description.trim();
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
+
+    public Integer getParentid() {
+        return parentid;
+    }
+
+    public void setParentid(Integer parentid) {
+        this.parentid = parentid;
     }
 }

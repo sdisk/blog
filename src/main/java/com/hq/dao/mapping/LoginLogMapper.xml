@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hq.dao.LoginLogMapper">
+  <resultMap id="BaseResultMap" type="com.hq.entity.LoginLog">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="logName" jdbcType="VARCHAR" property="logname" />
+    <result column="userId" jdbcType="INTEGER" property="userid" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="succeed" jdbcType="VARCHAR" property="succeed" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="messgae" jdbcType="VARCHAR" property="messgae" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_login_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hq.entity.LoginLog">
+    insert into t_login_log (id, logName, userId, 
+      createTime, succeed, ip, 
+      messgae)
+    values (#{id,jdbcType=INTEGER}, #{logname,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{succeed,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
+      #{messgae,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.hq.entity.LoginLog">
+    update t_login_log
+    set logName = #{logname,jdbcType=VARCHAR},
+      userId = #{userid,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      succeed = #{succeed,jdbcType=VARCHAR},
+      ip = #{ip,jdbcType=VARCHAR},
+      messgae = #{messgae,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, logName, userId, createTime, succeed, ip, messgae
+    from t_login_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, logName, userId, createTime, succeed, ip, messgae
+    from t_login_log
+  </select>
+</mapper>

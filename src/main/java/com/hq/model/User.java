@@ -1,64 +1,105 @@
-package com.hq.model;
+package com.hq.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.Date;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-
-/**
- * @program: blog
- * @description:
- * @author: Mr.Huang
- * @create: 2019-03-19 16:42
- **/
-@Getter
-@Setter
-@TableName("t_user")
-public class User extends Model<User> {
-
-    private static final long serialVersionUID = -6907457327025809937L;
-
-    @TableId(value = "uid", type = IdType.AUTO)
+public class User {
     private Integer uid;
 
-    private String userName;
+    private String username;
 
     private String password;
 
-    private String eamil;
+    private String email;
 
-    /**
-     * 主页地址
-     */
-    private String homeUrl;
-    /**
-     * 用户显示的名称
-     */
-    private String screenName;
-    /**
-     * 用户注册时间
-     */
-    private Timestamp created;
-    /**
-     * 最后活动时间
-     */
-    private Timestamp activated;
-    /**
-     * 上次登录最后活跃时间
-     */
-    private Timestamp logged;
-    /**
-     * 用户组
-     */
-    private String groupName;
+    private String homeurl;
 
-    @Override
-    protected Serializable pkVal() {
-        return this.uid;
+    private String screenname;
+
+    private Date created;
+
+    private Date activated;
+
+    private Date logged;
+
+    private String groupname;
+
+    public Integer getUid() {
+        return uid;
+    }
+
+    public void setUid(Integer uid) {
+        this.uid = uid;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username == null ? null : username.trim();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
+    }
+
+    public String getHomeurl() {
+        return homeurl;
+    }
+
+    public void setHomeurl(String homeurl) {
+        this.homeurl = homeurl == null ? null : homeurl.trim();
+    }
+
+    public String getScreenname() {
+        return screenname;
+    }
+
+    public void setScreenname(String screenname) {
+        this.screenname = screenname == null ? null : screenname.trim();
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getActivated() {
+        return activated;
+    }
+
+    public void setActivated(Date activated) {
+        this.activated = activated;
+    }
+
+    public Date getLogged() {
+        return logged;
+    }
+
+    public void setLogged(Date logged) {
+        this.logged = logged;
+    }
+
+    public String getGroupname() {
+        return groupname;
+    }
+
+    public void setGroupname(String groupname) {
+        this.groupname = groupname == null ? null : groupname.trim();
     }
 }

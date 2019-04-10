@@ -1,22 +1,16 @@
 package com.hq.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.hq.dto.MetaDto;
-import com.hq.dto.MetaQuery;
-import com.hq.model.Meta;
-
+import com.hq.entity.Meta;
 import java.util.List;
-import java.util.Map;
 
-/**
- * @author: Mr.Huang
- * @create: 2019-03-20 23:02
- **/
-public interface MetaMapper extends BaseMapper<Meta> {
+public interface MetaMapper {
+    int deleteByPrimaryKey(Integer mid);
 
-    List<MetaDto> selectMetaDtoByMap(Map<String, Object> paraMap);
+    int insert(Meta record);
 
-    Long getMetasCountByType(String type);
+    Meta selectByPrimaryKey(Integer mid);
 
-    List<Meta> getMetasByMetaQuery(MetaQuery metaQuery);
+    List<Meta> selectAll();
+
+    int updateByPrimaryKey(Meta record);
 }

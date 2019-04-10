@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hq.dao.ContentsMapper">
+  <resultMap id="BaseResultMap" type="com.hq.entity.Contents">
+    <id column="cid" jdbcType="INTEGER" property="cid" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="titlePic" jdbcType="VARCHAR" property="titlepic" />
+    <result column="slug" jdbcType="VARCHAR" property="slug" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="modifyTime" jdbcType="TIMESTAMP" property="modifytime" />
+    <result column="authorId" jdbcType="INTEGER" property="authorid" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="tags" jdbcType="VARCHAR" property="tags" />
+    <result column="categories" jdbcType="VARCHAR" property="categories" />
+    <result column="hits" jdbcType="INTEGER" property="hits" />
+    <result column="commentsNum" jdbcType="INTEGER" property="commentsnum" />
+    <result column="allowComment" jdbcType="BIT" property="allowcomment" />
+    <result column="allowPing" jdbcType="BIT" property="allowping" />
+    <result column="allowFeed" jdbcType="BIT" property="allowfeed" />
+    <result column="allowShow" jdbcType="BIT" property="allowshow" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_contents
+    where cid = #{cid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hq.entity.Contents">
+    insert into t_contents (cid, title, titlePic, 
+      slug, createTime, modifyTime, 
+      authorId, type, status, 
+      tags, categories, hits, 
+      commentsNum, allowComment, allowPing, 
+      allowFeed, allowShow, content
+      )
+    values (#{cid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{titlepic,jdbcType=VARCHAR}, 
+      #{slug,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{modifytime,jdbcType=TIMESTAMP}, 
+      #{authorid,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{tags,jdbcType=VARCHAR}, #{categories,jdbcType=VARCHAR}, #{hits,jdbcType=INTEGER}, 
+      #{commentsnum,jdbcType=INTEGER}, #{allowcomment,jdbcType=BIT}, #{allowping,jdbcType=BIT}, 
+      #{allowfeed,jdbcType=BIT}, #{allowshow,jdbcType=BIT}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.hq.entity.Contents">
+    update t_contents
+    set title = #{title,jdbcType=VARCHAR},
+      titlePic = #{titlepic,jdbcType=VARCHAR},
+      slug = #{slug,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      modifyTime = #{modifytime,jdbcType=TIMESTAMP},
+      authorId = #{authorid,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      tags = #{tags,jdbcType=VARCHAR},
+      categories = #{categories,jdbcType=VARCHAR},
+      hits = #{hits,jdbcType=INTEGER},
+      commentsNum = #{commentsnum,jdbcType=INTEGER},
+      allowComment = #{allowcomment,jdbcType=BIT},
+      allowPing = #{allowping,jdbcType=BIT},
+      allowFeed = #{allowfeed,jdbcType=BIT},
+      allowShow = #{allowshow,jdbcType=BIT},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where cid = #{cid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select cid, title, titlePic, slug, createTime, modifyTime, authorId, type, status, 
+    tags, categories, hits, commentsNum, allowComment, allowPing, allowFeed, allowShow, 
+    content
+    from t_contents
+    where cid = #{cid,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select cid, title, titlePic, slug, createTime, modifyTime, authorId, type, status, 
+    tags, categories, hits, commentsNum, allowComment, allowPing, allowFeed, allowShow, 
+    content
+    from t_contents
+  </select>
+</mapper>

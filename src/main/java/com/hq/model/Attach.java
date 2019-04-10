@@ -1,53 +1,65 @@
-package com.hq.model;
+package com.hq.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.Date;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-
-/**
- * Created by huang on 19/3/2019.
- */
-@Setter
-@Getter
-@TableName("t_attach")
-public class Attach extends Model<Attach>
-{
-    private static final long serialVersionUID = -4146469185787114394L;
-    /**
-     * 主键编号
-     */
-    @TableId(value = "id",type = IdType.AUTO)
+public class Attach {
     private Integer id;
-    /**
-     * 文件名称
-     */
-    private String fname;
-    /**
-     * 文件类型
-     */
-    private String ftype;
-    /**
-     * 文件地址
-     */
-    private String fkey;
-    /**
-     * 创建人的id
-     */
-    private Integer creatorId;
-    /**
-     * 创建的时间
-     */
-    private Timestamp createTime;
 
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
+    private String fname;
+
+    private String ftype;
+
+    private Integer creatorid;
+
+    private Date createtime;
+
+    private String fkey;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getFname() {
+        return fname;
+    }
+
+    public void setFname(String fname) {
+        this.fname = fname == null ? null : fname.trim();
+    }
+
+    public String getFtype() {
+        return ftype;
+    }
+
+    public void setFtype(String ftype) {
+        this.ftype = ftype == null ? null : ftype.trim();
+    }
+
+    public Integer getCreatorid() {
+        return creatorid;
+    }
+
+    public void setCreatorid(Integer creatorid) {
+        this.creatorid = creatorid;
+    }
+
+    public Date getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+    }
+
+    public String getFkey() {
+        return fkey;
+    }
+
+    public void setFkey(String fkey) {
+        this.fkey = fkey == null ? null : fkey.trim();
     }
 }
-

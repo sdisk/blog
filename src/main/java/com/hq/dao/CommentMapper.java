@@ -1,11 +1,16 @@
 package com.hq.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.hq.model.Comment;
+import com.hq.entity.Comment;
+import java.util.List;
 
-/**
- * @author: Mr.Huang
- * @create: 2019-04-02 11:12
- **/
-public interface CommentMapper extends BaseMapper<Comment> {
+public interface CommentMapper {
+    int deleteByPrimaryKey(Integer coid);
+
+    int insert(Comment record);
+
+    Comment selectByPrimaryKey(Integer coid);
+
+    List<Comment> selectAll();
+
+    int updateByPrimaryKey(Comment record);
 }

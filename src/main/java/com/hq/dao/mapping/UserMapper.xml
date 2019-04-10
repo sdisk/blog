@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hq.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.hq.entity.User">
+    <id column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="homeUrl" jdbcType="VARCHAR" property="homeurl" />
+    <result column="screenName" jdbcType="VARCHAR" property="screenname" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="activated" jdbcType="TIMESTAMP" property="activated" />
+    <result column="logged" jdbcType="TIMESTAMP" property="logged" />
+    <result column="groupName" jdbcType="VARCHAR" property="groupname" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_user
+    where uid = #{uid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hq.entity.User">
+    insert into t_user (uid, username, password, 
+      email, homeUrl, screenName, 
+      created, activated, logged, 
+      groupName)
+    values (#{uid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{homeurl,jdbcType=VARCHAR}, #{screenname,jdbcType=VARCHAR}, 
+      #{created,jdbcType=TIMESTAMP}, #{activated,jdbcType=TIMESTAMP}, #{logged,jdbcType=TIMESTAMP}, 
+      #{groupname,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.hq.entity.User">
+    update t_user
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      homeUrl = #{homeurl,jdbcType=VARCHAR},
+      screenName = #{screenname,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      activated = #{activated,jdbcType=TIMESTAMP},
+      logged = #{logged,jdbcType=TIMESTAMP},
+      groupName = #{groupname,jdbcType=VARCHAR}
+    where uid = #{uid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select uid, username, password, email, homeUrl, screenName, created, activated, logged, 
+    groupName
+    from t_user
+    where uid = #{uid,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select uid, username, password, email, homeUrl, screenName, created, activated, logged, 
+    groupName
+    from t_user
+  </select>
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hq.dao.AttachMapper">
+  <resultMap id="BaseResultMap" type="com.hq.entity.Attach">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="fname" jdbcType="VARCHAR" property="fname" />
+    <result column="ftype" jdbcType="VARCHAR" property="ftype" />
+    <result column="creatorId" jdbcType="INTEGER" property="creatorid" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="fkey" jdbcType="LONGVARCHAR" property="fkey" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_attach
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hq.entity.Attach">
+    insert into t_attach (id, fname, ftype, 
+      creatorId, createTime, fkey
+      )
+    values (#{id,jdbcType=INTEGER}, #{fname,jdbcType=VARCHAR}, #{ftype,jdbcType=VARCHAR}, 
+      #{creatorid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{fkey,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.hq.entity.Attach">
+    update t_attach
+    set fname = #{fname,jdbcType=VARCHAR},
+      ftype = #{ftype,jdbcType=VARCHAR},
+      creatorId = #{creatorid,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      fkey = #{fkey,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, fname, ftype, creatorId, createTime, fkey
+    from t_attach
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, fname, ftype, creatorId, createTime, fkey
+    from t_attach
+  </select>
+</mapper>

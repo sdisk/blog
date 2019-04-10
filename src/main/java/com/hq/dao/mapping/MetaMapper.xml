@@ -1,57 +1,46 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hq.dao.MetaMapper">
-    <sql id="BASE_TABLE">
-        t_meta
-    </sql>
-    
-    <sql id="RELATION_SHIP_TABLE">
-        <include refid="com.hq.dao.RelationShipMapper.BASE_TABLE" />
-    </sql>
-    
-    <sql id="BASE_COLUMN">
-        m.id, m.name, m.slug, m.type, m.description, m.sort,m.parent,
-    </sql>
-
-    <resultMap id="BaseResultMap" type="com.hq.model.Meta">
-        <id column="mid" javaType="INTEGER" property="mid" />
-        <result column="name" javaType="VARCHAR" property="name" />
-        <result column="slug" javaType="VARCHAR" property="slug" />
-        <result column="type" javaType="VARCHAR" property="type" />
-        <result column="description" javaType="VARCHAR" property="description" />
-        <result column="sort" javaType="VARCHAR" property="sort" />
-        <result column="parentId" javaType="VARCHAR" property="parentId" />
-    </resultMap>
-
-    <resultMap id="MetaDto" type="com.hq.dto.MetaDto" extends="BaseResultMap">
-        <result column="count" javaType="INTEGER" property="count"/>
-    </resultMap>
-
-    <select id="selectMetaDtoByMap" resultMap="MetaDto" parameterType="Map" >
-        SELECT
-            m.*,
-            count(re.cid) as count
-        FROM <include refid="BASE_TABLE" /> AS m
-        LEFT  JOIN <include refid="RELATION_SHIP_TABLE" /> AS re ON m.mid = re.mid
-        WHERE m.type = #{type }
-        GROUP BY m.mid
-        ORDER BY #{order}
-        limit #{limit}
-    </select>
-    
-    <select id="getMetasByMetaQuery" resultType="com.hq.model.Meta" parameterType="com.hq.dto.ContentQuery">
-        SELECT
-        <include refid="BASE_COLUMN"></include>
-        FROM
-        <include refid="BASE_TABLE"/> AS
-        <where>
-            <if test="name != null">
-                AND m.name = #{name,jdbcType=VARCHAR}
-            </if>
-            <if test="type != null">
-                AND m.type = #{type,jdbcType=VARCHAR}
-            </if>
-        </where>
-        ORDER BY m.sort
-    </select>
+  <resultMap id="BaseResultMap" type="com.hq.entity.Meta">
+    <id column="mid" jdbcType="INTEGER" property="mid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="slug" jdbcType="VARCHAR" property="slug" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="contentType" jdbcType="VARCHAR" property="contenttype" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="parentId" jdbcType="INTEGER" property="parentid" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_meta
+    where mid = #{mid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hq.entity.Meta">
+    insert into t_meta (mid, name, slug, 
+      type, contentType, description, 
+      sort, parentId)
+    values (#{mid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{slug,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{contenttype,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=INTEGER}, #{parentid,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.hq.entity.Meta">
+    update t_meta
+    set name = #{name,jdbcType=VARCHAR},
+      slug = #{slug,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      contentType = #{contenttype,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      parentId = #{parentid,jdbcType=INTEGER}
+    where mid = #{mid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select mid, name, slug, type, contentType, description, sort, parentId
+    from t_meta
+    where mid = #{mid,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select mid, name, slug, type, contentType, description, sort, parentId
+    from t_meta
+  </select>
 </mapper>

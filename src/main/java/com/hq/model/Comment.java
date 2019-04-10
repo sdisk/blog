@@ -1,87 +1,145 @@
-package com.hq.model;
+package com.hq.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Date;
 
-/**
- * Created by huang on 19/3/2019.
- */
-@Getter
-@Setter
-@TableName("t_comment")
-public class Comment extends Model<Comment>
-{
-    private static final long serialVersionUID = -1766761827879578447L;
-    /**
-     * 主键
-     */
-    @TableId(value = "coid",type = IdType.AUTO)
+public class Comment {
     private Integer coid;
-    /**
-     * 关联的文章表主键
-     */
+
     private Integer cid;
 
-    /**
-     * 创建时间
-     */
-    private Timestamp createTime;
-    /**
-     * 评论者
-     */
+    private Date created;
+
     private String author;
-    /**
-     * 评论所属用户id
-     */
-    private Integer authorId;
-    /**
-     * 评论所属内容作者id
-     */
-    private Integer ownerId;
-    /**
-     * 评论者邮件
-     */
+
+    private Integer authorid;
+
+    private Integer ownerid;
+
     private String mail;
-    /**
-     * 评论这网址
-     */
+
     private String url;
-    /**
-     * 评论者ip地址
-     */
+
     private String ip;
-    /**
-     * 评论者客户端
-     */
+
     private String agent;
-    /**
-     * 评论类型
-     */
+
     private String type;
-    /**
-     * 评论状态
-     */
+
     private String status;
-    /**
-     * 父级评论
-     */
-    private Integer parentId;
-    /**
-     * 评论内容
-     */
+
+    private Integer parentid;
+
     private String content;
 
-    @Override
-    protected Serializable pkVal() {
-        return this.coid;
+    public Integer getCoid() {
+        return coid;
+    }
+
+    public void setCoid(Integer coid) {
+        this.coid = coid;
+    }
+
+    public Integer getCid() {
+        return cid;
+    }
+
+    public void setCid(Integer cid) {
+        this.cid = cid;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author == null ? null : author.trim();
+    }
+
+    public Integer getAuthorid() {
+        return authorid;
+    }
+
+    public void setAuthorid(Integer authorid) {
+        this.authorid = authorid;
+    }
+
+    public Integer getOwnerid() {
+        return ownerid;
+    }
+
+    public void setOwnerid(Integer ownerid) {
+        this.ownerid = ownerid;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail == null ? null : mail.trim();
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url == null ? null : url.trim();
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip == null ? null : ip.trim();
+    }
+
+    public String getAgent() {
+        return agent;
+    }
+
+    public void setAgent(String agent) {
+        this.agent = agent == null ? null : agent.trim();
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type == null ? null : type.trim();
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
+    }
+
+    public Integer getParentid() {
+        return parentid;
+    }
+
+    public void setParentid(Integer parentid) {
+        this.parentid = parentid;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
     }
 }
-

@@ -1,14 +1,16 @@
 package com.hq.dao;
 
+import com.hq.entity.LoginLog;
+import java.util.List;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.hq.model.LoginLog;
+public interface LoginLogMapper {
+    int deleteByPrimaryKey(Integer id);
 
-/**
- * @description:
- * @author: Mr.Huang
- * @create: 2019-03-19 14:14
- **/
-public interface LoginLogMapper extends BaseMapper<LoginLog> {
+    int insert(LoginLog record);
 
+    LoginLog selectByPrimaryKey(Integer id);
+
+    List<LoginLog> selectAll();
+
+    int updateByPrimaryKey(LoginLog record);
 }

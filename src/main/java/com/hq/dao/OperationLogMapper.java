@@ -1,11 +1,16 @@
 package com.hq.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.hq.model.OperationLog;
+import com.hq.entity.OperationLog;
+import java.util.List;
 
-/**
- * @author: Mr.Huang
- * @create: 2019-03-19 14:27
- **/
-public interface OperationLogMapper extends BaseMapper<OperationLog> {
+public interface OperationLogMapper {
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(OperationLog record);
+
+    OperationLog selectByPrimaryKey(Integer id);
+
+    List<OperationLog> selectAll();
+
+    int updateByPrimaryKey(OperationLog record);
 }

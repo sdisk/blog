@@ -1,35 +1,43 @@
-package com.hq.model;
+package com.hq.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import lombok.Getter;
-import lombok.Setter;
-
-/**
- * Created by huang on 19/3/2019.
- */
-@Getter
-@Setter
-@TableName("t_option")
-public class Option extends Model<Option>
-{
-    private static final long serialVersionUID = 6953189479922330735L;
-
-    @TableId(value = "id", type = IdType.AUTO)
+public class Option {
     private Integer id;
-    /**
-     * 名称
-     */
+
     private String name;
-    /**
-     * 内容
-     */
+
     private String value;
-    /**
-     * 备注
-     */
+
     private String description;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value == null ? null : value.trim();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description == null ? null : description.trim();
+    }
 }

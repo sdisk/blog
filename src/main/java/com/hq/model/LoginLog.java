@@ -1,64 +1,75 @@
-package com.hq.model;
+package com.hq.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Date;
 
-/**
- * @description: 登录记录
- * @author: Mr.Huang
- * @create: 2019-03-19 10:50
- **/
-@Setter
-@Getter
-@TableName("t_login_log")
-public class LoginLog extends Model<LoginLog> {
-
-    private static final long serialVersionUID = 4341232647071899080L;
-
-    /**
-     * 日志主键
-     */
-    @TableId(value = "id", type = IdType.AUTO)
+public class LoginLog {
     private Integer id;
-//    /**
-//     * 日志类型
-//     */
-//    private String logType;
-    /**
-     * 日志名称
-     */
-    private String logName;
-    /**
-     * 管理员id
-     */
-    private Integer userId;
-    /**
-     * 创建时间
-     */
-    private Timestamp createTime;
-    /**
-     * 是否执行成功
-     */
-    private String succeed;
-    /**
-     * 登录者ip
-     */
-    private String ip;
-    /**
-     * 备注
-     */
-    private String message;
 
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
+    private String logname;
+
+    private Integer userid;
+
+    private Date createtime;
+
+    private String succeed;
+
+    private String ip;
+
+    private String messgae;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getLogname() {
+        return logname;
+    }
+
+    public void setLogname(String logname) {
+        this.logname = logname == null ? null : logname.trim();
+    }
+
+    public Integer getUserid() {
+        return userid;
+    }
+
+    public void setUserid(Integer userid) {
+        this.userid = userid;
+    }
+
+    public Date getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+    }
+
+    public String getSucceed() {
+        return succeed;
+    }
+
+    public void setSucceed(String succeed) {
+        this.succeed = succeed == null ? null : succeed.trim();
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip == null ? null : ip.trim();
+    }
+
+    public String getMessgae() {
+        return messgae;
+    }
+
+    public void setMessgae(String messgae) {
+        this.messgae = messgae == null ? null : messgae.trim();
     }
 }

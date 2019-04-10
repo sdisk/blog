@@ -1,11 +1,16 @@
 package com.hq.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.hq.model.User;
+import com.hq.entity.User;
+import java.util.List;
 
-/**
- * @author: Mr.Huang
- * @create: 2019-03-20 11:05
- **/
-public interface UserMapper extends BaseMapper<User> {
+public interface UserMapper {
+    int deleteByPrimaryKey(Integer uid);
+
+    int insert(User record);
+
+    User selectByPrimaryKey(Integer uid);
+
+    List<User> selectAll();
+
+    int updateByPrimaryKey(User record);
 }
