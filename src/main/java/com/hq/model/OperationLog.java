@@ -62,6 +62,6 @@ public class OperationLog implements Serializable
     /**
      * 日志创建消息
      */
-    private String messgae;
+    private String message;
 
 }

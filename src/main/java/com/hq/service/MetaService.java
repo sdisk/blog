@@ -13,7 +13,7 @@ import java.util.List;
  * @author: Mr.Huang
  * @create: 2019-03-20 22:54
  **/
-public interface MetaService extends IService<Meta> {
+public interface MetaService{
 
     /**
      * 根据类型查询项目列表，带项目下面的文章数

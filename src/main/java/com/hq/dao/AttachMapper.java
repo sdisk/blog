@@ -14,4 +14,6 @@ public interface AttachMapper {
     List<Attach> selectAll();
 
     int updateByPrimaryKey(Attach record);
+
+    Long getAttachCount();
 }

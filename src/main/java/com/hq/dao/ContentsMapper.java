@@ -1,5 +1,6 @@
 package com.hq.dao;
 
+import com.hq.dto.ContentQuery;
 import com.hq.model.Contents;
 
 import java.util.List;
@@ -14,4 +15,8 @@ public interface ContentsMapper {
     List<Contents> selectAll();
 
     int updateByPrimaryKey(Contents record);
+
+    List<Contents> getContentsByQuery(ContentQuery contentQuery);
+
+    Long getArticleCount();
 }

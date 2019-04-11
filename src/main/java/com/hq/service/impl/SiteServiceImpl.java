@@ -1,17 +1,21 @@
 package com.hq.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.github.pagehelper.PageHelper;
 import com.hq.common.constant.Types;
 import com.hq.dao.AttachMapper;
 import com.hq.dao.CommentMapper;
 import com.hq.dao.ContentsMapper;
 import com.hq.dao.MetaMapper;
+import com.hq.dto.CommentQuery;
+import com.hq.dto.ContentQuery;
 import com.hq.dto.StatisticsDto;
 import com.hq.model.Comment;
 import com.hq.model.Contents;
 import com.hq.service.SiteService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +29,7 @@ import java.util.List;
  **/
 @Service
 @Slf4j
+@CacheConfig(cacheNames = {"blogCache"})
 public class SiteServiceImpl implements SiteService {
 
     private static final String CACHE_PREFIX = "siteCache";
@@ -50,7 +55,10 @@ public class SiteServiceImpl implements SiteService {
         if (commentNum < 0 || commentNum > PAGESIZE){
             commentNum = PAGESIZE;
         }
-        return null;
+        //PageHelper.startPage 物理分页
+        PageHelper.startPage(1, commentNum);
+        List<Comment> comments = commentMapper.getCommentsByQuery(new CommentQuery());
+        return comments;
     }
 
     @Override
@@ -59,26 +67,27 @@ public class SiteServiceImpl implements SiteService {
         if (articleNum < 0 || articleNum > PAGESIZE){
             articleNum = PAGESIZE;
         }
-        return null;
+        PageHelper.startPage(1, articleNum);
+        List<Contents> contents = contentsMapper.getContentsByQuery(new ContentQuery());
+        return contents;
     }
 
     @Override
     @Cacheable(value = CACHE_PREFIX, key = "'statistics_'")
     public StatisticsDto getStatistics() {
         //文章总数量
-//        Integer artices = contentMapper.selectCount(new QueryWrapper<>());
-//        //评论总数量
-//        Integer comments = commentMapper.selectCount(new QueryWrapper<>());
-//        //链接总数量
-//        Long links = metaMapper.getMetasCountByType(Types.LINK.getType());
-//        //附件总数量
-//        Integer attachs = attachMapper.selectCount(new QueryWrapper<>());
-//        StatisticsDto dto = new StatisticsDto();
-//        dto.setArticles(artices.longValue());
-//        dto.setComments(comments.longValue());
-//        dto.setLinks(links);
-//        dto.setAttachs(attachs.longValue());
-//        return dto;
-        return null;
+        Long artices = contentsMapper.getArticleCount();
+        //评论总数量
+        Long comments = commentMapper.getCommentCount();
+        //链接总数量
+        Long links = metaMapper.getMetasCountByType(Types.LINK.getType());
+        //附件总数量
+        Long attachs = attachMapper.getAttachCount();
+        StatisticsDto dto = new StatisticsDto();
+        dto.setArticles(artices);
+        dto.setComments(comments);
+        dto.setLinks(links);
+        dto.setAttachs(attachs);
+        return dto;
     }
 }

@@ -5,6 +5,10 @@ import com.hq.common.constant.Constants;
 import com.hq.common.rest.Result;
 import com.hq.controller.BaseController;
 import com.hq.dto.StatisticsDto;
+import com.hq.model.Comment;
+import com.hq.model.Contents;
+import com.hq.model.OperationLog;
+import com.hq.model.User;
 import com.hq.service.OperationLogService;
 import com.hq.service.SiteService;
 import com.hq.service.UserService;
@@ -84,13 +88,13 @@ public class IndexController extends BaseController {
             User temp = new User();
             temp.setUid(user.getUid());
             temp.setScreenName(srceenName);
-            temp.setEamil(email);
+            temp.setEmail(email);
             userService.updateById(temp);
             //更新session中数据
             HttpSession session = super.getSession(request);
             User originalUser = (User) session.getAttribute(Constants.LOGIN_SESSION_KEY);
             originalUser.setScreenName(srceenName);
-            originalUser.setEamil(email);
+            originalUser.setEmail(email);
             session.setAttribute(Constants.LOGIN_SESSION_KEY, originalUser);
         }
         return ResultUtil.success();

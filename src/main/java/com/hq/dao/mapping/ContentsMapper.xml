@@ -1,24 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hq.dao.ContentsMapper">
-  <resultMap id="BaseResultMap" type="com.hq.entity.Contents">
+
+  <sql id="BASE_TABLE">
+    t_contents
+  </sql>
+
+  <sql id="BASE_COLNUM">
+    c.cid,c.title,c.titlePic,c.slug,c.createTime,c.modifyTime,c.authorId,c.type,c.status,c.tags,
+    c.categories,c.hits,c.commentsNum,c.allowComment,c.allowPing,c.allowFeed,c.allowShow,c.content
+  </sql>
+
+  <!-- 用户表 -->
+  <sql id="TABLE_USER">
+    <include refid="com.hq.dao.UserMapper.BASE_TABLE"></include>
+  </sql>
+
+  <!-- 关联查询的用户 -->
+  <sql id="REL_USER_COLUMN">
+    u.username,
+  </sql>
+
+  <resultMap id="BaseResultMap" type="com.hq.model.Contents">
     <id column="cid" jdbcType="INTEGER" property="cid" />
     <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="titlePic" jdbcType="VARCHAR" property="titlepic" />
+    <result column="titlePic" jdbcType="VARCHAR" property="titlePic" />
     <result column="slug" jdbcType="VARCHAR" property="slug" />
-    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
-    <result column="modifyTime" jdbcType="TIMESTAMP" property="modifytime" />
-    <result column="authorId" jdbcType="INTEGER" property="authorid" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifyTime" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="authorId" jdbcType="INTEGER" property="authorId" />
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="tags" jdbcType="VARCHAR" property="tags" />
     <result column="categories" jdbcType="VARCHAR" property="categories" />
     <result column="hits" jdbcType="INTEGER" property="hits" />
-    <result column="commentsNum" jdbcType="INTEGER" property="commentsnum" />
-    <result column="allowComment" jdbcType="BIT" property="allowcomment" />
-    <result column="allowPing" jdbcType="BIT" property="allowping" />
-    <result column="allowFeed" jdbcType="BIT" property="allowfeed" />
-    <result column="allowShow" jdbcType="BIT" property="allowshow" />
+    <result column="commentsNum" jdbcType="INTEGER" property="commentsNum" />
+    <result column="allowComment" jdbcType="BIT" property="allowComment" />
+    <result column="allowPing" jdbcType="BIT" property="allowPing" />
+    <result column="allowFeed" jdbcType="BIT" property="allowFeed" />
+    <result column="allowShow" jdbcType="BIT" property="allowShow" />
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -74,5 +94,45 @@
     tags, categories, hits, commentsNum, allowComment, allowPing, allowFeed, allowShow, 
     content
     from t_contents
+  </select>
+
+  <select id="getContentsByQuery" resultType="com.hq.model.Contents" parameterType="com.hq.dto.ContentQuery">
+    select
+    <include refid="BASE_COLNUM"/>
+    from
+    <include refid="BASE_TABLE"/>
+    <where>
+      <if test="tag != null">
+        and c.tags like CONCAT('%',#{tags,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="category != null">
+        AND c.categories LIKE CONCAT('%',#{category, jdbcType=VARCHAR},'%')
+      </if>
+      <if test="status != null">
+        AND c.status = #{status, jdbcType=VARCHAR}
+      </if>
+      <if test="title != null">
+        AND c.title LIKE CONCAT('%',#{title, jdbcType=VARCHAR},'%')
+      </if>
+      <if test="content != null">
+        AND c.content LIKE CONCAT('%',#{content, jdbcType=VARCHAR},'%')
+      </if>
+      <if test="type != null">
+        AND c.type = #{type, jdbcType=VARCHAR}
+      </if>
+      <if test="startTime != null">
+        AND c.createTime &gt;= #{startTime, jdbcType=INTEGER}
+      </if>
+      <if test="endTime != null">
+        AND c.createTime &lt;= #{endTime, jdbcType=INTEGER}
+      </if>
+    </where>
+    ORDER BY c.createTime DESC
+  </select>
+
+  <select id="getArticleCount" resultType="java.lang.Long">
+    SELECT count(1)
+    FROM
+    <include refid="BASE_TABLE"/>
   </select>
 </mapper>

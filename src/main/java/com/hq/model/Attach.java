@@ -35,6 +35,6 @@ public class Attach implements Serializable
 
     private Integer creatorId;
 
-    private Timestamp createtime;
+    private Timestamp createTime;
 
 }

@@ -21,4 +21,6 @@ public interface MetaMapper {
     List<MetaDto> selectMetaDtoByMap(Map<String, Object> paraMap);
 
     List<Meta> getMetasByMetaQuery(MetaQuery metaQuery);
+
+    Long getMetasCountByType(String type);
 }

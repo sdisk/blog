@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hq.dao.UserMapper">
-  <resultMap id="BaseResultMap" type="com.hq.entity.User">
+  <sql id="BASE_TABLE">
+    t_user
+  </sql>
+  <sql id="BASE_COLUMN">
+    uid,username,password,email,homeUrl,screenName,created,activated,logged,groupName
+  </sql>
+  <resultMap id="BaseResultMap" type="com.hq.model.User">
     <id column="uid" jdbcType="INTEGER" property="uid" />
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="homeUrl" jdbcType="VARCHAR" property="homeurl" />
-    <result column="screenName" jdbcType="VARCHAR" property="screenname" />
+    <result column="homeUrl" jdbcType="VARCHAR" property="homeUrl" />
+    <result column="screenName" jdbcType="VARCHAR" property="screenName" />
     <result column="created" jdbcType="TIMESTAMP" property="created" />
     <result column="activated" jdbcType="TIMESTAMP" property="activated" />
     <result column="logged" jdbcType="TIMESTAMP" property="logged" />
-    <result column="groupName" jdbcType="VARCHAR" property="groupname" />
+    <result column="groupName" jdbcType="VARCHAR" property="groupName" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_user
     where uid = #{uid,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.hq.entity.User">
+  <insert id="insert" parameterType="com.hq.model.User">
     insert into t_user (uid, username, password, 
       email, homeUrl, screenName, 
       created, activated, logged, 
@@ -27,7 +33,7 @@
       #{created,jdbcType=TIMESTAMP}, #{activated,jdbcType=TIMESTAMP}, #{logged,jdbcType=TIMESTAMP}, 
       #{groupname,jdbcType=VARCHAR})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.hq.entity.User">
+  <update id="updateByPrimaryKey" parameterType="com.hq.model.User">
     update t_user
     set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},

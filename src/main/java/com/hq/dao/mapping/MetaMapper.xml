@@ -1,21 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hq.dao.MetaMapper">
-  <resultMap id="BaseResultMap" type="com.hq.entity.Meta">
+
+  <sql id="BASE_TABLE">
+    t_meta
+  </sql>
+
+  <sql id="RELATION_SHIP_TABLE">
+    <include refid="com.hq.dao.RelationshipMapper.BASE_TABLE"></include>
+  </sql>
+
+  <sql id="BASE_COLUMN">
+    m.mid,m.name,m.slug,m.type,m.desrciption,m.sort,m.parent
+  </sql>
+
+  <resultMap id="BaseResultMap" type="com.hq.model.Meta">
     <id column="mid" jdbcType="INTEGER" property="mid" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="slug" jdbcType="VARCHAR" property="slug" />
     <result column="type" jdbcType="VARCHAR" property="type" />
-    <result column="contentType" jdbcType="VARCHAR" property="contenttype" />
+    <result column="contentType" jdbcType="VARCHAR" property="contentType" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="sort" jdbcType="INTEGER" property="sort" />
-    <result column="parentId" jdbcType="INTEGER" property="parentid" />
+    <result column="parentId" jdbcType="INTEGER" property="parentId" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_meta
     where mid = #{mid,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.hq.entity.Meta">
+  <insert id="insert" parameterType="com.hq.model.Meta">
     insert into t_meta (mid, name, slug, 
       type, contentType, description, 
       sort, parentId)
@@ -23,7 +36,7 @@
       #{type,jdbcType=VARCHAR}, #{contenttype,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{sort,jdbcType=INTEGER}, #{parentid,jdbcType=INTEGER})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.hq.entity.Meta">
+  <update id="updateByPrimaryKey" parameterType="com.hq.model.Meta">
     update t_meta
     set name = #{name,jdbcType=VARCHAR},
       slug = #{slug,jdbcType=VARCHAR},
@@ -42,5 +55,25 @@
   <select id="selectAll" resultMap="BaseResultMap">
     select mid, name, slug, type, contentType, description, sort, parentId
     from t_meta
+  </select>
+  <resultMap id="MetaDto" type="com.hq.dto.MetaDto" extends="BaseResultMap">
+    <result column="count" property="count" jdbcType="INTEGER"/>
+  </resultMap>
+  <select id="selectMetaDtoByMap" parameterType="map" resultMap="MetaDto">
+    select
+    a.*,
+    count(b.cid) as count
+    from <include refid="BASE_TABLE"/> AS a
+    left join <include refid="RELATION_SHIP_TABLE"/> AS b on a.mid = b.mid
+    where a.type = #{type}
+    group by a.mid
+    order by #{order}
+    limit #{limit}
+  </select>
+
+  <select id="getMetasCountByType" resultType="java.lang.Long">
+    SELECT count(1) FROM
+    <include refid="BASE_TABLE"/>
+    WHERE type = #{type, jdbcType=VARCHAR}
   </select>
 </mapper>

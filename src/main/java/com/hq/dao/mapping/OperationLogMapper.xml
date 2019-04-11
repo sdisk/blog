@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hq.dao.OperationLogMapper">
-  <resultMap id="BaseResultMap" type="com.hq.entity.OperationLog">
+
+  <sql id="BASE_TABLE">
+    t_operation_log
+  </sql>
+
+  <sql id="BASE_COLUMN">
+    o.id,o.logType,o.logName,o.userId,o.className,o.method,o.data,o.createTime,o.succeed,o.ip,o.message
+  </sql>
+
+  <resultMap id="BaseResultMap" type="com.hq.model.OperationLog">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="logType" jdbcType="VARCHAR" property="logtype" />
-    <result column="logName" jdbcType="VARCHAR" property="logname" />
-    <result column="userId" jdbcType="INTEGER" property="userid" />
-    <result column="className" jdbcType="VARCHAR" property="classname" />
+    <result column="logType" jdbcType="VARCHAR" property="logType" />
+    <result column="logName" jdbcType="VARCHAR" property="logName" />
+    <result column="userId" jdbcType="INTEGER" property="userId" />
+    <result column="className" jdbcType="VARCHAR" property="className" />
     <result column="method" jdbcType="VARCHAR" property="method" />
     <result column="data" jdbcType="VARCHAR" property="data" />
-    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
     <result column="succeed" jdbcType="VARCHAR" property="succeed" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
-    <result column="messgae" jdbcType="VARCHAR" property="messgae" />
+    <result column="message" jdbcType="VARCHAR" property="message" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_operation_log
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.hq.entity.OperationLog">
+  <insert id="insert" parameterType="com.hq.model.OperationLog">
     insert into t_operation_log (id, logType, logName, 
       userId, className, method, 
       data, createTime, succeed, 
@@ -28,7 +37,7 @@
       #{data,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{succeed,jdbcType=VARCHAR}, 
       #{ip,jdbcType=VARCHAR}, #{messgae,jdbcType=VARCHAR})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.hq.entity.OperationLog">
+  <update id="updateByPrimaryKey" parameterType="com.hq.model.OperationLog">
     update t_operation_log
     set logType = #{logtype,jdbcType=VARCHAR},
       logName = #{logname,jdbcType=VARCHAR},
