@@ -9,6 +9,7 @@ import com.hq.common.log.LogManager;
 import com.hq.common.log.LogTaskFactory;
 import com.hq.common.rest.Result;
 import com.hq.controller.BaseController;
+import com.hq.model.User;
 import com.hq.service.UserService;
 import com.hq.utils.ResultUtil;
 import com.hq.utils.ToolUtil;
@@ -143,7 +144,8 @@ public class AuthController extends BaseController
         if (StringUtils.isBlank(oldPassword) || StringUtils.isBlank(newPassword)){
             return ResultUtil.fail("请确认信息是否输入完整");
         }
-        if (!user.getPassword().equals(ToolUtil.MD5encode(user.getUserName() + user.getPassword() + Constants.USER_SALT))){
+        if (!user.getPassword().equals(ToolUtil.MD5encode(user.getUsername() + user.getPassword() +
+                Constants.USER_SALT))){
             return ResultUtil.fail("旧密码错误");
         }
         //用户密码在6-14位之间
@@ -153,8 +155,8 @@ public class AuthController extends BaseController
         User temp = new User();
         try{
             temp.setUid(user.getUid());
-            temp.setPassword(ToolUtil.MD5encode(user.getUserName() + user.getPassword() + Constants.USER_SALT));
-            userService.updateById(temp);
+            temp.setPassword(ToolUtil.MD5encode(user.getUsername() + user.getPassword() + Constants.USER_SALT));
+            userService.updateUser(temp);
             LogManager.getLogManager().executeLog(LogTaskFactory.loginLog(LoginLogType.UP_PASSWORD, user.getUid(),"",  request.getRemoteHost()));
             return ResultUtil.success();
         } catch (Exception e){

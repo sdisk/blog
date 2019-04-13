@@ -12,4 +12,6 @@ public interface UserService
     User getUserInfoById(Integer uid);
 
     User login(String username, String password);
+
+    int updateUser(User temp);
 }

@@ -89,7 +89,7 @@ public class IndexController extends BaseController {
             temp.setUid(user.getUid());
             temp.setScreenName(srceenName);
             temp.setEmail(email);
-            userService.updateById(temp);
+            userService.updateUser(temp);
             //更新session中数据
             HttpSession session = super.getSession(request);
             User originalUser = (User) session.getAttribute(Constants.LOGIN_SESSION_KEY);

@@ -73,21 +73,21 @@ public class Contents implements Serializable
     /**
      * 是否允许评论
      */
-    private Boolean allowComment;
+    private Integer allowComment;
 
     /**
      * 是否ping
      */
-    private Boolean allowPing;
+    private Integer allowPing;
 
     /**
      * 是否允许出现在聚合中
      */
-    private Boolean allowFeed;
+    private Integer allowFeed;
 
     /**
      * 是否公开可见
      */
-    private Boolean allowShow;
+    private Integer allowShow;
 
 }

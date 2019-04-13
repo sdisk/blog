@@ -35,10 +35,10 @@
     <result column="categories" jdbcType="VARCHAR" property="categories" />
     <result column="hits" jdbcType="INTEGER" property="hits" />
     <result column="commentsNum" jdbcType="INTEGER" property="commentsNum" />
-    <result column="allowComment" jdbcType="BIT" property="allowComment" />
-    <result column="allowPing" jdbcType="BIT" property="allowPing" />
-    <result column="allowFeed" jdbcType="BIT" property="allowFeed" />
-    <result column="allowShow" jdbcType="BIT" property="allowShow" />
+    <result column="allowComment" jdbcType="INTEGER" property="allowComment" />
+    <result column="allowPing" jdbcType="INTEGER" property="allowPing" />
+    <result column="allowFeed" jdbcType="INTEGER" property="allowFeed" />
+    <result column="allowShow" jdbcType="INTEGER" property="allowShow" />
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

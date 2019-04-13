@@ -57,4 +57,19 @@
     groupName
     from t_user
   </select>
+
+  <select id="getUserByQuery" resultMap="BaseResultMap">
+    SELECT
+    <include refid="BASE_COLUMN"/>
+    FROM
+    <include refid="BASE_TABLE"/>
+    <where>
+      <if test="username != null">
+        and username = #{username,jdbcType=VARCHAR}
+      </if>
+      <if test="password != null">
+        and password = #{password,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
 </mapper>

@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author: Mr.Huang
@@ -26,7 +27,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserInfoById(Integer uid) {
-        return userMapper.selectById(uid);
+        return userMapper.selectByPrimaryKey(uid);
     }
 
     @Override
@@ -36,13 +37,21 @@ public class UserServiceImpl implements UserService {
             throw new BlogException(BlogExceptionEnum.USERNAME_PASSWORD_ENPTY);
         }
         String pwd = ToolUtil.MD5encode(username + password + Constants.USER_SALT);
-        QueryWrapper wrapper = new QueryWrapper<User>();
-        wrapper.eq("username", username);
-        wrapper.eq("password", pwd);
-        User user = userMapper.selectOne(wrapper);
+
+        User user = userMapper.getUserByQuery(username, pwd);
         if (null == user){
             throw new BlogException(BlogExceptionEnum.USERNAME_PASSWORD_ERROR);
         }
         return user;
+    }
+
+    @Override
+    @Transactional
+    public int updateUser(User temp)
+    {
+        if (null == temp.getUid()){
+            throw new BlogException(BlogExceptionEnum.USER_ID_ISNULL);
+        }
+        return userMapper.updateByPrimaryKey(temp);
     }
 }

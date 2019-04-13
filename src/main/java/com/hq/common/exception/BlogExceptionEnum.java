@@ -23,7 +23,15 @@ public enum BlogExceptionEnum implements ServiceExceptionEnum{
      */
     USERNAME_PASSWORD_ENPTY(400, "用户名或密码为空"),
     USERNAME_PASSWORD_ERROR(400, "用户名不存在或密码错误"),
-    USER_NO_LOGIN(400, "用户未登录")
+    USER_NO_LOGIN(400, "用户未登录"),
+
+    /**
+     * 请求参数
+     */
+    PARAM_IS_EMPTY(400, "参数为空"),
+    PARAM_INVALID_PARAM(400, "参数无效"),
+
+    USER_ID_ISNULL(400,"用户编号不能为空！"),
 
     ;
     private Integer code;

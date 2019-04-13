@@ -8,6 +8,8 @@ import com.hq.common.rest.Result;
 import com.hq.controller.BaseController;
 import com.hq.dto.ContentQuery;
 import com.hq.dto.MetaQuery;
+import com.hq.model.Contents;
+import com.hq.model.Meta;
 import com.hq.service.ContentService;
 import com.hq.service.MetaService;
 import com.hq.utils.ResultUtil;
@@ -109,7 +111,7 @@ public class ArticleController extends BaseController {
     @RequestMapping(value = "/{cid}",method = RequestMethod.GET)
     public String editAtricle(HttpServletRequest request,@ApiParam(name = "cid",value = "文章编号",required = true)
                               @PathVariable Integer cid){
-        Contents contents = contentService.getById(cid);
+        Contents contents = contentService.getArticlesById(cid);
         request.setAttribute("contents", contents);
         MetaQuery metaQuery = new MetaQuery();
         metaQuery.setType(Types.CATEGORY.getType());
@@ -151,7 +153,7 @@ public class ArticleController extends BaseController {
         contents.setAllowFeed(allowFeed ? 1 : 0);
         contents.setAllowShow(allowShow ? 1 : 0);
 
-        contentService.saveOrUpdate(contents);
+        contentService.updateArticleById(contents);
         return ResultUtil.success();
 
     }
@@ -161,7 +163,7 @@ public class ArticleController extends BaseController {
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public Result delete(@ApiParam(name = "cid", value = "文章主键",required = true)
                          @RequestParam(name = "cid", required = true)Integer cid){
-        contentService.removeById(cid);
+        contentService.deleteArticlesById(cid);
         return ResultUtil.success();
     }
 }
