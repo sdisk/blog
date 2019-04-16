@@ -35,4 +35,35 @@
     select id, cid, mid
     from t_relationship
   </select>
+
+  <delete id="deleteByMid">
+    delete from
+    <include refid="BASE_TABLE"/>
+    where mid = #{mid,jdbcType=INTEGER}
+  </delete>
+
+  <select id="getCountById" resultType="java.lang.Long">
+    select COUNT(1)
+    FROM
+    <include refid="BASE_TABLE"/>
+    where cid = #{cid, jdbcType=INTEGER}
+    and mid = #{mic,jdbcType=INTEGER}
+  </select>
+
+  <select id="getRelationShipByMid" resultType="com.hq.model.Relationship">
+    select
+    <include refid="BASE_COLUMN"/>
+    from
+    <include refid="BASE_TABLE"/> as rs
+    where mid = #{mid,jdbcType=INTEGER}
+  </select>
+
+  <select id="getRelationShipByCid" resultType="com.hq.model.Relationship">
+    select
+    <include refid="BASE_COLUMN"/>
+    from
+    <include refid="BASE_TABLE"/> as rs
+    where cid = #{cid,jdbcType=INTEGER}
+  </select>
+
 </mapper>

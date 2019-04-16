@@ -2,17 +2,28 @@ package com.hq.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.hq.common.constant.Constants;
+import com.hq.common.constant.Types;
 import com.hq.common.exception.BlogException;
 import com.hq.common.exception.BlogExceptionEnum;
+import com.hq.dao.CommentMapper;
 import com.hq.dao.ContentsMapper;
+import com.hq.dao.MetaMapper;
+import com.hq.dao.RelationshipMapper;
 import com.hq.dto.ContentQuery;
+import com.hq.model.Comment;
 import com.hq.model.Contents;
+import com.hq.model.Relationship;
 import com.hq.service.ContentService;
+import com.hq.service.MetaService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -30,8 +41,17 @@ public class ContentServiceImpl implements ContentService {
     @Autowired
     private ContentsMapper contentsMapper;
 
+    @Autowired
+    private CommentMapper commentMapper;
+
+    @Autowired
+    private MetaService metaService;
+
+    @Autowired
+    private RelationshipMapper relationshipMapper;
+
     @Override
-    @Cacheable(value = "atricleCaches",key = "'articlesByQuery_' + #p1 +'type_'+#p0.type ")
+    @Cacheable(value = "atricleCaches", key = "'articlesByQuery_' + #p1 +'type_'+#p0.type ")
     public PageInfo<Contents> getArticlesByQuery(ContentQuery query, int p, int limit) {
         if (null == query){
             throw new BlogException(BlogExceptionEnum.PARAM_IS_EMPTY);
@@ -43,28 +63,80 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
+    @Transactional
+    @CacheEvict(value = {"atricleCache", "atricleCaches"}, allEntries = true, beforeInvocation = true)
     public int deleteArticlesById(Integer cid)
     {
+        if (null == cid){
+            throw new BlogException(BlogExceptionEnum.PARAM_IS_EMPTY);
+        }
+        contentsMapper.deleteByPrimaryKey(cid);
         //删除文章也要删除相关的评论
+        List<Comment> comments = contentsMapper.getCommentsByCid(cid);
+        if (null != comments && comments.size() > 0){
+            comments.forEach(comment -> {
+                commentMapper.deleteByPrimaryKey(comment.getCoid());
+            });
+        }
         //删除关联的标签和分类
+        List<Relationship> relationships = relationshipMapper.getRelationShipByCid(cid);
+        if (null != relationships && relationships.size() > 0){
+            relationshipMapper.getRelationShipByCid(cid);
+        }
         return 0;
     }
 
     @Override
+    @Transactional
+    @CacheEvict(value = {"atricleCache","articleCaches"},allEntries = true,beforeInvocation = true)
     public void save(Contents contents)
     {
+        if (null == contents){
+            throw new BlogException(BlogExceptionEnum.PARAM_IS_EMPTY);
+        }
+        if (StringUtils.isBlank(contents.getTitle())){
+            throw new BlogException(BlogExceptionEnum.TITLE_CAN_NOT_EMPTY);
+        }
+        if (contents.getTitle().length() > Constants.MAX_TITLE_COUNT){
+            throw new BlogException(BlogExceptionEnum.TITLE_IS_TOO_LONG);
+        }
+        if (StringUtils.isBlank(contents.getContent())){
+            throw new BlogException(BlogExceptionEnum.CONTENT_CAN_NOT_EMPTY);
+        }
+        if (contents.getContent().length() > Constants.MAX_TEXT_COUNT){
+            throw new BlogException(BlogExceptionEnum.CONTENT_IS_TOO_LONG);
+        }
+
+        //标签和分类
+        String tags = contents.getTags();
+        String categories = contents.getCategories();
+
+        contentsMapper.insert(contents);
+
+        int cid = contents.getCid();
+        metaService.addMetas(cid, tags, Types.TAG.getType());
+        metaService.addMetas(cid, categories, Types.CATEGORY.getType());
 
     }
 
     @Override
+    @Cacheable(value = "atricleCaches", key = "'ArticlesById_'+#p0")
     public Contents getArticlesById(Integer cid)
     {
-        return null;
+        if (null == cid){
+            throw new BlogException(BlogExceptionEnum.PARAM_IS_EMPTY);
+        }
+        return contentsMapper.selectByPrimaryKey(cid);
     }
 
     @Override
     public void updateArticleById(Contents contents)
     {
+
+    }
+
+    @Override
+    public void updateCategory(String name, String name1) {
 
     }
 }

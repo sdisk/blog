@@ -45,7 +45,7 @@
     delete from t_contents
     where cid = #{cid,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.hq.entity.Contents">
+  <insert id="insert" parameterType="com.hq.model.Contents">
     insert into t_contents (cid, title, titlePic, 
       slug, createTime, modifyTime, 
       authorId, type, status, 
@@ -61,7 +61,7 @@
       #{allowfeed,jdbcType=BIT}, #{allowshow,jdbcType=BIT}, #{content,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.hq.entity.Contents">
+  <update id="updateByPrimaryKey" parameterType="com.hq.model.Contents">
     update t_contents
     set title = #{title,jdbcType=VARCHAR},
       titlePic = #{titlepic,jdbcType=VARCHAR},
@@ -135,4 +135,5 @@
     FROM
     <include refid="BASE_TABLE"/>
   </select>
+
 </mapper>

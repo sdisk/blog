@@ -76,4 +76,73 @@
     <include refid="BASE_TABLE"/>
     WHERE type = #{type, jdbcType=VARCHAR}
   </select>
+
+  <select id="getMetaById" resultType="com.hq.model.Meta">
+    select
+    <include refid="BASE_TABLE"/>
+    from
+    <include refid="BASE_TABLE"/>
+    where m.mid = #{mid,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteById">
+    delete from
+    <include refid="BASE_TABLE"/>
+    where m.mid = #{mid,jdbcType=INTEGER}
+  </delete>
+
+  <update id="updateMeta" parameterType="com.hq.model.Meta">
+    UPDATE
+    <include refid="BASE_TABLE"/>
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="slug != null">
+        slug = #{slug, jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type, jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description, jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort, jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null">
+        parent = #{parentId, jdbcType=INTEGER},
+      </if>
+    </set>
+    WHERE
+    mid = m.mid = #{mid,jdbcType=INTEGER}
+  </update>
+
+  <insert id="addMeta" parameterType="com.hq.model.Meta" useGeneratedKeys="true" keyProperty="mid">
+    insert into
+    <include refid="BASE_TABLE"/>
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      name,slug,type,description,sort,parentId
+    </trim>
+    <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+      #{name,jdbcType=VARCHAR}, #{slug,jdbcType=VARCHAR},#{type, jdbcType=VARCHAR},
+      #{description, jdbcType=VARCHAR}, #{sort, jdbcType=INTEGER}, #{parentId, jdbcType=INTEGER}
+    </trim>
+  </insert>
+
+  <select id="getMetasByMetaQuery" resultType="com.hq.model.Meta" parameterType="com.hq.dto.MetaQuery">
+    select
+    <include refid="BASE_COLUMN"/>
+    from
+    <include refid="BASE_TABLE"/> as m
+    <where>
+      <if test="name !=null">
+        and m.name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="type !=null">
+        and m.type = #{type,jdbcType=VARCHAR}
+      </if>
+    </where>
+    order by m.sort
+  </select>
 </mapper>

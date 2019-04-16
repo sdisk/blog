@@ -21,4 +21,6 @@ public interface ContentService {
     Contents getArticlesById(Integer cid);
 
     void updateArticleById(Contents contents);
+
+    void updateCategory(String name, String name1);
 }

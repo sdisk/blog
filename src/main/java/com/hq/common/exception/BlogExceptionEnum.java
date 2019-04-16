@@ -30,8 +30,17 @@ public enum BlogExceptionEnum implements ServiceExceptionEnum{
      */
     PARAM_IS_EMPTY(400, "参数为空"),
     PARAM_INVALID_PARAM(400, "参数无效"),
+    TITLE_CAN_NOT_EMPTY(400,"文章标题不能为空"),
+    TITLE_IS_TOO_LONG(400,"文章标题过长"),
+    CONTENT_CAN_NOT_EMPTY(400,"文章内容不能为空"),
+    CONTENT_IS_TOO_LONG(400,"文章字数超过限制"),
 
-    USER_ID_ISNULL(400,"用户编号不能为空！"),
+
+    /**
+     * Meta
+     */
+    META_NOT_ONE_RESULT(400,"获取的项目数量不止一个"),
+    META_IS_EXIST(400,"该项目已经存在"),
 
     ;
     private Integer code;
