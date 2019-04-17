@@ -23,16 +23,8 @@ public interface ContentsMapper {
     Long getArticleCount();
 
     /**
-     * 获取单条评论
-     * @param coid
-     * @return
+     * 更新文章
+     * @param contents
      */
-    Comment getCommentById(@Param("coid") Integer coid);
-
-    /**
-     * 根据文章编号获取评论列表
-     * @param cid
-     * @return
-     */
-    List<Comment> getCommentsByCid(@Param("cid")Integer cid);
+    void updateArticleById(Contents contents);
 }

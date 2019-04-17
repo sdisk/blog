@@ -65,14 +65,14 @@ public class ContentServiceImpl implements ContentService {
     @Override
     @Transactional
     @CacheEvict(value = {"atricleCache", "atricleCaches"}, allEntries = true, beforeInvocation = true)
-    public int deleteArticlesById(Integer cid)
+    public void deleteArticlesById(Integer cid)
     {
         if (null == cid){
             throw new BlogException(BlogExceptionEnum.PARAM_IS_EMPTY);
         }
         contentsMapper.deleteByPrimaryKey(cid);
         //删除文章也要删除相关的评论
-        List<Comment> comments = contentsMapper.getCommentsByCid(cid);
+        List<Comment> comments = commentMapper.getCommentsByCid(cid);
         if (null != comments && comments.size() > 0){
             comments.forEach(comment -> {
                 commentMapper.deleteByPrimaryKey(comment.getCoid());
@@ -83,7 +83,6 @@ public class ContentServiceImpl implements ContentService {
         if (null != relationships && relationships.size() > 0){
             relationshipMapper.getRelationShipByCid(cid);
         }
-        return 0;
     }
 
     @Override
@@ -130,13 +129,31 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
+    @Transactional
+    @CacheEvict(value = {"atricleCache","articleCaches"},allEntries = true,beforeInvocation = true)
     public void updateArticleById(Contents contents)
     {
+        //标签和分类
+        String tags = contents.getTags();
+        String categories = contents.getCategories();
 
+        contentsMapper.updateArticleById(contents);
+        int cid = contents.getCid();
+        relationshipMapper.deleteByCid(cid);
+        metaService.addMetas(cid, tags , Types.TAG.getType());
+        metaService.addMetas(cid, categories, Types.CATEGORY.getType());
     }
 
     @Override
-    public void updateCategory(String name, String name1) {
-
+    @Transactional
+    @CacheEvict(value = {"atricleCache","articleCaches"},allEntries = true,beforeInvocation = true)
+    public void updateCategory(String ordinal, String newCatefory) {
+        ContentQuery contentQuery = new ContentQuery();
+        contentQuery.setCategory(ordinal);
+        List<Contents> atricles = contentsMapper.getContentsByQuery(contentQuery);
+        atricles.forEach(atricle -> {
+            atricle.setCategories(atricle.getCategories().replace(ordinal, newCatefory));
+            contentsMapper.updateArticleById(atricle);
+        });
     }
 }

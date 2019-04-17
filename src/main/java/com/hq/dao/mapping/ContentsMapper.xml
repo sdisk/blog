@@ -136,4 +136,62 @@
     <include refid="BASE_TABLE"/>
   </select>
 
+  <!--更新文章-->
+  <update id="updateArticleById" parameterType="com.hq.model.Contents">
+    update
+    <include refid="BASE_TABLE"/>
+    <set>
+      <if test="title != null">
+        title = #{title, jdbcType=VARCHAR},
+      </if>
+      <if test="titlePic != null">
+        titlePic = #{titlePic, jdbcType=VARCHAR},
+      </if>
+      <if test="slug != null">
+        slug = #{slug, jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content, jdbcType=LONGVARCHAR},
+      </if>
+      modified = UNIX_TIMESTAMP(NOW()),
+      <if test="type != null">
+        type = #{type, jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status, jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null">
+        tags = #{tags, jdbcType=VARCHAR},
+      </if>
+      <if test="categories != null">
+        categories = #{categories, jdbcType=VARCHAR},
+      </if>
+      <if test="hits != null">
+        hits = #{hits, jdbcType=INTEGER},
+      </if>
+      <if test="commentsNum != null">
+        commentsNum = #{commentsNum, jdbcType=INTEGER},
+      </if>
+      <if test="allowComment != null">
+        allowComment = #{allowComment, jdbcType=INTEGER},
+      </if>
+      <if test="allowPing != null">
+        allowPing = #{allowPing, jdbcType=INTEGER},
+      </if>
+      <if test="allowFeed != null">
+        allowFeed = #{allowFeed, jdbcType=INTEGER},
+      </if>
+      <if test="allowShow != null">
+        allowShow = #{allowShow, jdbcType=INTEGER},
+      </if>
+    </set>
+    where cid = #{cid,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateArticleCommentCountById">
+    UPDATE
+    <include refid="BASE_TABLE"/>
+    set commentsNum = #{commentsNum,jdbcType=INTEGER}
+    where cid = #{cid,JdbcType=INTEGER}
+  </update>
 </mapper>

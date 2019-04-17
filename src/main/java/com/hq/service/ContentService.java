@@ -14,7 +14,7 @@ public interface ContentService {
 
     PageInfo<Contents> getArticlesByQuery(ContentQuery query, int page, int limit);
 
-    int deleteArticlesById(Integer cid);
+    void deleteArticlesById(Integer cid);
 
     void save(Contents contents);
 

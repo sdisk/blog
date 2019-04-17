@@ -72,6 +72,7 @@
     from t_comment
   </select>
 
+  <!--根据条件查找评论列表-->
   <select id="getCommentsByQuery" resultType="com.hq.model.Comment" parameterType="com.hq.dto.CommentQuery">
     select
     <include refid="BASE_COLUMN"/>
@@ -97,5 +98,25 @@
   <select id="getCommentCount" parameterType="java.lang.Long">
     SELECT count(1) FROM
     <include refid="BASE_TABLE"/>
+  </select>
+
+  <!-- 根据文章的主键获取评论列表:只显示正常的评论 -->
+  <select id="getCommentsByCid" resultType="com.hq.model.Comment">
+    select
+    <include refid="BASE_COLUMN"/>
+    from
+    <include refid="BASE_TABLE"/> as cm
+    where
+    cm.cid = #{cid,jdbcTyPE=INTEGER}
+    and cm.status = 'approved'
+    order by cm.created
+  </select>
+
+  <select id="getCommentById" resultType="com.hq.model.Comment">
+    select
+    <include refid="BASE_COLUMN"/>
+    from
+    <include refid="BASE_TABLE"/> as cm
+    where cm.coid = #{coid,jdbcType=INTEGER}
   </select>
 </mapper>

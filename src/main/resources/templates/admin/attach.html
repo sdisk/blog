@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='文件管理',active='attach'">
+<head th:replace="admin/header :: headerFragment(${title},${active})">
+</head>
+<link th:href="@{/admin/plugins/dropzone/4.3/css/dropzone.css}" rel="stylesheet" type="text/css"/>
+<style>
+    #dropzone {
+        margin-bottom: 3rem;
+    }
+
+    .dropzone {
+        border: 2px dashed #0087F7;
+        border-radius: 5px;
+        background: white;
+    }
+
+    .dropzone .dz-message {
+        font-weight: 400;
+    }
+
+    .dropzone .dz-message .note {
+        font-size: 0.8em;
+        font-weight: 200;
+        display: block;
+        margin-top: 1.4rem;
+    }
+
+    .attach-img {
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 8px #333;
+    }
+
+    .attach-text {
+        font-size: 12px;
+        font-weight: 300;
+    }
+
+    .attach-img:hover {
+        background-color: #f9f9f9;
+    }
+</style>
+<body class="fixed-left">
+<div class="wrapper">
+    <div th:replace="admin/header :: header-body">
+        <div class="content-page">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4 class="page-title">文件管理</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 portlets" >
+                            <!-- contents -->
+                            <div class="m-b-30">
+                                <form action="#" class="dropzone" id="dropzone">
+                                    <div class="fallback">
+                                        <input name="file" type="file" multiple="multiple"/>
+                                    </div>
+                                    <div class="dz-message">
+                                        将文件拖至此处或点击上传.
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 attach">
+                        <th:block th:if="${commons.is_empty(attachs)}">
+                            <div class="row">
+                                <div class="col-md-4 text-center">
+                                    <div class="alert alert-warning">
+                                        目前还没有一个附件，你可以上传一个试试！
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
+                        <th:block th:unless="${commons.is_empty(attachs)}">
+                            <th:block th:each="attach :${attachs.list}">
+                                <div class="col-md-2 text-center m-b-10">
+                                    <a href="${attach.fkey}" target="_blank">
+                                        <img th:src="@{${attach.ftype == 'image'}?${attach.fkey}:'/admin/images/attach.jps'" class="attach-img" th:title="${attach.fname}"/>
+                                    </a>
+                                    <div class="clearfix m-b-10">
+                                        <span class="attach-text" data-toggle="tooltip" data-placement="top"
+                                              th:attr="data-original-title=${attach.fname}"
+                                              th:text="${commons.substr(attach.fname,12)}"></span>
+                                        <div class="clearfix">
+                                            <button th:abbr="url=${attach.fkey}" type="button" class="btn btn-warning btn-sm waves-effect waves-light m-t-5 copy">
+                                                <i class="fa fa-copy"> <span>复制</span></i>
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-sm waves-effect waves-light m-t-5">
+                                                <i class="fa fa-trash-o"><span>删除</span></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th:block>
+                            <div th:replace="comm/macros :: pageAdminNav(${attachs})"></div>
+                        </th:block>
+                    </div>
+                    <div th:replace="admin/footer :: footer-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="admin/footer :: footer"></div>
+</body>
+<script type="text/javascript" th:href="@{/admin/dropzone/4.3/js/dropzone.js}"></script>
+<script type="text/javascript" th:href="@{/admin/clipboard/1.6.0/js/clipboard.js}"></script>
+<script type="text/javascript">
+    /*<![CDATA[*/
+    var hui = new $.hui();
+
+    $("#dropzone").dropzone({
+        paramName:"file",
+        url:'/admin/attach/upload',
+        maxFilesize:[[${max_file_size}]], //单位是MB
+        /**
+         *  默认为null，可以指定为一个数值，限制最多文件数量。
+         * acceptedFiles : 允许上传的文件类型，文件扩展名以逗号隔开，格式见实例；
+         * autoProcessQueue : 默认为true，即拖入文件立即自动上传；如果需要在上传之前有一些选择的操作，然后手动上传，
+         * 可以把该属性设置为false，然后手动点击按钮上传；
+         */
+        init:function () {
+            //监听事件
+            this.on("success",function (file,msg) {
+              if (msg.code != '200'){
+                  hui.alertError(msg.msg);
+              }
+              setTimeout(function () {
+                  window.location.reload();
+              },200);
+            })
+        }
+    });
+    //使用DOM 选择器, HTML 元素, 或者 HTML 元素数组来实例化对象，监听太多对象就性能影响大
+    var clipboard = new Clipboard('button.copy',{
+        text : function (trigger) {
+            return $(trigger).attr('url');
+        }
+    });
+    clipboard.on('success',function (e) {
+        console.log('Action:',e.action);
+        console.log('Text:',e.text);
+        console.log('Trigger:',e.trigger);
+       e.clearSelection();
+    });
+    clipboard.on('error', function(e) {
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+    });
+    function delAttach(id) {
+        hui.alertConfirm({
+            title:'确定要删除该附件吗？',
+            then : function () {
+                hui.post({
+                    url : '/admin/attach/delete',
+                    data:{id:id},
+                    success:function (result) {
+                        if (result && result.code == '200') {
+                            hui.alertOkAndReload('附件删除成功');
+                        } else {
+                            hui.alertError(result.msg || '附件删除失败');
+                        }
+                    }
+                });
+            }
+        });
+    }
+    /*]]>*/
+</script>
+</html>

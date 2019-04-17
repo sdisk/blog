@@ -66,4 +66,10 @@
     where cid = #{cid,jdbcType=INTEGER}
   </select>
 
+  <delete id="deleteByCid" >
+    delete from
+    <include refid="BASE_TABLE"/>
+    WHERE cid = #{cid, jdbcType=INTEGER}
+  </delete>
+
 </mapper>

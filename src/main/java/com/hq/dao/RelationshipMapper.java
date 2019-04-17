@@ -24,4 +24,5 @@ public interface RelationshipMapper {
 
     void deleteByMid(@Param("mid") Integer mid);
 
+    void deleteByCid(int cid);
 }
