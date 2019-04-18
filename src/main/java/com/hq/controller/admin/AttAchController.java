@@ -6,6 +6,7 @@ import com.hq.common.constant.Types;
 import com.hq.controller.BaseController;
 import com.hq.dto.AttachDto;
 import com.hq.service.AttachService;
+import com.hq.service.FileService;
 import com.hq.utils.Commons;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,6 +33,9 @@ public class AttAchController extends BaseController {
 
     @Autowired
     private AttachService attachService;
+
+    @Autowired
+    private FileService fileService;
 
     @ApiOperation("文件管理首页")
     @RequestMapping(value = "", method = RequestMethod.GET)
