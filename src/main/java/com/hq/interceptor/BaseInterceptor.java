@@ -3,6 +3,8 @@ package com.hq.interceptor;
 import com.hq.common.cache.MapCache;
 import com.hq.common.constant.Constants;
 import com.hq.common.constant.Types;
+import com.hq.model.Option;
+import com.hq.model.User;
 import com.hq.service.OptionService;
 import com.hq.service.UserService;
 import com.hq.utils.*;

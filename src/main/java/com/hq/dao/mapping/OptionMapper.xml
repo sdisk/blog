@@ -42,4 +42,40 @@
     select id, name, value, description
     from t_option
   </select>
+
+  <select id="getOptionByName" resultType="com.hq.model.Option">
+    select
+    <include refid="BASE_COLUMN"/>
+    from <include refid="BASE_TABLE"/>
+    where name = #{name, jdbcType=VARCHAR}
+  </select>
+
+  <select id="getOptions" resultType="com.hq.model.Option">
+    select
+    <include refid="BASE_COLUMN"/>
+    from
+    <include refid="BASE_TABLE"/>
+  </select>
+
+    <!-- 更新网站配置 -->
+    <update id="updateOptionByName">
+      update
+      <include refid="BASE_TABLE"/>
+      <set>
+        <if test="value != null">
+          value = #{value, jdbcType=VARCHAR},
+        </if>
+        <if test="description != null">
+          value = #{description, jdbcType=VARCHAR},
+        </if>
+      </set>
+      where name = #{name,jdbcType=VARCHAR}
+    </update>
+
+  <!-- 删除网站配置 -->
+  <update id="deleteOptionByName">
+    delete from
+    <include refid="BASE_TABLE"/>
+    where name = #{name,jdbcType=VARCHAR}
+  </update>
 </mapper>

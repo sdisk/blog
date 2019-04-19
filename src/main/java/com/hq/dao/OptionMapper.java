@@ -15,4 +15,12 @@ public interface OptionMapper {
     List<Option> selectAll();
 
     int updateByPrimaryKey(Option record);
+
+    void updateOptionByName(Option option);
+
+    void deleteOptionByName(String name);
+
+    Option getOptionByName(String name);
+
+    List<Option> getOptions();
 }
