@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="site/head::head(${article.title},${commons.google_site_verification()}, ${commons.baidu_site_verification()})"/>
+<body>
+<div th:replace="site/header:header"></div>
+<main role="main-inner-wrapper" class="container">
+    <div class="blog-details">
+        <article class="post-details" id="post-details">
+            <header role="bog-header" class="bog-header text-center">
+                <h3>
+                    <th:block th:utext="${article.createTime}"></th:block>
+                </h3>
+                <h2>
+                    <th:block th:text="${article.title}"></th:block>
+                </h2>
+            </header>
+            <figure>
+                <img src="images/blog-images/blog-detail-image.jpg" alt="" class="img-responsive"/>
+            </figure>
+            <div id="post-content" class="post-content" itemprop="articleBody">
+                <th:block th:utext="${commons.article(article.content)}"></th:block>
+            </div>
+        </article>
+        <div th:replace="site/comments::comments"/>
+    </div>
+</main>
+<div th:replace="site/footer::footer(${commons.site_title()},${commons.site_record()},${commons.site_url()})"></div>
+</body>
+    <div th:replace="comm/post_comment::tale_comment"></div>
+</html>
