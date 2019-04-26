@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="site/head::head(${commons.site_title()},${commons.google_site_verification()}, ${commons.baidu_site_verification()})"></div>
+
+<body>
+<div th:replace="site/blog-header::header"></div>
+<main role="main-inner-wrapper" class="container archive-page" style="padding-top: 120px;">
+
+    <div class="categorys-item">
+        <th:block th:if="${null != archives_list}">
+            <th:block th:each="archive : ${archives_list}">
+                <div class="categorys-title" th:text="${archive.date}"></div>
+                <div class="post-lists">
+                    <div class="post-lists-body">
+                        <th:block th:each="article:${archive.articles}">
+                            <div class="post-list-item">
+                                <div class="post-list-item-container">
+                                    <div class="item-label">
+                                        <div class="item-title">
+                                            <a th:href="${commons.blogPermalink(article.cid)}" th:utext="${article.title}"></a>
+                                        </div>
+                                        <div class="item-meta clearfix">
+                                            <div class="item-meta-date" th:utext="${'发布于 '+commons.fmtdate(article.created)}"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+            </th:block>
+        </th:block>
+        <th:block th:unless="${null != archives_list}">
+            <h3>no articles!</h3>
+            <a th:href="@{/blog/index}">Back</a>
+        </th:block>
+    </div>
+</main>
+<div th:replace="site/footer::footer(${commons.site_title()},${commons.site_record()},${commons.site_url()})"></div>
+</body>
+</html>

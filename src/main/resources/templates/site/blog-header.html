@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:fragment="header">
+<!--[if lt IE 8]>
+<div class="browsehappy" role="dialog">
+    当前网页 <strong>不支持</strong> 你正在使用的浏览器. 为了正常的访问, 请 <a href="http://browsehappy.com/" target="_blank">升级你的浏览器</a>。
+</div>
+<![endif]-->
+<header id="header" class="header bg-white">
+    <div class="navbar-container">
+        <a th:href="@{/}" class="navbar-logo" title="avana LLC" ><img th:src="@{/site/images/logo.png}" style="width: 66px;" title="avana LLC" alt="avana LLC"/></a>
+
+        <div class="navbar-menu">
+            <a th:href="@{/blog/index}" title="Blog">Blog</a>
+            <a th:href="@{/blog/archives}" title="Archive">Archive</a>
+            <a th:href="@{/blog/categories}" title="Category">Category</a>
+        </div>
+        <div class="navbar-search" onclick="">
+            <span class="icon-search"></span>
+            <form role="search" onsubmit="return false;">
+                <span class="search-box">
+                    <input type="text" id="search-inp" class="input" placeholder="搜索..." maxlength="30"
+                           autocomplete="off">
+                </span>
+            </form>
+        </div>
+        <div class="navbar-mobile-menu" onclick="">
+            <span class="icon-menu cross"><span class="middle"></span></span>
+            <ul>
+                <li><a th:href="@{/blog/index}" title="Blog">Blog</a></li>
+                <li><a th:href="@{/blog/archives}" title="Archive">Archive</a></li>
+                <li><a th:href="@{/blog/categories}" title="Category">Category</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<style>
+    a{
+        text-decoration:none;color:#313131;outline:0
+    }
+    a:active, a:focus, a:hover {
+        color: #eb5055;
+        outline: 0;
+    }
+    .navbar-menu a.current{
+        color:#eb5055
+    }
+    .navbar-search{
+        line-height:70px;display:inline-block;width:20px;padding:0 40px 0 0;cursor:pointer
+    }
+    .navbar-search:active>form,.navbar-search:focus>form,.navbar-search:hover>form{
+        overflow:inherit;clip:inherit;-webkit-transition:opacity .5s ease-in-out;transition:opacity .5s ease-in-out;opacity:1}.navbar-search:active>.icon-search,.navbar-search:focus>.icon-search,.navbar-search:hover>.icon-search{color:#eb5055}.navbar-search form{line-height:30px;position:absolute;top:50%;right:0;display:block;overflow:hidden;clip:rect(1px,1px,1px,1px);width:auto;max-width:60%;height:30px;margin-top:-15px;padding-right:10px;opacity:0}
+    .navbar-search form .search-box{
+        line-height:30px;position:relative;top:-1px;display:inline-block;width:400px;max-width:100%;height:30px;padding:0;border:none;border-radius:3px
+    }
+    .navbar-search form .search-box input{
+        font-size:14px;line-height:30px;position:absolute;top:0;left:0;width:100%;height:30px;padding:0 40px 0 18px;color:#313131;border:1px solid #eb5055;border-radius:20px;outline:0;background-color:#fff;-webkit-appearance:none
+    }
+</style>
+</html>

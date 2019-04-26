@@ -58,13 +58,14 @@ $(document).ready(function () {
         $(this).toggleClass('open');
     });
 
-
-    new AnimOnScroll(document.getElementById('grid'), {
-        minDuration: 0.4,
-        maxDuration: 0.7,
-        viewportFactor: 0.2
-    });
-
+    var grid = document.getElementById('grid');
+    if (grid != null){
+        new AnimOnScroll(document.getElementById('grid'), {
+            minDuration: 0.4,
+            maxDuration: 0.7,
+            viewportFactor: 0.2
+        });
+    }
 
 });
 
