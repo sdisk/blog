@@ -194,4 +194,27 @@
     set commentsNum = #{commentsNum,jdbcType=INTEGER}
     where cid = #{cid,JdbcType=INTEGER}
   </update>
+  
+  <resultMap id="archiveDtoMap" type="com.hq.dto.ArchiveDto">
+    <id column="date" property="date"/>
+    <result column="count" property="count"/>
+  </resultMap>
+
+  <select id="getArchive" resultMap="archiveDtoMap" parameterType="com.hq.dto.ContentQuery">
+    SELECT createTime as date,count(1) as COUNT
+    FROM
+    <include refid="BASE_TABLE"/>
+    <where>
+      type = 'post'
+      AND status = 'publish'
+      <if test="startTime != null">
+        AND createTime >= #{startTime,jdbcType=INTEGER}
+      </if>
+      <if test="endTime !=null ">
+        AND createTime <= #{endTime,jdbcType=INTEGER}
+      </if>
+    </where>
+    GROUP by DATE
+    ORDER by date DESC
+  </select>
 </mapper>

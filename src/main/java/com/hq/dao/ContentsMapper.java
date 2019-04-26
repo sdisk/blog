@@ -1,9 +1,8 @@
 package com.hq.dao;
 
+import com.hq.dto.ArchiveDto;
 import com.hq.dto.ContentQuery;
-import com.hq.model.Comment;
 import com.hq.model.Contents;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -27,4 +26,6 @@ public interface ContentsMapper {
      * @param contents
      */
     void updateArticleById(Contents contents);
+
+    List<ArchiveDto> getArchive(ContentQuery contentQuery);
 }

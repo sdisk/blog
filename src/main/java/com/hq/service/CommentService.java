@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import com.hq.dto.CommentQuery;
 import com.hq.model.Comment;
 
+import java.util.List;
+
 /**
  * @author: Mr.Huang
  * @create: 2019-04-02 13:12
@@ -17,4 +19,6 @@ public interface CommentService{
      * @return
      */
     PageInfo<Comment> getCommentsByQuery(CommentQuery commentQuery, int page, int limit);
+
+    List<Comment> getCommentsByCId(Integer cid);
 }

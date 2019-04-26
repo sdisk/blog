@@ -3,9 +3,12 @@ package com.hq.controller;
 import com.github.pagehelper.PageInfo;
 import com.hq.common.constant.Constants;
 import com.hq.common.constant.Types;
+import com.hq.dto.ArchiveDto;
 import com.hq.dto.ContentQuery;
+import com.hq.model.Comment;
 import com.hq.model.Contents;
 import com.hq.service.*;
+import com.hq.utils.DateUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @program: blog
@@ -78,4 +83,54 @@ public class HomeController extends BaseController{
         return "site/blog";
     }
 
+    @ApiOperation("文章内容页")
+    @RequestMapping(value = "/blog/article/{cid}",method = RequestMethod.GET)
+    public String articleDetail(@ApiParam(name = "cid",value = "文章主键",required = true)
+                                @PathVariable("cid")Integer cid,HttpServletRequest request){
+        Contents article = contentService.getArticlesById(cid);
+        ContentQuery contentQuery = new ContentQuery();
+        contentQuery.setType(Types.ARTICLE.getType());
+        request.setAttribute("article", article);
+        //更新文章的点击量
+        this.updateArticleHit(article.getCid(),article.getHits());
+        List<Comment> commentList = commentService.getCommentsByCId(cid);
+        request.setAttribute("comments",commentList);
+        request.setAttribute("active","blog");
+        return "site/blog-datails";
+    }
+
+    @ApiOperation("归档页")
+    @RequestMapping(value = "/blog/archives/{date}", method = RequestMethod.GET)
+    public String archives(@ApiParam(name = "date", value = "归档日期", required = true)
+                           @PathVariable("date")String date, HttpServletRequest request){
+        ContentQuery contentQuery = new ContentQuery();
+        Date dateFormat = DateUtil.dateFormat(date, "yyyy年MM月");
+        int start = DateUtil.getUnixTimeByDate(dateFormat);
+        int end = DateUtil.getUnixTimeByDate(DateUtil.dateAdd(DateUtil.INTERVAL_MONTH,dateFormat,
+                1)) - 1;
+        contentQuery.setStartTime(start);
+        contentQuery.setEndTime(end);
+        contentQuery.setType(Types.ARTICLE.getType());
+        List<ArchiveDto> archives = siteService.getArchives(contentQuery);
+        request.setAttribute("archives_list", archives);
+        return "blog/archives";
+    }
+
+    private void updateArticleHit(Integer cid, Integer chits)
+    {
+        Integer hits = cache.hget("article","hits");
+        if (null == chits){
+            chits = 0;
+        }
+        hits = null == hits ? 1 : hits + 1;
+        if (hits >= Constants.HIT_EXCEED){
+            Contents temp = new Contents();
+            temp.setCid(cid);
+            temp.setHits(chits + hits);
+            contentService.updateArticleById(temp);
+            cache.hset("article", "hits", 1);
+        } else {
+            cache.hset("article", "hits", hits);
+        }
+    }
 }

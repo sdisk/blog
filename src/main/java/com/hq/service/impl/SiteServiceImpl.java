@@ -1,24 +1,26 @@
 package com.hq.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.hq.common.constant.Types;
 import com.hq.dao.AttachMapper;
 import com.hq.dao.CommentMapper;
 import com.hq.dao.ContentsMapper;
 import com.hq.dao.MetaMapper;
+import com.hq.dto.ArchiveDto;
 import com.hq.dto.CommentQuery;
 import com.hq.dto.ContentQuery;
 import com.hq.dto.StatisticsDto;
 import com.hq.model.Comment;
 import com.hq.model.Contents;
 import com.hq.service.SiteService;
+import com.hq.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -89,5 +91,32 @@ public class SiteServiceImpl implements SiteService {
         dto.setLinks(links);
         dto.setAttachs(attachs);
         return dto;
+    }
+
+    @Override
+    @Cacheable(value = CACHE_PREFIX, key = "'archives_'+#p0")
+    public List<ArchiveDto> getArchives(ContentQuery contentQuery)
+    {
+        List<ArchiveDto> archives = contentsMapper.getArchive(contentQuery);
+        parseArchives(archives, contentQuery);
+        return archives;
+    }
+
+    private void parseArchives(List<ArchiveDto> archives, ContentQuery contentQuery)
+    {
+        if (null != archives){
+            archives.forEach(archiveDto -> {
+                String date = archiveDto.getDate();
+                Date sd = DateUtil.dateFormat(date, "yyyy年MM月");
+                int start = DateUtil.getUnixTimeByDate(sd);
+                int end = DateUtil.getUnixTimeByDate(DateUtil.dateAdd(DateUtil.INTERVAL_MONTH, sd, 1)) - 1;
+                ContentQuery cond = new ContentQuery();
+                cond.setStartTime(start);
+                cond.setEndTime(end);
+                cond.setType(contentQuery.getType());
+                List<Contents> contentss = contentsMapper.getContentsByQuery(cond);
+                archiveDto.setArticles(contentss);
+            });
+        }
     }
 }

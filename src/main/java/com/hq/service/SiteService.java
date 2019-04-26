@@ -1,5 +1,7 @@
 package com.hq.service;
 
+import com.hq.dto.ArchiveDto;
+import com.hq.dto.ContentQuery;
 import com.hq.dto.StatisticsDto;
 import com.hq.model.Comment;
 import com.hq.model.Contents;
@@ -18,4 +20,6 @@ public interface SiteService {
     List<Contents> getArticles(int articleNum);
 
     StatisticsDto getStatistics();
+
+    List<ArchiveDto> getArchives(ContentQuery contentQuery);
 }
