@@ -21,4 +21,6 @@ public interface CommentService{
     PageInfo<Comment> getCommentsByQuery(CommentQuery commentQuery, int page, int limit);
 
     List<Comment> getCommentsByCId(Integer cid);
+
+    void addComment(Comment comments);
 }

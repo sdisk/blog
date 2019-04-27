@@ -217,4 +217,16 @@
     GROUP by DATE
     ORDER by date DESC
   </select>
+
+  <select id="searchArticle" resultType="com.hq.model.Contents">
+    SELECT 
+    <include refid="BASE_COLNUM"/>
+    FROM 
+    <include refid="BASE_TABLE"/> as c
+    <where>
+      c.title like CONCAT('%',#{param, jdbcType=VARCHAR},'%')
+      or
+      c.content like CONCAT('%',#{param, jdbcType=VARCHAR},'%')
+    </where>
+  </select>
 </mapper>

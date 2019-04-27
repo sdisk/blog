@@ -66,4 +66,10 @@ public class CommentServiceImpl implements CommentService {
         }
         return commentMapper.getCommentsByCid(cid);
     }
+
+    @Override
+    public void addComment(Comment comments)
+    {
+
+    }
 }

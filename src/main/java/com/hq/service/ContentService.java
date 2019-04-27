@@ -23,4 +23,6 @@ public interface ContentService {
     void updateArticleById(Contents contents);
 
     void updateCategory(String name, String name1);
+
+    PageInfo<Contents> searchArticle(String param, int page, int limit);
 }

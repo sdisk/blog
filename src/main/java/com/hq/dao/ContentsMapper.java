@@ -28,4 +28,6 @@ public interface ContentsMapper {
     void updateArticleById(Contents contents);
 
     List<ArchiveDto> getArchive(ContentQuery contentQuery);
+
+    List<Contents> searchArticle(String param);
 }

@@ -156,4 +156,13 @@ public class ContentServiceImpl implements ContentService {
             contentsMapper.updateArticleById(atricle);
         });
     }
+
+    @Override
+    public PageInfo<Contents> searchArticle(String param, int page, int limit)
+    {
+        PageHelper.startPage(page, limit);
+        List<Contents> contentsList = contentsMapper.searchArticle(param);
+        PageInfo<Contents> pageInfo = new PageInfo<>(contentsList);
+        return pageInfo;
+    }
 }
