@@ -3,6 +3,7 @@ package com.hq.dao;
 import com.hq.dto.ArchiveDto;
 import com.hq.dto.ContentQuery;
 import com.hq.model.Contents;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -30,4 +31,12 @@ public interface ContentsMapper {
     List<ArchiveDto> getArchive(ContentQuery contentQuery);
 
     List<Contents> searchArticle(String param);
+
+    /**
+     * 更新文章的评论数
+     * @param cid
+     * @param commentsNum
+     * @return
+     */
+    int updateArticleCommentCountById(@Param("cid") Integer cid, @Param("commentsNum") Integer commentsNum);
 }

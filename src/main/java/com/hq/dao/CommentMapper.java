@@ -34,4 +34,8 @@ public interface CommentMapper {
      * @return
      */
     List<Comment> getCommentsByCid(@Param("cid")Integer cid);
+
+    void addComment(Comment comments);
+
+    void updateCommentStatus(Integer coid, Integer status);
 }

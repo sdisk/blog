@@ -324,6 +324,40 @@ public class HomeController extends BaseController{
         }
     }
 
+    @ApiOperation("作品主页")
+    @RequestMapping(value = {"",".index"}, method = RequestMethod.GET)
+    public String photo(HttpServletRequest request,
+                        @ApiParam(name = "limit",value = "条数",required = false)
+                        @RequestParam(name = "limit", required = false, defaultValue = "10")int limit){
+        return this.photo(1,limit,request);
+    }
+
+    @ApiOperation("作品主页-分页")
+    @RequestMapping(value = "/photo/page{p}", method = RequestMethod.GET)
+    public String photo(@ApiParam(name = "page",value = "页数",required = false)
+                        @PathVariable(name = "p", required = false)int page,
+                        @ApiParam(name = "limit",value = "条数",required = false)
+                        @RequestParam(name = "limit", required = false, defaultValue = "9999")int limit,
+                        HttpServletRequest request){
+       page = page < 0 || page > Constants.MAX_PAGE ? 1 : page;
+       ContentQuery contentQuery = new ContentQuery();
+       contentQuery.setType(Types.PHOTO.getType());
+       PageInfo<Contents> articles = contentService.getArticlesByQuery(contentQuery, page ,limit);
+       request.setAttribute("archives", articles);
+       request.setAttribute("active", "work");
+       return "site/index";
+    }
+
+    @ApiOperation("作品内容")
+    @RequestMapping(value = "/photo/article/{cid}", method = RequestMethod.GET)
+    public String article(@ApiParam(name = "cid", value = "文章主键", required = true) @PathVariable("cid")Integer cid, HttpServletRequest request){
+        Contents article = contentService.getArticlesById(cid);
+        request.setAttribute("archive", article);
+        request.setAttribute("active", "work");
+        return "site/works-details";
+    }
+
+
     private void updateArticleHit(Integer cid, Integer chits)
     {
         Integer hits = cache.hget("article","hits");

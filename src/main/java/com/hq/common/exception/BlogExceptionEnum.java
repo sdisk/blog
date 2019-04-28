@@ -45,10 +45,10 @@ public enum BlogExceptionEnum implements ServiceExceptionEnum{
     /**
      * comment
      */
-    ADD_NEW_COMMENT_FAIL((400, "添加评论失败"),
-    UPDATE_COMMENT_FAIL((400, "更新评论失败"),
-    DELETE_COMMENT_FAIL((400, "删除评论失败"),
-    COMMENT_NOT_EXIST((400, "评论不存在")
+    ADD_NEW_COMMENT_FAIL(400, "添加评论失败"),
+    UPDATE_COMMENT_FAIL(400, "更新评论失败"),
+    DELETE_COMMENT_FAIL(400, "删除评论失败"),
+    COMMENT_NOT_EXIST(400, "评论不存在")
 
     ;
     private Integer code;

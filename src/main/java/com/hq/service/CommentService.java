@@ -23,4 +23,10 @@ public interface CommentService{
     List<Comment> getCommentsByCId(Integer cid);
 
     void addComment(Comment comments);
+
+    Comment getCommentById(Integer coid);
+
+    void deleteComment(Integer coid);
+
+    void updateCommentStatus(Integer coid, Integer status);
 }

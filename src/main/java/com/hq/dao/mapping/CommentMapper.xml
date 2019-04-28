@@ -119,4 +119,25 @@
     <include refid="BASE_TABLE"/> as cm
     where cm.coid = #{coid,jdbcType=INTEGER}
   </select>
+
+  <insert id="addComment" parameterType="com.hq.model.Comment">
+    insert  into
+    <include refid="BASE_TABLE"/>
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      cid,created,author,authorId,ownerId,mail,
+      url,ip,agent,type,status,parentId,content,
+    </trim>
+    <trim prefix="values(" suffix=")" suffixOverrides=",">
+      #{cid,jdbcType=INTEGER}, #{created, jdbcType=INTEGER},
+      #{author, jdbcType=VARCHAR}, #{authorId, jdbcType=INTEGER}, #{ownerId, jdbcType=INTEGER},
+      #{mail, jdbcType=VARCHAR}, #{url, jdbcType=VARCHAR}, #{ip, jdbcType=VARCHAR}, #{agent, jdbcType=VARCHAR},
+      #{type, jdbcType=VARCHAR}, #{status, jdbcType=VARCHAR}, #{parentId, jdbcType=INTEGER}, #{content, jdbcType=LONGVARCHAR},
+    </trim>
+  </insert>
+  <update id="updateCommentStatus" >
+    update
+    <include refid="BASE_TABLE"/>
+    set status = #{status,jdbcType=VARCHAR}
+    where coid = #{coid,jdbcType=VARCHAR}
+  </update>
 </mapper>

@@ -28,6 +28,11 @@ public class BlogException extends RuntimeException {
         this.message = message;
     }
 
+    public BlogException(Integer code, String message) {
+        this.code = code;
+        this.message = message;
+    }
+
     public BlogException(BlogExceptionEnum blogExceptionEnum) {
         this.code = blogExceptionEnum.getCode();
         this.message = blogExceptionEnum.getMessage();

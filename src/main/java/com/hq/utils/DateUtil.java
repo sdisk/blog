@@ -2,6 +2,7 @@ package com.hq.utils;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -690,6 +691,11 @@ public class DateUtil {
         cale.add(Calendar.YEAR, 1);
         cale.set(Calendar.DAY_OF_YEAR, 0);
         return cale.getTime();
+    }
+
+    public static Timestamp getTimestampNow(){
+        Timestamp t = new Timestamp(System.currentTimeMillis());
+        return t;
     }
 
 
