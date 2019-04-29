@@ -1,5 +1,6 @@
 package com.hq.controller.admin;
 
+import com.hq.common.annotion.BussinessLog;
 import com.hq.common.constant.Types;
 import com.hq.common.rest.Result;
 import com.hq.controller.BaseController;
@@ -46,6 +47,7 @@ public class LinksController extends BaseController {
     }
 
     @ApiOperation("新增友链")
+    @BussinessLog("新增友链")
     @RequestMapping(value = "save", method = RequestMethod.POST)
     public @ResponseBody
     Result saveLink(@ApiParam(name = "title", value = "标签", required = true)
@@ -74,6 +76,7 @@ public class LinksController extends BaseController {
     }
 
     @ApiOperation("删除友链")
+    @BussinessLog("删除友链")
     @RequestMapping(value = "delete", method = RequestMethod.POST)
     public @ResponseBody Result delete(@ApiParam(name = "mid",value = "meta主键",required = true)
                                        @RequestParam(name = "mid",required = true)int mid

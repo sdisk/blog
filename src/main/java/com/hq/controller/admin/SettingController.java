@@ -1,5 +1,6 @@
 package com.hq.controller.admin;
 
+import com.hq.common.annotion.BussinessLog;
 import com.hq.common.constant.Constants;
 import com.hq.common.exception.BlogException;
 import com.hq.common.rest.Result;
@@ -49,6 +50,7 @@ public class SettingController extends BaseController {
     }
 
     @ApiOperation("保存设置")
+    @BussinessLog("保存设置")
     @RequestMapping(value = "", method = RequestMethod.POST)
     public @ResponseBody
     Result saveSettins(HttpServletRequest request){

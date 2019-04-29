@@ -1,13 +1,13 @@
 package com.hq.controller.admin;
 
 import com.github.pagehelper.PageInfo;
+import com.hq.common.annotion.BussinessLog;
 import com.hq.common.exception.BlogException;
 import com.hq.common.exception.BlogExceptionEnum;
 import com.hq.common.rest.Result;
 import com.hq.controller.BaseController;
 import com.hq.dto.CommentQuery;
 import com.hq.model.Comment;
-import com.hq.model.User;
 import com.hq.service.CommentService;
 import com.hq.utils.ResultUtil;
 import io.swagger.annotations.Api;
@@ -46,7 +46,8 @@ public class CommentController extends BaseController {
         return "admin/comment_list";
     }
 
-    @ApiOperation("删除一条评论")
+    @ApiOperation("删除评论")
+    @BussinessLog("删除评论")
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public @ResponseBody
     Result deleteComment(@ApiParam(name = "coid", value = "评论编号", required = true)
@@ -66,6 +67,7 @@ public class CommentController extends BaseController {
     }
 
     @ApiOperation("更改评论状态")
+    @BussinessLog("更改评论状态")
     @RequestMapping(value = "/status", method = RequestMethod.POST)
     public @ResponseBody Result changeStatus(@ApiParam(name = "coid", value = "评论主键", required = true)
                                              @RequestParam(name = "coid", required = true)Integer coid,

@@ -1,5 +1,6 @@
 package com.hq.controller.admin;
 
+import com.hq.common.annotion.BussinessLog;
 import com.hq.common.constant.Constants;
 import com.hq.common.constant.Types;
 import com.hq.common.exception.BlogException;
@@ -46,6 +47,7 @@ public class CategoryController extends BaseController {
         return "admin/category";
     }
     @ApiOperation("保存分类和标签")
+    @BussinessLog("保存分类和标签")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Result save(@ApiParam(name = "cname" , value = "分类名", required = true) @RequestParam(value = "cname", required = true)String cname,
                        @ApiParam(name = "mid" , value = "meta编号", required = false) @RequestParam(value = "mid", required = false)Integer mid){
@@ -66,6 +68,7 @@ public class CategoryController extends BaseController {
     }
 
     @ApiOperation("删除分类")
+    @BussinessLog("删除分类")
     @RequestMapping(value = "delete")
     @ResponseBody
     public Result delete(@ApiParam(name = "mid", value = "主键", required = true)@RequestParam(name = "mid", required = true) Integer mid){
