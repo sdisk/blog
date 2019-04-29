@@ -1,5 +1,6 @@
 package com.hq.dto;
 
+import com.hq.model.Meta;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +11,8 @@ import lombok.Setter;
  **/
 @Setter
 @Getter
-public class MetaDto extends Meta {
+public class MetaDto extends Meta
+{
 
     private int count;
 }

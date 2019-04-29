@@ -19,6 +19,7 @@ import com.hq.service.MetaService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -35,7 +36,6 @@ import java.util.List;
  **/
 @Slf4j
 @Service
-@CacheConfig(cacheNames={"blogCache"})
 public class ContentServiceImpl implements ContentService {
 
     @Autowired
@@ -50,8 +50,11 @@ public class ContentServiceImpl implements ContentService {
     @Autowired
     private RelationshipMapper relationshipMapper;
 
+    @Autowired
+    private CacheManager cacheManager;
+
     @Override
-    @Cacheable(value = "atricleCaches", key = "'articlesByQuery_' + #p1 +'type_'+#p0.type ")
+    @Cacheable(value = "articleCaches", key = "'articlesByQuery_' + #p1 +'type_'+#p0.type")
     public PageInfo<Contents> getArticlesByQuery(ContentQuery query, int p, int limit) {
         if (null == query){
             throw new BlogException(BlogExceptionEnum.PARAM_IS_EMPTY);
@@ -64,7 +67,8 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     @Transactional
-    @CacheEvict(value = {"atricleCache", "atricleCaches"}, allEntries = true, beforeInvocation = true)
+    @CacheEvict(value = {"articleCache", "articleCaches"}, allEntries = true, beforeInvocation =
+            true)
     public void deleteArticlesById(Integer cid)
     {
         if (null == cid){
@@ -87,7 +91,7 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     @Transactional
-    @CacheEvict(value = {"atricleCache","articleCaches"},allEntries = true,beforeInvocation = true)
+    @CacheEvict(value = {"articleCache","articleCaches"},allEntries = true,beforeInvocation = true)
     public void save(Contents contents)
     {
         if (null == contents){
@@ -119,7 +123,7 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    @Cacheable(value = "atricleCaches", key = "'ArticlesById_'+#p0")
+    @Cacheable(value = "articleCaches", key = "'ArticlesById_'+#p0")
     public Contents getArticlesById(Integer cid)
     {
         if (null == cid){
@@ -130,7 +134,7 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     @Transactional
-    @CacheEvict(value = {"atricleCache","articleCaches"},allEntries = true,beforeInvocation = true)
+    @CacheEvict(value = {"articleCache","articleCaches"},allEntries = true,beforeInvocation = true)
     public void updateArticleById(Contents contents)
     {
         //标签和分类
@@ -146,7 +150,7 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     @Transactional
-    @CacheEvict(value = {"atricleCache","articleCaches"},allEntries = true,beforeInvocation = true)
+    @CacheEvict(value = {"articleCache","articleCaches"},allEntries = true,beforeInvocation = true)
     public void updateCategory(String ordinal, String newCatefory) {
         ContentQuery contentQuery = new ContentQuery();
         contentQuery.setCategory(ordinal);

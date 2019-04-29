@@ -1,6 +1,5 @@
 package com.hq.utils;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.hq.common.SpringContextHolder;
 
 /**
@@ -14,18 +13,13 @@ public class MapperUtil<T> {
      */
     private Class<T> clazz;
 
-    private BaseMapper<?> baseMapper;
 
     private MapperUtil(Class<T> clazz) {
         this.clazz = clazz;
-        this.baseMapper = (BaseMapper<?>) SpringContextHolder.getBean(clazz);
     }
     /**
      * 获取mapper
      */
-    public BaseMapper<?> getMapper() {
-        return this.baseMapper;
-    }
 
     public static <T> T getMapper(Class <T> clazz){
         return SpringContextHolder.getBean(clazz);

@@ -27,7 +27,32 @@
     <defaultCache maxElementsInMemory="10000" eternal="false"
                   timeToIdleSeconds="600" timeToLiveSeconds="600" overflowToDisk="true" />
 
-    <cache name="blogCache" maxElementsInMemory="10000" eternal="false"
+
+    <cache name="articleCaches" maxElementsInMemory="10000" eternal="false"
+           timeToIdleSeconds="120" timeToLiveSeconds="600" overflowToDisk="true" />
+
+    <cache name="articleCache" maxElementsInMemory="10000" eternal="false"
+           timeToIdleSeconds="120" timeToLiveSeconds="600" overflowToDisk="true" />
+
+    <cache name="commentCache" maxElementsInMemory="10000" eternal="false"
+           timeToIdleSeconds="120" timeToLiveSeconds="600" overflowToDisk="true" />
+
+    <cache name="commentCaches" maxElementsInMemory="10000" eternal="false"
+           timeToIdleSeconds="120" timeToLiveSeconds="600" overflowToDisk="true" />
+
+    <cache name="metaCaches" maxElementsInMemory="10000" eternal="false"
+           timeToIdleSeconds="120" timeToLiveSeconds="600" overflowToDisk="true" />
+
+    <cache name="metaCache" maxElementsInMemory="10000" eternal="false"
+           timeToIdleSeconds="120" timeToLiveSeconds="600" overflowToDisk="true" />
+
+    <cache name="optionCache" maxElementsInMemory="10000" eternal="false"
+           timeToIdleSeconds="120" timeToLiveSeconds="600" overflowToDisk="true" />
+
+    <cache name="optionCaches" maxElementsInMemory="10000" eternal="false"
+           timeToIdleSeconds="120" timeToLiveSeconds="600" overflowToDisk="true" />
+
+    <cache name="siteCache" maxElementsInMemory="10000" eternal="false"
            timeToIdleSeconds="120" timeToLiveSeconds="600" overflowToDisk="true" />
 
 </ehcache>

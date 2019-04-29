@@ -33,7 +33,6 @@ import java.util.concurrent.ConcurrentHashMap;
  **/
 @Service
 @Slf4j
-@CacheConfig(cacheNames={"blogCache"})
 public class CommentServiceImpl implements CommentService {
 
     @Autowired
@@ -57,7 +56,7 @@ public class CommentServiceImpl implements CommentService {
         STATUS_MAP.put("not_audit", STATUS_BLANK);
     }
     @Override
-    @Cacheable(value = "commentCache",key = "'commentsByQuery_'+#p1")
+    @Cacheable(value = "commentCache",key = "'commentsByQuery_'+#p0")
     public PageInfo<Comment> getCommentsByQuery(CommentQuery commentQuery, int page, int limit) {
         if (null == commentQuery){
             throw new BlogException(BlogExceptionEnum.PARAM_IS_EMPTY);

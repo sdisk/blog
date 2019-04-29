@@ -3,6 +3,8 @@ package com.hq.common.log;
 import com.hq.common.constant.state.BussinessLogType;
 import com.hq.common.constant.state.LogSucceed;
 import com.hq.common.constant.state.LoginLogType;
+import com.hq.model.LoginLog;
+import com.hq.model.OperationLog;
 
 import java.sql.Timestamp;
 
@@ -20,7 +22,7 @@ public class LogFactory {
         LoginLog loginLog = new LoginLog();
         loginLog.setLogName(loginLogType.getMessage());
         loginLog.setUserId(userId);
-        loginLog.setMessage(msg);
+        loginLog.setMessgae(msg);
         loginLog.setIp(ip);
         loginLog.setSucceed(LogSucceed.SUCCESS.getMessage());
         loginLog.setCreateTime(new Timestamp(System.currentTimeMillis()));
