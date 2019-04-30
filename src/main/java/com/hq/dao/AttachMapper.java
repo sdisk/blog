@@ -16,4 +16,6 @@ public interface AttachMapper {
     int updateByPrimaryKey(Attach record);
 
     Long getAttachCount();
+
+    void addAttAch(Attach attach);
 }

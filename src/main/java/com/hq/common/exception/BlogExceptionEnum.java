@@ -44,7 +44,11 @@ public enum BlogExceptionEnum implements ServiceExceptionEnum{
     META_IS_EXIST(400,"该项目已经存在"),
 
     /**
-     * comment
+     * Attach
+     */
+    UPLOAD_FILE_FAIL(400,"上传附件失败"),
+    /**
+     * Comment
      */
     ADD_NEW_COMMENT_FAIL(400, "添加评论失败"),
     UPDATE_COMMENT_FAIL(400, "更新评论失败"),

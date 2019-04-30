@@ -247,4 +247,12 @@ public abstract class UUID {
         }
         return sb.toString();
     }
+    /**
+     * 获得一个UUID
+     *
+     * @return String UUID
+     */
+    public static String getUUID() {
+        return java.util.UUID.randomUUID().toString().replace("-", "").toLowerCase();
+    }
 }

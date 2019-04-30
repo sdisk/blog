@@ -2,23 +2,40 @@ package com.hq.controller.admin;
 
 import com.github.pagehelper.PageInfo;
 import com.hq.common.constant.Constants;
+import com.hq.common.constant.ErrorConstant;
 import com.hq.common.constant.Types;
+import com.hq.common.exception.BlogException;
+import com.hq.common.exception.BlogExceptionEnum;
+import com.hq.common.rest.Result;
+import com.hq.config.UploadConfig;
 import com.hq.controller.BaseController;
 import com.hq.dto.AttachDto;
+import com.hq.model.Attach;
+import com.hq.model.User;
 import com.hq.service.AttachService;
-import com.hq.service.FileService;
+import com.hq.service.common.FileService;
 import com.hq.utils.Commons;
+import com.hq.utils.ResultUtil;
+import com.hq.utils.ToolUtil;
+import com.hq.utils.UUID;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * @description: 附件管理
@@ -37,6 +54,9 @@ public class AttAchController extends BaseController {
     @Autowired
     private FileService fileService;
 
+    @Autowired
+    private UploadConfig uploadConfig;
+
     @ApiOperation("文件管理首页")
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(@ApiParam(name = "page", value = "页数", required = false)
@@ -48,5 +68,59 @@ public class AttAchController extends BaseController {
         request.setAttribute(Types.ATTACH_URL.getType(), Commons.site_option(Types.ATTACH_URL.getType(), Commons.site_url()));
         request.setAttribute("max_file_size", Constants.MAX_FILE_SIZE / 1024);
         return "admin/attach";
+    }
+
+    @ApiOperation("文件上传")
+    @RequestMapping(value = "uploadfile", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    public @ResponseBody Result fileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request){
+        try {
+            if (!file.isEmpty()) {
+                if (StringUtils.isEmpty(uploadConfig.getHardDisk()) && "local".equals(uploadConfig.getUpType())) {
+                    return ResultUtil.fail("请配置上传目录");
+                }
+                String diskPath = uploadConfig.getHardDisk();
+                //扩展名格式
+                String extName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+                //验证文件类型
+                if (!fileService.checkExt(extName)) {
+                    return ResultUtil.fail("上传文件格式不支持");
+                }
+                //根据文件类型获取上传目录
+                String uploadPath = fileService.getUploadPath(extName);
+                uploadPath = uploadPath.replace(File.separator, "/");
+                if (StringUtils.isEmpty(uploadPath)) {
+                    return ResultUtil.fail("上传文件路径错误");
+                }
+                String fileName = UUID.getUUID() + extName;
+                String retPath = "";
+                if ("local".equals(uploadConfig.getUpType()) && StringUtils.isNotEmpty(uploadConfig.getUpType())) {
+                    retPath = FileService.fileSave(file, diskPath, uploadPath, fileName);
+                } else if ("oss".equals(uploadConfig.getUpType())) {
+                    retPath = fileService.ossSave(file, uploadPath, fileName);
+                } else if ("qiniu".equals(uploadConfig.getUpType())) {
+                    retPath = fileService.qiniuSave(file, uploadPath, fileName);
+                }
+                if ("null".equals(retPath)) {
+                    return ResultUtil.fail("上传文件异常");
+                }
+                Map<String, String> upMap = fileService.getReturnMap(retPath, fileName);
+
+                Attach attach = new Attach();
+                HttpSession session = request.getSession();
+                User sessionUser = (User) session.getAttribute(Constants.LOGIN_SESSION_KEY);
+                attach.setCreatorId(sessionUser.getUid());
+                attach.setFtype(ToolUtil.isImage(file.getInputStream()) ? Types.IMAGE.getType() : Types.FILE.getType());
+                attach.setFname(fileName);
+                attach.setFkey(upMap.get("previewUrl"));
+                attachService.addAttAch(attach);
+                return ResultUtil.success();
+            } else {
+                log.error("File cannot be empty!");
+                return ResultUtil.fail("File cannot be empty!");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new BlogException(BlogExceptionEnum.UPLOAD_FILE_FAIL);
+        }
     }
 }

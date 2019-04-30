@@ -73,6 +73,7 @@
 <script th:src="@{/site/headroom/headroom.min.js}"></script>
 <script th:src="@{/site/highlight.js/highlight.min.js}"></script>
 <script th:src="@{/site/instantclick/instantclick.min.js}"></script>
+<script th:src="@{/site/js/tctip.min.js}"></script>
 
 <!-- jquery.countdown -->
 
@@ -104,5 +105,23 @@
         var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(bp,s);
     })();
+
+    //侧边栏赞助
+    new tctip({
+        top: '20%',
+        button: {
+            id: 9,
+            type: 'dashang',
+        },
+        list: [
+            {
+                type: 'alipay',
+                qrImg: '你的支付宝收款二维码图片地址'
+            }, {
+                type: 'wechat',
+                qrImg: '你的微信收款二维码图片地址'
+            }
+        ]
+    }).init()
 </script>
 </html>

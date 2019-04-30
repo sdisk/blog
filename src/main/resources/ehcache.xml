@@ -55,4 +55,10 @@
     <cache name="siteCache" maxElementsInMemory="10000" eternal="false"
            timeToIdleSeconds="120" timeToLiveSeconds="600" overflowToDisk="true" />
 
+    <cache name="attCaches" maxElementsInMemory="10000" eternal="false"
+           timeToIdleSeconds="120" timeToLiveSeconds="600" overflowToDisk="true" />
+
+    <cache name="attCache" maxElementsInMemory="10000" eternal="false"
+           timeToIdleSeconds="120" timeToLiveSeconds="600" overflowToDisk="true" />
+
 </ehcache>

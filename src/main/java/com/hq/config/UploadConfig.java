@@ -67,25 +67,25 @@ public class UploadConfig {
      * 允许上传的图片类型
      */
     @Value("${upload.config.image-type}")
-    private String imageType;
+    private String [] imageType;
 
     /**
      * 允许上传的文档类型
      */
     @Value("${upload.config.document-type}")
-    private String documentType;
+    private String [] documentType;
 
     /**
      * 允许上传的视频类型
      */
     @Value("${upload.config.video-type}")
-    private String videoType;
+    private String [] videoType;
 
     /**
      * 允许上传的音频类型
      */
     @Value("${upload.config.music-type}")
-    private String musicType;
+    private String [] musicType;
 
     /**
      * 允许上传的ip
