@@ -18,6 +18,12 @@ public class DateUtil {
     public static final int INTERVAL_HOUR = 5;
     public static final int INTERVAL_MINUTE = 6;
     public static final int INTERVAL_SECOND = 7;
+    private static String year = "yyyy";
+    private static String month = "MM";
+    private static String day = "dd";
+    public static SimpleDateFormat yearSDF = new SimpleDateFormat(year);
+    public static SimpleDateFormat monthSDF = new SimpleDateFormat(month);
+    public static SimpleDateFormat daySDF = new SimpleDateFormat(day);
     public static final Date tempDate = new Date((new Long("-2177481952000")).longValue());
     private static List<SimpleDateFormat> dateFormats = new ArrayList(12) {
         private static final long serialVersionUID = 2249396579858199535L;
@@ -696,6 +702,22 @@ public class DateUtil {
     public static Timestamp getTimestampNow(){
         Timestamp t = new Timestamp(System.currentTimeMillis());
         return t;
+    }
+
+    /**
+     * 获取当前的年、月、日
+     * @return String
+     */
+    public static String getCurrentYear() {
+        return yearSDF.format(new Date());
+    }
+
+    public static String getCurrentMonth() {
+        return monthSDF.format(new Date());
+    }
+
+    public static String getCurrentDay() {
+        return daySDF.format(new Date());
     }
 
 
