@@ -70,10 +70,11 @@ public class BaseInterceptor implements HandlerInterceptor
         //对需要后台登录的地址排除
         if (uri.startsWith("/admin") && !uri.startsWith("/admin/login") && null == user
                 && !uri.startsWith("/admin/admin") && !uri.startsWith("/admin/images")
+                && !uri.startsWith("/admin/css") && !uri.startsWith("/admin/js")
                 && !uri.startsWith("/admin/error") && !uri.startsWith("/admin/plugins")
                 && !uri.startsWith("/admin/editormd")){
             //重定向到登录页
-            response.sendRedirect(request.getContextPath() + "/amdin/login");
+            response.sendRedirect(request.getContextPath() + "/admin/login");
             return false;
         }
         //设置get请求的token

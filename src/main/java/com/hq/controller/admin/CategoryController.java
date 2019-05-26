@@ -30,7 +30,7 @@ import java.util.List;
  **/
 @Slf4j
 @Controller
-@RequestMapping("admin/category")
+@RequestMapping("/admin/category")
 @Api("分类和标签")
 public class CategoryController extends BaseController {
 

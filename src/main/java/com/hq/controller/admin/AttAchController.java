@@ -44,7 +44,7 @@ import java.util.Map;
  **/
 @Api("附件管理")
 @Controller
-@RequestMapping("admin/attach")
+@RequestMapping("/admin/attach")
 @Slf4j
 public class AttAchController extends BaseController {
 

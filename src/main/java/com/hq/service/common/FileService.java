@@ -89,7 +89,8 @@ public class FileService {
     }
 
     public String getUploadPath(String extName) {
-        String filePath = DateUtil.getCurrentYear() + File.separator + DateUtil.getCurrentMonth() + File.separator;
+        String filePath = DateUtil.getTodayYear() + File.separator + DateUtil.getCurrentMonth() + File
+                .separator;
 
         if (StringUtils.isEmpty(extName)){
             return filePath;

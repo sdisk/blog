@@ -52,7 +52,7 @@ public class AuthController extends BaseController
     @RequestMapping(value = "/login",method = RequestMethod.GET)
     @ApiOperation("跳转到登录页")
     public String login(){
-        return "/admin/login";
+        return "admin/login";
     }
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
@@ -66,8 +66,8 @@ public class AuthController extends BaseController
                          "password", required = true) String password,
                  @ApiParam(name = "remeberme", value = "记住我", required = false) @RequestParam(name =
                          "remeberme", required = false) String remeberme,
-                 @ApiParam(name = "captcha", value = "验证码", required = true) @RequestParam(name =
-                         "captcha", required = true) String captcha){
+                 @ApiParam(name = "captcha", value = "验证码", required = false) @RequestParam(name =
+                         "captcha", required = false) String captcha){
         //判断验证码是否正确
         HttpSession httpSession = super.getSession(request);
         String code = (String) httpSession.getAttribute(Constants

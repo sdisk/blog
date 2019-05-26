@@ -100,10 +100,10 @@
     select
     <include refid="BASE_COLNUM"/>
     from
-    <include refid="BASE_TABLE"/>
+    <include refid="BASE_TABLE"/> as c
     <where>
       <if test="tag != null">
-        and c.tags like CONCAT('%',#{tags,jdbcType=VARCHAR},'%')
+        and c.tags like CONCAT('%',#{tag,jdbcType=VARCHAR},'%')
       </if>
       <if test="category != null">
         AND c.categories LIKE CONCAT('%',#{category, jdbcType=VARCHAR},'%')
@@ -192,7 +192,7 @@
     UPDATE
     <include refid="BASE_TABLE"/>
     set commentsNum = #{commentsNum,jdbcType=INTEGER}
-    where cid = #{cid,JdbcType=INTEGER}
+    where cid = #{cid,jdbcType=INTEGER}
   </update>
   
   <resultMap id="archiveDtoMap" type="com.hq.dto.ArchiveDto">
@@ -208,14 +208,14 @@
       type = 'post'
       AND status = 'publish'
       <if test="startTime != null">
-        AND createTime >= #{startTime,jdbcType=INTEGER}
+        AND createTime &gt;= #{startTime,jdbcType=INTEGER}
       </if>
       <if test="endTime !=null ">
-        AND createTime <= #{endTime,jdbcType=INTEGER}
+        AND createTime &lt;= #{endTime,jdbcType=INTEGER}
       </if>
     </where>
     GROUP by DATE
-    ORDER by date DESC
+    ORDER by DATE DESC
   </select>
 
   <select id="searchArticle" resultType="com.hq.model.Contents">

@@ -107,7 +107,7 @@
     from
     <include refid="BASE_TABLE"/> as cm
     where
-    cm.cid = #{cid,jdbcTyPE=INTEGER}
+    cm.cid = #{cid,jdbcType=INTEGER}
     and cm.status = 'approved'
     order by cm.created
   </select>

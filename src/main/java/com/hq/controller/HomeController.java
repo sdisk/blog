@@ -118,7 +118,7 @@ public class HomeController extends BaseController{
         contentQuery.setType(Types.ARTICLE.getType());
         List<ArchiveDto> archives = siteService.getArchives(contentQuery);
         request.setAttribute("archives_list", archives);
-        return "blog/archives";
+        return "site/archives";
     }
 
     @ApiOperation("归档页-按年份")
@@ -133,7 +133,7 @@ public class HomeController extends BaseController{
         contentQuery.setType(Types.ARTICLE.getType());
         List<ArchiveDto> archives = siteService.getArchives(contentQuery);
         request.setAttribute("archives_list", archives);
-        return "blog/archives";
+        return "site/archives";
     }
 
     @ApiOperation("归档页")
@@ -143,7 +143,7 @@ public class HomeController extends BaseController{
         contentQuery.setType(Types.ARTICLE.getType());
         List<ArchiveDto> archives = siteService.getArchives(contentQuery);
         request.setAttribute("archives_list", archives);
-        return "blog/archives";
+        return "site/archives";
     }
 
     @ApiOperation("分类")
@@ -170,7 +170,7 @@ public class HomeController extends BaseController{
         request.setAttribute("articles_list", articles);
         request.setAttribute("type", "categories");
         request.setAttribute("param_name", category);
-        return "blog/categories";
+        return "site/categories";
     }
 
     @ApiOperation("标签页")
@@ -204,7 +204,7 @@ public class HomeController extends BaseController{
         request.setAttribute("articles_list", articles);
         request.setAttribute("type", "tag");
         request.setAttribute("param_name", tag);
-        return "blog/categories";
+        return "site/categories";
     }
 
     @ApiOperation("搜索文章")
