@@ -47,13 +47,14 @@ public class ArticleController extends BaseController {
 //    private CacheManager cacheManager;
 
     @ApiOperation("文章页")
+    @RequestMapping(value = "",method = RequestMethod.GET)
     public String index(HttpServletRequest request,
                         @ApiParam(name = "page",value = "页数" ,required = false)@RequestParam(name = "page",required = false,defaultValue = "1") int page,
                         @ApiParam(name = "limit",value = "每页数量" ,required = false)@RequestParam(name = "limit",required = false,defaultValue = "10") int limit){
 
         PageInfo<Contents> articles = contentService.getArticlesByQuery(new ContentQuery(),page,limit);
         request.setAttribute("articles", articles);
-        return "admin/articles_list";
+        return "admin/article_list";
     }
     @ApiOperation("发布文章页")
     public String newArticle(HttpServletRequest request){
@@ -77,6 +78,7 @@ public class ArticleController extends BaseController {
     @ApiOperation("发布新文章")
     @BussinessLog("发布新文章")
     @RequestMapping(value = "/publish",method = RequestMethod.POST)
+    @ResponseBody
     public Result publishArticle(@ApiParam(name = "title",value = "标题",required = true)@RequestParam(name = "title",required = true)String title,
                                  @ApiParam(name = "titlePic",value = "标题图片",required = false)@RequestParam(name = "titlePic",required = false)String titlePic,
                                  @ApiParam(name = "slug",value = "内容缩略名",required = false)@RequestParam(name = "slug",required = false)String slug,
@@ -161,7 +163,7 @@ public class ArticleController extends BaseController {
     @ApiOperation("删除文章")
     @BussinessLog("删除文章")
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public Result delete(@ApiParam(name = "cid", value = "文章主键",required = true)
+    public @ResponseBody Result delete(@ApiParam(name = "cid", value = "文章主键",required = true)
                          @RequestParam(name = "cid", required = true)Integer cid){
         contentService.deleteArticlesById(cid);
         return ResultUtil.success();

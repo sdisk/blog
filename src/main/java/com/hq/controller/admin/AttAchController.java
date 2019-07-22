@@ -2,7 +2,6 @@ package com.hq.controller.admin;
 
 import com.github.pagehelper.PageInfo;
 import com.hq.common.constant.Constants;
-import com.hq.common.constant.ErrorConstant;
 import com.hq.common.constant.Types;
 import com.hq.common.exception.BlogException;
 import com.hq.common.exception.BlogExceptionEnum;
@@ -71,7 +70,7 @@ public class AttAchController extends BaseController {
     }
 
     @ApiOperation("文件上传")
-    @RequestMapping(value = "uploadfile", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "upload", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
     public @ResponseBody Result fileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request){
         try {
             if (!file.isEmpty()) {

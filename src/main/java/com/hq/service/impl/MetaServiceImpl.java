@@ -195,7 +195,7 @@ public class MetaServiceImpl implements MetaService {
             metaQuery.setName(name);
             metaQuery.setType(type);
             List<Meta> metas = metaMapper.getMetasByMetaQuery(metaQuery);
-            if (null != metas && metas.size() > 0){
+            if (null == metas || metas.size() == 0){
                 Meta domain = new Meta();
                 domain.setName(name);
                 if (null != mid){
@@ -203,7 +203,7 @@ public class MetaServiceImpl implements MetaService {
                     if (null != meta){
                         domain.setMid(mid);
                     }
-                    metaMapper.updateMeta(meta);
+                    metaMapper.updateMeta(domain);
                     //更新原有的文章分类
                     contentService.updateCategory(meta.getName(), name);
                 } else {

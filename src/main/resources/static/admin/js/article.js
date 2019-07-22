@@ -8,11 +8,10 @@ $('#tags').tagsInput({
     defaultText:'请输入文章标签'
 });
 
-$('.toggle').toggle({
+$('.toggle').toggles({
    on:true,
     text:{
-       on:'开启',
-        off:'关闭'
+       on:'开启', off:'关闭'
     }
 });
 $(".select2").select2({
@@ -55,6 +54,18 @@ function allow_feed(obj) {
     }
 }
 
+function allow_show(obj) {
+    var this_ = $(obj);
+    var on = this_.find('.toggle-on.active').length;
+    var off = this_.find('.toggle-off.active').length;
+    if ( on == 1){
+        $('#allow_show').val(false);
+    }
+    if (off == 1){
+        $('#allow_show').val(true);
+    }
+}
+
 $('div.allow-false').toggle({
     off : true,
     text : {
@@ -89,7 +100,7 @@ function subArticle(status) {
         data:params,
         success: function (result) {
             if (result && result.code == 200) {
-                hui.alertOk({
+                hui.alertOK({
                     text:'文章保存成功',
                     then: function () {
                         setTimeout(function () {
@@ -103,3 +114,30 @@ function subArticle(status) {
         }
     });
 }
+
+$('#multiple-type').change(function () {
+    var postType = $('#multiple-type').val();
+    if(postType == 'post'){
+        $('#tags_tagsinput').show(500);
+        $('#s2id_multiple-sel').show(500);
+        $('#comment-div').attr("style","display:block;");
+
+    }else {
+        $('#tags_tagsinput').hide(500);
+        $('#s2id_multiple-sel').hide(500);
+        $('#comment-div').attr("style","display:none;");
+    }
+});
+$(function () {
+    var postType = $('#multiple-type').val();
+    if(postType == 'post'){
+        $('#tags_tagsinput').show();
+        $('#s2id_multiple-sel').show();
+        $('#comment-div').attr("style","display:block;");
+    }else {
+        $('#tags_tagsinput').hide();
+        $('#s2id_multiple-sel').hide();
+        $('#comment-div').attr("style","display:none;");
+
+    }
+});

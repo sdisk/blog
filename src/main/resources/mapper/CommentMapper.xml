@@ -95,7 +95,7 @@
     ORDER BY cm.created
   </select>
 
-  <select id="getCommentCount" parameterType="java.lang.Long">
+  <select id="getCommentCount" resultType="java.lang.Long">
     SELECT count(1) FROM
     <include refid="BASE_TABLE"/>
   </select>

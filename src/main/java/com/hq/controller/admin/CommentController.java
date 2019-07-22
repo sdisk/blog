@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @Api("评论相关接口")
 @Controller
-@RequestMapping("/admin/comment")
+@RequestMapping("/admin/comments")
 public class CommentController extends BaseController {
 
     @Autowired

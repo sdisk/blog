@@ -47,7 +47,7 @@
     FROM
     <include refid="BASE_TABLE"/>
     where cid = #{cid, jdbcType=INTEGER}
-    and mid = #{mic,jdbcType=INTEGER}
+    and mid = #{mid,jdbcType=INTEGER}
   </select>
 
   <select id="getRelationShipByMid" resultType="com.hq.model.Relationship">

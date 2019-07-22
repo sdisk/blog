@@ -4,6 +4,7 @@ import com.hq.common.annotion.BussinessLog;
 import com.hq.common.log.LogManager;
 import com.hq.common.log.LogTaskFactory;
 import com.hq.model.User;
+import com.hq.utils.IPUtil;
 import com.hq.utils.ToolUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -74,7 +75,7 @@ public class WebLogAspect {
     private void handle(ProceedingJoinPoint point)throws Exception{
         Signature signature = point.getSignature();
         MethodSignature methodSignature = null;
-        if (!(methodSignature instanceof MethodSignature)){
+        if (!(signature instanceof MethodSignature)){
             throw new IllegalArgumentException("该注解只能用于方法");
         }
         methodSignature = (MethodSignature) signature;
@@ -98,16 +99,30 @@ public class WebLogAspect {
         log.debug(params.toString());
         log.debug(parameters.toString());
         //获取操作名称
-        BussinessLog bussinessLog = target.getClass().getAnnotation(BussinessLog.class);
-        String key = bussinessLog.key();
+        BussinessLog bussinessLog =method.getAnnotation(BussinessLog.class);
+        //String key = bussinessLog.key();
         String value = bussinessLog.value();
 
         StringBuilder sb = new StringBuilder();
         for (Object param : params){
-            sb.append(param);
-            sb.append("&");
+
+            if (null == param || param.toString().length() == 0){
+                continue;
+            }
+            //参数过长
+            if(sb.length() + param.toString().length()  < 198){
+                sb.append(param);
+                sb.append("&");
+            } else {
+                sb.append("..&");
+                break;
+            }
+
         }
-        LogManager.getLogManager().executeLog(LogTaskFactory.operationLog(user.getUid(), key,
-                className, methodName, sb.substring(0, sb.length() - 1)));
+        //请求的内容
+        String ip = IPUtil.getIpAddrByRequest(request);
+
+        LogManager.getLogManager().executeLog(LogTaskFactory.operationLog(user.getUid(), value,
+                className, methodName, ip ,sb.substring(0, sb.length() - 1)));
     }
 }

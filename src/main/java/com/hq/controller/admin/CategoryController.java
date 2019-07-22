@@ -49,7 +49,8 @@ public class CategoryController extends BaseController {
     @ApiOperation("保存分类和标签")
     @BussinessLog("保存分类和标签")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public Result save(@ApiParam(name = "cname" , value = "分类名", required = true) @RequestParam(value = "cname", required = true)String cname,
+    public @ResponseBody Result save(@ApiParam(name = "cname" , value = "分类名", required = true) @RequestParam
+            (value = "cname", required = true)String cname,
                        @ApiParam(name = "mid" , value = "meta编号", required = false) @RequestParam(value = "mid", required = false)Integer mid){
         try{
             metaService.saveMeta(Types.CATEGORY.getType(), cname, mid);

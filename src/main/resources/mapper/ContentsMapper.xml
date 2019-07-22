@@ -45,7 +45,7 @@
     delete from t_contents
     where cid = #{cid,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.hq.model.Contents">
+  <insert id="insert" parameterType="com.hq.model.Contents" keyProperty="cid" useGeneratedKeys="true">
     insert into t_contents (cid, title, titlePic, 
       slug, createTime, modifyTime, 
       authorId, type, status, 
@@ -53,32 +53,32 @@
       commentsNum, allowComment, allowPing, 
       allowFeed, allowShow, content
       )
-    values (#{cid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{titlepic,jdbcType=VARCHAR}, 
-      #{slug,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{modifytime,jdbcType=TIMESTAMP}, 
-      #{authorid,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+    values (#{cid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{titlePic,jdbcType=VARCHAR},
+      #{slug,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{authorId,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
       #{tags,jdbcType=VARCHAR}, #{categories,jdbcType=VARCHAR}, #{hits,jdbcType=INTEGER}, 
-      #{commentsnum,jdbcType=INTEGER}, #{allowcomment,jdbcType=BIT}, #{allowping,jdbcType=BIT}, 
-      #{allowfeed,jdbcType=BIT}, #{allowshow,jdbcType=BIT}, #{content,jdbcType=LONGVARCHAR}
+      #{commentsNum,jdbcType=INTEGER}, #{allowComment,jdbcType=BIT}, #{allowPing,jdbcType=BIT}, 
+      #{allowFeed,jdbcType=BIT}, #{allowShow,jdbcType=BIT}, #{content,jdbcType=LONGVARCHAR}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.hq.model.Contents">
     update t_contents
     set title = #{title,jdbcType=VARCHAR},
-      titlePic = #{titlepic,jdbcType=VARCHAR},
+      titlePic = #{titlePic,jdbcType=VARCHAR},
       slug = #{slug,jdbcType=VARCHAR},
-      createTime = #{createtime,jdbcType=TIMESTAMP},
-      modifyTime = #{modifytime,jdbcType=TIMESTAMP},
-      authorId = #{authorid,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      modifyTime = #{modifyTime,jdbcType=TIMESTAMP},
+      authorId = #{authorId,jdbcType=INTEGER},
       type = #{type,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
       tags = #{tags,jdbcType=VARCHAR},
       categories = #{categories,jdbcType=VARCHAR},
       hits = #{hits,jdbcType=INTEGER},
-      commentsNum = #{commentsnum,jdbcType=INTEGER},
-      allowComment = #{allowcomment,jdbcType=BIT},
-      allowPing = #{allowping,jdbcType=BIT},
-      allowFeed = #{allowfeed,jdbcType=BIT},
-      allowShow = #{allowshow,jdbcType=BIT},
+      commentsNum = #{commentsNum,jdbcType=INTEGER},
+      allowComment = #{allowComment,jdbcType=BIT},
+      allowPing = #{allowPing,jdbcType=BIT},
+      allowFeed = #{allowFeed,jdbcType=BIT},
+      allowShow = #{allowShow,jdbcType=BIT},
       content = #{content,jdbcType=LONGVARCHAR}
     where cid = #{cid,jdbcType=INTEGER}
   </update>
@@ -153,7 +153,6 @@
       <if test="content != null">
         content = #{content, jdbcType=LONGVARCHAR},
       </if>
-      modified = UNIX_TIMESTAMP(NOW()),
       <if test="type != null">
         type = #{type, jdbcType=VARCHAR},
       </if>

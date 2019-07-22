@@ -31,35 +31,35 @@
     insert into t_operation_log (id, logType, logName, 
       userId, className, method, 
       data, createTime, succeed, 
-      ip, messgae)
-    values (#{id,jdbcType=INTEGER}, #{logtype,jdbcType=VARCHAR}, #{logname,jdbcType=VARCHAR}, 
-      #{userid,jdbcType=INTEGER}, #{classname,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, 
-      #{data,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{succeed,jdbcType=VARCHAR}, 
-      #{ip,jdbcType=VARCHAR}, #{messgae,jdbcType=VARCHAR})
+      ip, message)
+    values (#{id,jdbcType=INTEGER}, #{logType,jdbcType=VARCHAR}, #{logName,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=INTEGER}, #{className,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, 
+      #{data,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{succeed,jdbcType=VARCHAR}, 
+      #{ip,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.hq.model.OperationLog">
     update t_operation_log
-    set logType = #{logtype,jdbcType=VARCHAR},
-      logName = #{logname,jdbcType=VARCHAR},
-      userId = #{userid,jdbcType=INTEGER},
-      className = #{classname,jdbcType=VARCHAR},
+    set logType = #{logType,jdbcType=VARCHAR},
+      logName = #{logName,jdbcType=VARCHAR},
+      userId = #{userId,jdbcType=INTEGER},
+      className = #{className,jdbcType=VARCHAR},
       method = #{method,jdbcType=VARCHAR},
       data = #{data,jdbcType=VARCHAR},
-      createTime = #{createtime,jdbcType=TIMESTAMP},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
       succeed = #{succeed,jdbcType=VARCHAR},
       ip = #{ip,jdbcType=VARCHAR},
-      messgae = #{messgae,jdbcType=VARCHAR}
+      message = #{message,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id, logType, logName, userId, className, method, data, createTime, succeed, 
-    ip, messgae
+    ip, message
     from t_operation_log
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select id, logType, logName, userId, className, method, data, createTime, succeed, 
-    ip, messgae
+    ip, message
     from t_operation_log
   </select>
 </mapper>

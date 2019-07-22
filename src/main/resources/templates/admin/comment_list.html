@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='评论管理',active='comments'">
-<head th:replace="admin/header :: headerFragment(${title},${active})">
-</head>
+<header th:replace="admin/header :: headerFragment(${title},${active})"></header>
 <body class="fixed-left">
     <div id="wrapper">
+        <div th:replace="admin/header :: header-body"></div>
         <div class="content-page">
             <div class="content">
                 <div class="container">
@@ -32,7 +32,7 @@
                                         </td>
                                         <td th:text="${comment.author}"></td>
                                         <td th:text="${comment.createTime}"></td>
-                                        <td th:text="{comment.email}"></td>
+                                        <td th:text="${comment.email}"></td>
                                         <td><a th:href="@{${comment.url}}" target="_blank" th:text="${comment.url}"></a></td>
                                         <td>
                                             <th:block th:if="${comment.status} == 'approved'">

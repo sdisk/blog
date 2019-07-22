@@ -101,16 +101,17 @@
         var hui = new $.hui();
         function checkForm() {
             hui.post({
-                url:'/amdin/login',
+                url:'/admin/login',
                 data:$("#loginForm").serialize(),
                 success:function (result) {
                     if(result && result.code=='200'){
-                        window.location.href="/amdin/index"
+                        window.location.href="/admin/index";
                     } else{
                         hui.alertError(result.msg || '登录失败');
                     }
                 }
             })
+            return false;
         }
     /*]]>*/
 </script>

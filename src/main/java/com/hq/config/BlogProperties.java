@@ -15,7 +15,10 @@ import java.io.File;
 @Component
 @ConfigurationProperties(prefix = BlogProperties.PREFIX)
 public class BlogProperties {
+
     public static final String PREFIX = "tyche";
+
+    private Boolean kaptchaOpen = false;
 
     private Boolean swaggerOpen = false;
 
@@ -82,5 +85,15 @@ public class BlogProperties {
 
     public void setSessionValidationInterval(Integer sessionValidationInterval) {
         this.sessionValidationInterval = sessionValidationInterval;
+    }
+
+    public Boolean getKaptchaOpen()
+    {
+        return kaptchaOpen;
+    }
+
+    public void setKaptchaOpen(Boolean kaptchaOpen)
+    {
+        this.kaptchaOpen = kaptchaOpen;
     }
 }

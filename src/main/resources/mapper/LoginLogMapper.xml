@@ -7,7 +7,7 @@
   </sql>
 
   <sql id="base_column">
-    id,logName,userId,createTime,succeed,ip,messgae
+    id,logName,userId,createTime,succeed,ip,message
   </sql>
 
   <resultMap id="BaseResultMap" type="com.hq.model.LoginLog">
@@ -17,7 +17,7 @@
     <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
     <result column="succeed" jdbcType="VARCHAR" property="succeed" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
-    <result column="messgae" jdbcType="VARCHAR" property="messgae" />
+    <result column="message" jdbcType="VARCHAR" property="message" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_login_log
@@ -26,28 +26,28 @@
   <insert id="insert" parameterType="com.hq.model.LoginLog">
     insert into t_login_log (id, logName, userId, 
       createTime, succeed, ip, 
-      messgae)
-    values (#{id,jdbcType=INTEGER}, #{logname,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, 
-      #{createtime,jdbcType=TIMESTAMP}, #{succeed,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
-      #{messgae,jdbcType=VARCHAR})
+      message)
+    values (#{id,jdbcType=INTEGER}, #{logName,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{succeed,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
+      #{message,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.hq.model.LoginLog">
     update t_login_log
-    set logName = #{logname,jdbcType=VARCHAR},
-      userId = #{userid,jdbcType=INTEGER},
-      createTime = #{createtime,jdbcType=TIMESTAMP},
+    set logName = #{logName,jdbcType=VARCHAR},
+      userId = #{userId,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
       succeed = #{succeed,jdbcType=VARCHAR},
       ip = #{ip,jdbcType=VARCHAR},
-      messgae = #{messgae,jdbcType=VARCHAR}
+      message = #{message,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, logName, userId, createTime, succeed, ip, messgae
+    select id, logName, userId, createTime, succeed, ip, message
     from t_login_log
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, logName, userId, createTime, succeed, ip, messgae
+    select id, logName, userId, createTime, succeed, ip, message
     from t_login_log
   </select>
 </mapper>

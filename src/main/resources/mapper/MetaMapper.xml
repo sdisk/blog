@@ -11,7 +11,7 @@
   </sql>
 
   <sql id="BASE_COLUMN">
-    m.mid,m.name,m.slug,m.type,m.desrciption,m.sort,m.parent
+    m.mid,m.name,m.slug,m.type,m.description,m.sort,m.parentId
   </sql>
 
   <resultMap id="BaseResultMap" type="com.hq.model.Meta">
@@ -28,23 +28,23 @@
     delete from t_meta
     where mid = #{mid,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.hq.model.Meta">
+  <insert id="insert" parameterType="com.hq.model.Meta" useGeneratedKeys="true" keyProperty="mid">
     insert into t_meta (mid, name, slug, 
       type, contentType, description, 
       sort, parentId)
     values (#{mid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{slug,jdbcType=VARCHAR}, 
-      #{type,jdbcType=VARCHAR}, #{contenttype,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{sort,jdbcType=INTEGER}, #{parentid,jdbcType=INTEGER})
+      #{type,jdbcType=VARCHAR}, #{contentType,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
+      #{sort,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.hq.model.Meta">
     update t_meta
     set name = #{name,jdbcType=VARCHAR},
       slug = #{slug,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
-      contentType = #{contenttype,jdbcType=VARCHAR},
+      contentType = #{contentType,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
       sort = #{sort,jdbcType=INTEGER},
-      parentId = #{parentid,jdbcType=INTEGER}
+      parentId = #{parentId,jdbcType=INTEGER}
     where mid = #{mid,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -79,16 +79,16 @@
 
   <select id="getMetaById" resultType="com.hq.model.Meta">
     select
-    <include refid="BASE_TABLE"/>
+    <include refid="BASE_COLUMN"/>
     from
-    <include refid="BASE_TABLE"/>
+    <include refid="BASE_TABLE"/> AS m
     where m.mid = #{mid,jdbcType=INTEGER}
   </select>
 
   <delete id="deleteById">
     delete from
     <include refid="BASE_TABLE"/>
-    where m.mid = #{mid,jdbcType=INTEGER}
+    where mid = #{mid,jdbcType=INTEGER}
   </delete>
 
   <update id="updateMeta" parameterType="com.hq.model.Meta">
@@ -115,7 +115,7 @@
       </if>
     </set>
     WHERE
-    mid = m.mid = #{mid,jdbcType=INTEGER}
+    mid = #{mid,jdbcType=INTEGER}
   </update>
 
   <insert id="addMeta" parameterType="com.hq.model.Meta" useGeneratedKeys="true" keyProperty="mid">
@@ -134,7 +134,7 @@
     select
     <include refid="BASE_COLUMN"/>
     from
-    <include refid="BASE_TABLE"/> as m
+    <include refid="BASE_TABLE"/> AS m
     <where>
       <if test="name !=null">
         and m.name = #{name,jdbcType=VARCHAR}

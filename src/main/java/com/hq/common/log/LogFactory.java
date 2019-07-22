@@ -22,7 +22,7 @@ public class LogFactory {
         LoginLog loginLog = new LoginLog();
         loginLog.setLogName(loginLogType.getMessage());
         loginLog.setUserId(userId);
-        loginLog.setMessgae(msg);
+        loginLog.setMessage(msg);
         loginLog.setIp(ip);
         loginLog.setSucceed(LogSucceed.SUCCESS.getMessage());
         loginLog.setCreateTime(new Timestamp(System.currentTimeMillis()));
@@ -31,7 +31,9 @@ public class LogFactory {
     /**
      * 创建操作日志
      */
-    public static OperationLog createOperationLog(BussinessLogType bussinessLogType, Integer userId, String bussinessName,String clazzName,String methodName,String msg,LogSucceed logSucceed){
+    public static OperationLog createOperationLog(BussinessLogType bussinessLogType, Integer
+            userId, String bussinessName,String clazzName,String methodName,String msg,LogSucceed
+            logSucceed,String ip){
         OperationLog operationLog = new OperationLog();
         operationLog.setLogName(bussinessName);
         operationLog.setLogType(bussinessLogType.getMessage());
@@ -39,6 +41,7 @@ public class LogFactory {
         operationLog.setClassName(clazzName);
         operationLog.setMethod(methodName);
         operationLog.setSucceed(logSucceed.getMessage());
+        operationLog.setIp(ip);
         operationLog.setMessage(msg);
         operationLog.setCreateTime(new Timestamp(System.currentTimeMillis()));
         return operationLog;

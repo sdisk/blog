@@ -1,6 +1,7 @@
 package com.hq.dao;
 
 import com.hq.model.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,5 +16,5 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
-    User getUserByQuery(String username, String pwd);
+    User getUserByQuery(@Param("username") String username,@Param("password") String pwd);
 }
