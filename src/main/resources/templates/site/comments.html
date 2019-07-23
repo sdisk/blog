@@ -5,7 +5,7 @@
     <div id="comment-content" th:if="${article}!=null">
         <div th:id="${article.cid}?:0" class="comments-pan">
             <h3>
-                <th:block th:text="${article.commentNum?:0}"></th:block>
+                <th:block th:text="${article.commentsNum ?: 0}"></th:block>
                 Comments
             </h3>
             <ul th:if="${comments}" class="comments-reply">
@@ -46,7 +46,7 @@
                             required="required" minlength="5" maxlength="2000"></textarea>
                         </div>
                         <div class="text-center">
-                            <input type="submit" value="提交评论" id="misubmit"/>
+                            <input type="submit" value="提交评论"/>
                         </div>
                     </form>
                 </div>

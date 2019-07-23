@@ -15,7 +15,7 @@
                 </h2>
             </header>
             <figure>
-                <img src="images/blog-images/blog-detail-image.jpg" alt="" class="img-responsive"/>
+                <img src="/site/images/blog-images/blog-detail-image.jpg" alt="" class="img-responsive"/>
             </figure>
             <div id="post-content" class="post-content" itemprop="articleBody">
                 <th:block th:utext="${commons.article(article.content)}"></th:block>
@@ -26,5 +26,5 @@
 </main>
 <div th:replace="site/footer::footer(${commons.site_title()},${commons.site_record()},${commons.site_url()})"></div>
 </body>
-    <div th:replace="comm/post_comment::tale_comment"></div>
+<div th:replace="comm/post_comment::post_comment"></div>
 </html>

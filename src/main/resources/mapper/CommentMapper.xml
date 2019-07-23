@@ -7,14 +7,14 @@
   </sql>
 
   <sql id="BASE_COLUMN">
-    cm.coid,cm.cid,cm.created,cm.author,cm.ownerId,cm.mail,
+    cm.coid,cm.cid,cm.createTime,cm.author,cm.ownerId,cm.mail,
     cm.url,cm.ip,cm.agent,cm.type,cm.status,cm.parentId,cm.content
   </sql>
 
   <resultMap id="BaseResultMap" type="com.hq.model.Comment">
     <id column="coid" jdbcType="INTEGER" property="coid" />
     <result column="cid" jdbcType="INTEGER" property="cid" />
-    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
     <result column="author" jdbcType="VARCHAR" property="author" />
     <result column="authorId" jdbcType="INTEGER" property="authorId" />
     <result column="ownerId" jdbcType="INTEGER" property="ownerId" />
@@ -32,12 +32,12 @@
     where coid = #{coid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hq.model.Comment">
-    insert into t_comment (coid, cid, created, 
+    insert into t_comment (coid, cid, createTime, 
       author, authorId, ownerId, 
       mail, url, ip, agent, 
       type, status, parentId, 
       content)
-    values (#{coid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}, 
+    values (#{coid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{author,jdbcType=VARCHAR}, #{authorid,jdbcType=INTEGER}, #{ownerid,jdbcType=INTEGER}, 
       #{mail,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{agent,jdbcType=VARCHAR}, 
       #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{parentid,jdbcType=INTEGER}, 
@@ -46,7 +46,7 @@
   <update id="updateByPrimaryKey" parameterType="com.hq.model.Comment">
     update t_comment
     set cid = #{cid,jdbcType=INTEGER},
-      created = #{created,jdbcType=TIMESTAMP},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
       author = #{author,jdbcType=VARCHAR},
       authorId = #{authorid,jdbcType=INTEGER},
       ownerId = #{ownerid,jdbcType=INTEGER},
@@ -61,13 +61,13 @@
     where coid = #{coid,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select coid, cid, created, author, authorId, ownerId, mail, url, ip, agent, type, 
+    select coid, cid, createTime, author, authorId, ownerId, mail, url, ip, agent, type, 
     status, parentId, content
     from t_comment
     where coid = #{coid,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select coid, cid, created, author, authorId, ownerId, mail, url, ip, agent, type, 
+    select coid, cid, createTime, author, authorId, ownerId, mail, url, ip, agent, type, 
     status, parentId, content
     from t_comment
   </select>
@@ -83,16 +83,16 @@
         and cm.status = ${status, jdbcType=VARCHAR}
       </if>
       <if test="startTime != null">
-        AND cm.created &gt;= #{startTime, jdbcType=INTEGER}
+        AND cm.createTime &gt;= #{startTime, jdbcType=INTEGER}
       </if>
       <if test="endTime != null">
-        AND cm.created &lt;= #{endTime, jdbcType=INTEGER}
+        AND cm.createTime &lt;= #{endTime, jdbcType=INTEGER}
       </if>
       <if test="parentId != null">
         AND cm.parentId = #{parent,jdbcType=INTEGER}
       </if>
     </where>
-    ORDER BY cm.created
+    ORDER BY cm.createTime
   </select>
 
   <select id="getCommentCount" resultType="java.lang.Long">
@@ -109,7 +109,7 @@
     where
     cm.cid = #{cid,jdbcType=INTEGER}
     and cm.status = 'approved'
-    order by cm.created
+    order by cm.createTime
   </select>
 
   <select id="getCommentById" resultType="com.hq.model.Comment">
@@ -124,11 +124,11 @@
     insert  into
     <include refid="BASE_TABLE"/>
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      cid,created,author,authorId,ownerId,mail,
+      cid,createTime,author,authorId,ownerId,mail,
       url,ip,agent,type,status,parentId,content,
     </trim>
     <trim prefix="values(" suffix=")" suffixOverrides=",">
-      #{cid,jdbcType=INTEGER}, #{created, jdbcType=INTEGER},
+      #{cid,jdbcType=INTEGER}, #{createTime, jdbcType=INTEGER},
       #{author, jdbcType=VARCHAR}, #{authorId, jdbcType=INTEGER}, #{ownerId, jdbcType=INTEGER},
       #{mail, jdbcType=VARCHAR}, #{url, jdbcType=VARCHAR}, #{ip, jdbcType=VARCHAR}, #{agent, jdbcType=VARCHAR},
       #{type, jdbcType=VARCHAR}, #{status, jdbcType=VARCHAR}, #{parentId, jdbcType=INTEGER}, #{content, jdbcType=LONGVARCHAR},

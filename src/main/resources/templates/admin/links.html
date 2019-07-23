@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='友链管理',active='links'">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:with="title='友链管理',active='link'">
 <header th:replace="admin/header::headerFragment(${title},${active})"></header>
 <body class="fixed-left">
 <div id="wrapper">
@@ -24,9 +24,9 @@
                             </thead>
                             <tbody>
                             <th:block th:each="link : ${links}">
-                                <tr th:attr="mid = ${link.mkd}">
+                                <tr th:attr="mid = ${link.mid}">
                                     <td th:text="${link.name}"></td>
-                                    <td><a th:href="@{${link.slug}" target="_blank" th:text="${link.slug}"></a></td>
+                                    <td><a th:href="@{${link.slug}}" target="_blank" th:text="${link.slug}"></a></td>
                                     <td th:text="${link.description}"></td>
                                     <td th:text="${link.sort}"></td>
                                     <td>
@@ -83,6 +83,7 @@
 </div>
 <div th:replace="admin/footer :: footer"></div>
 </body>
+<script th:src="@{/admin/plugins/jquery-validate/1.15.1/jquery.validate.js}"></script>
 <script type="text/javascript">
     /*<![CDATA[*/
     var hui = new $.hui();
@@ -91,7 +92,7 @@
         submitHandler: function (form) {
             var params = $("#linkForm").serialize();
             hui.post({
-                url : '/admin/links/save',
+                url : '/admin/link/save',
                 data: params,
                 success: function (result) {
                     $('#linkForm input').val('');
@@ -127,7 +128,7 @@
             title:'确定删除该链接吗?',
             then: function () {
                 hui.post({
-                    url : '/admin/links/delete',
+                    url : '/admin/link/delete',
                     data: {mid: mid},
                     success: function (result) {
                         if(result && result.code == '200'){
