@@ -107,15 +107,28 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public DefaultKaptcha kaptcha() {
         Properties properties = new Properties();
+        //边框
         properties.put("kaptcha.border", "no");
+        //边框颜色 (r,g,b)
         properties.put("kaptcha.border.color", "105,179,90");
-        properties.put("kaptcha.textproducer.font.color", "blue");
-        properties.put("kaptcha.image.width", "125");
-        properties.put("kaptcha.image.height", "45");
-        properties.put("kaptcha.textproducer.font.size", "45");
+
+        //图片宽
+        properties.put("kaptcha.image.width", "120");
+        //图片高
+        properties.put("kaptcha.image.height", "40");
+
         properties.put("kaptcha.session.key", "code");
+        //验证码长度
         properties.put("kaptcha.textproducer.char.length", "4");
+        //字体
         properties.put("kaptcha.textproducer.font.names", "宋体,楷体,微软雅黑");
+        //字体大小
+        properties.put("kaptcha.textproducer.font.size", "35");
+        //字体颜色
+        properties.put("kaptcha.textproducer.font.color", "black");
+        //干扰颜色
+        properties.put("kaptcha.noise.color", "black");
+
         Config config = new Config(properties);
         DefaultKaptcha defaultKaptcha = new DefaultKaptcha();
         defaultKaptcha.setConfig(config);

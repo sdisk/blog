@@ -21,9 +21,9 @@ public class Constants
      */
     public static final String LOGIN_SESSION_KEY = "login_user";
     /**
-     * kaptcha
+     * captcha
      */
-    public static final String KAPTCHA_SESSION_KEY = "KAPTCHA_SESSION";
+    public static final String CAPTCHA_SESSION_KEY = "CAPTCHA_SESSION_KEY";
     /**
      * cookie
      */

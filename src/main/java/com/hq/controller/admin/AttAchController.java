@@ -93,7 +93,7 @@ public class AttAchController extends BaseController {
                 String fileName = UUID.getUUID() + extName;
                 String retPath = "";
                 if ("local".equals(uploadConfig.getUpType()) && StringUtils.isNotEmpty(uploadConfig.getUpType())) {
-                    retPath = FileService.fileSave(file, diskPath, uploadPath, fileName);
+                    retPath = fileService.fileSave(file, diskPath, uploadPath, fileName);
                 } else if ("oss".equals(uploadConfig.getUpType())) {
                     retPath = fileService.ossSave(file, uploadPath, fileName);
                 } else if ("qiniu".equals(uploadConfig.getUpType())) {

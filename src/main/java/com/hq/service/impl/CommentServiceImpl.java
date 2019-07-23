@@ -78,7 +78,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @CacheEvict(value = "commentCache", allEntries = true)
     public void addComment(Comment comments)
     {
@@ -110,7 +110,7 @@ public class CommentServiceImpl implements CommentService {
         }
         comments.setOwnerId(article.getAuthorId());
         comments.setStatus(STATUS_MAP.get(STATUS_BLANK));
-        comments.setCreated(DateUtil.getTimestampNow());
+        comments.setCreateTime(DateUtil.getTimestampNow());
         commentMapper.addComment(comments);
 
         Contents temp = new Contents();
@@ -133,7 +133,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @CacheEvict(value = "commentCache", allEntries = true)
     public void deleteComment(Integer coid) {
         if (null == coid){
@@ -170,6 +170,4 @@ public class CommentServiceImpl implements CommentService {
         }
         commentMapper.updateCommentStatus(coid, status);
     }
-
-
 }

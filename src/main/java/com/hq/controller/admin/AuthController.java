@@ -4,7 +4,6 @@ import com.hq.common.constant.Constants;
 import com.hq.common.constant.state.LoginLogType;
 import com.hq.common.exception.BlogException;
 import com.hq.common.exception.BlogExceptionEnum;
-import com.hq.common.exception.InvalidKaptchaException;
 import com.hq.common.log.LogManager;
 import com.hq.common.log.LogTaskFactory;
 import com.hq.common.rest.Result;
@@ -55,13 +54,15 @@ public class AuthController extends BaseController
 
     @RequestMapping(value = "/login",method = RequestMethod.GET)
     @ApiOperation("跳转到登录页")
-    public String login(){
+    public String login(HttpServletRequest request){
+        if (blogProperties.getKaptchaOpen()){
+            request.setAttribute("captcha", "captcha");
+        }
         return "admin/login";
     }
 
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ApiOperation("登录")
-    //@BussinessLog("用户登录")
     public @ResponseBody
     Result login(HttpServletRequest request, HttpServletResponse response,
                  @ApiParam(name = "username", value = "用户名", required = true) @RequestParam(name =
@@ -77,9 +78,9 @@ public class AuthController extends BaseController
         if (blogProperties.getKaptchaOpen()){
             //判断验证码是否正确
             String code = (String) httpSession.getAttribute(Constants
-                    .KAPTCHA_SESSION_KEY);
+                    .CAPTCHA_SESSION_KEY);
             if (StringUtils.isEmpty(code) || !code.equalsIgnoreCase(captcha)){
-                throw new InvalidKaptchaException();
+                return ResultUtil.fail("验证码错误");
             }
         }
         //对错误次数进行计数
@@ -91,7 +92,9 @@ public class AuthController extends BaseController
             if (StringUtils.isNotBlank(remeberme)){
                 ToolUtil.setCookie(response, user.getUid());
             }
-            LogManager.getLogManager().executeLog(LogTaskFactory.loginLog(user.getUid(), request.getRemoteHost()));
+            if (null != user){
+                LogManager.getLogManager().executeLog(LogTaskFactory.loginLog(user.getUid(), request.getRemoteHost()));
+            }
         } catch (Exception e){
             log.error(e.getMessage());
             errorCount = null == errorCount ? 1 : errorCount + 1;
@@ -112,9 +115,8 @@ public class AuthController extends BaseController
         return ResultUtil.success();
     }
 
-    @RequestMapping(value = "/logout",method = RequestMethod.POST)
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
     @ApiOperation("注销")
-    //@BussinessLog("用户注销")
     public void logout(HttpServletRequest request, HttpServletResponse response){
         User user = super.getLoginUser(request);
         if (null == user){
@@ -176,7 +178,6 @@ public class AuthController extends BaseController
             LogManager.getLogManager().executeLog(LogTaskFactory.loginLog(LoginLogType.UP_PASSWORD_EXCEPTION, user.getUid(),"",  request.getRemoteHost()));
             return ResultUtil.fail(msg);
         }
-
     }
 
 }

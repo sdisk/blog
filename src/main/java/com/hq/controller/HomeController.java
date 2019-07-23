@@ -81,7 +81,7 @@ public class HomeController extends BaseController{
         p = p < 0 || p > Constants.MAX_PAGE ? 1 : p;
         ContentQuery contentQuery = new ContentQuery();
         contentQuery.setType(Types.ARTICLE.getType());
-        PageInfo<Contents> articles = contentService.getArticlesByQuery(contentQuery, p ,limit);
+        PageInfo<Contents> articles = contentService.getArticlesByQuery(contentQuery, p, limit);
         request.setAttribute("articles", articles);
         request.setAttribute("type", "articles");
         request.setAttribute("active", "blog");

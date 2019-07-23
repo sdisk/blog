@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 public class GlobalExceptionHandler {
 
+
     @ExceptionHandler(value = BlogException.class)
     @ResponseBody
     public Result blogException(BlogException e){

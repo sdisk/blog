@@ -19,7 +19,7 @@ public class Comment implements Serializable
      */
     private Integer cid;
 
-    private Timestamp created;
+    private Timestamp createTime;
 
     /**
      * 评论者

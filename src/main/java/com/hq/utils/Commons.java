@@ -304,7 +304,7 @@ public class Commons {
 
     /**
      * 返回github头像地址
-     *
+     * 哈希头像生成器Identicon
      * @param email
      * @return
      */
@@ -312,7 +312,6 @@ public class Commons {
         String avatarUrl = "https://github.com/identicons/";
         if (StringUtils.isBlank(email)) {
             email = "huang50179@163.com";
-            //email = "user@hanshuai.xin";
         }
         String hash = ToolUtil.MD5encode(email.trim().toLowerCase());
         return avatarUrl + hash + ".png";

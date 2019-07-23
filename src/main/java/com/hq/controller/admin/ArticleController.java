@@ -96,7 +96,7 @@ public class ArticleController extends BaseController {
         contents.setTitlePic(titlePic);
         contents.setSlug(slug);
         contents.setContent(content);
-        contents.setTags(type);
+        contents.setType(type);
         contents.setStatus(status);
         contents.setTags(type.equals(Types.ARTICLE.getType()) ? tags : null);
         //只允许博客文章有分类，防止作品被计入分类
@@ -105,6 +105,7 @@ public class ArticleController extends BaseController {
         contents.setAllowPing(allowPing ? 1 : 0);
         contents.setAllowFeed(allowFeed ? 1 : 0);
         contents.setAllowShow(allowShow ? 1 : 0);
+        contents.setCommentsNum(0);
         contentService.save(contents);
         return ResultUtil.success();
     }

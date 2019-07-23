@@ -73,14 +73,14 @@ public class BaseInterceptor implements HandlerInterceptor
                 && !uri.startsWith("/admin/admin") && !uri.startsWith("/admin/images")
                 && !uri.startsWith("/admin/css") && !uri.startsWith("/admin/js")
                 && !uri.startsWith("/admin/error") && !uri.startsWith("/admin/plugins")
-                && !uri.startsWith("/admin/editormd")){
+                && !uri.startsWith("/admin/editormd") && !uri.startsWith("/admin/captcha")){
             //重定向到登录页
-            if("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))){
-                //如果request.getHeader("X-Requested-With") 返回的是"XMLHttpRequest"说明就是ajax请求\
+            if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))){
+                //如果request.getHeader("X-Requested-With") 返回的是"XMLHttpRequest"说明就是ajax请求
                 response.setHeader("REDIRECT", "REDIRECT");
                 //获取当前请求的路径
                 String basePath = request.getScheme() + "://" + request.getServerName() + ":"  + request.getServerPort()+request.getContextPath();
-                response.setHeader("CONTENTPATH", basePath+"/admin/login");
+                response.setHeader("CONTENTPATH", basePath + "/admin/login");
                 return false;
             } else {
                 response.sendRedirect(request.getContextPath() + "/admin/login");

@@ -43,7 +43,7 @@ public class User implements Serializable
     /**
      * 用户创建时间
      */
-    private Timestamp created;
+    private Timestamp createTime;
 
     /**
      * 用户最后活跃时间

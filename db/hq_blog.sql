@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `t_comment`;
 CREATE TABLE `t_comment` (
   `coid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `cid` int(10) unsigned DEFAULT '0',
-  `created` TIMESTAMP not null DEFAULT CURRENT_TIMESTAMP,
+  `createTime` TIMESTAMP not null DEFAULT CURRENT_TIMESTAMP,
   `author` varchar(200) DEFAULT NULL,
   `authorId` int(10) unsigned DEFAULT '0',
   `ownerId` int(10) unsigned DEFAULT '0',
@@ -38,8 +38,7 @@ CREATE TABLE `t_comment` (
   `status` varchar(16) DEFAULT 'approved',
   `parentId` int(10) unsigned DEFAULT '0',
   PRIMARY KEY (`coid`),
-  KEY `cid` (`cid`),
-  KEY `created` (`created`)
+  KEY `cid` (`cid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- ----------------------------
@@ -52,7 +51,7 @@ CREATE TABLE `t_contents` (
   `titlePic` varchar(55) DEFAULT NULL,
   `slug` varchar(200) DEFAULT NULL,
   `createTime` Timestamp not null DEFAULT CURRENT_TIMESTAMP,
-  `modifyTime` Timestamp DEFAULT  CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `modifyTime` Timestamp,
   `content` text COMMENT '内容文字',
   `authorId` int(10) unsigned DEFAULT '0',
   `type` varchar(16) DEFAULT 'post',
@@ -76,7 +75,7 @@ DROP TABLE IF EXISTS `t_login_log`;
 CREATE TABLE `t_login_log` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键编号',
   `logName` varchar(100) DEFAULT NULL COMMENT '事件',
-  `userId` int(10) NOT NULL COMMENT '登录者id',
+  `userId` int(10) COMMENT '登录者id',
   `createTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
    `succeed` varchar(20) DEFAULT NULL COMMENT '是否执行成功',
   `ip` varchar(20) DEFAULT NULL COMMENT '登陆者ip地址',
@@ -157,9 +156,9 @@ CREATE TABLE `t_user` (
   `email` varchar(200) DEFAULT NULL,
   `homeUrl` varchar(200) DEFAULT NULL,
   `screenName` varchar(32) DEFAULT NULL,
-  `created` Timestamp not null DEFAULT CURRENT_TIMESTAMP,
-  `activated` Timestamp DEFAULT CURRENT_TIMESTAMP,
-  `logged` Timestamp DEFAULT CURRENT_TIMESTAMP,
+  `createTime` Timestamp not null DEFAULT CURRENT_TIMESTAMP,
+  `activated` Timestamp ,
+  `logged` Timestamp ,
   `groupName` varchar(16) DEFAULT 'visitor',
   PRIMARY KEY (`uid`),
   UNIQUE KEY `name` (`username`),
@@ -184,7 +183,7 @@ INSERT INTO `t_option` VALUES
 COMMIT;
 
 BEGIN;
-INSERT INTO `t_user` VALUES ('1', 'admin', 'a66abb5684c45962d887564f08346e8d', 'huang50179@163.com', null, 'admin', NULL, NULL, NULL, 'visitor');
+INSERT INTO `t_user` VALUES ('1', 'admin', 'af469f84a08fc777d3791b8dded137e9', 'huang50179@163.com', null, 'admin', NULL, NULL, NULL, 'visitor');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
