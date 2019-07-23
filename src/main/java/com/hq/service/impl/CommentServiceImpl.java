@@ -141,7 +141,7 @@ public class CommentServiceImpl implements CommentService {
         }
         //删除评论时同时删除子评论
         CommentQuery commentQuery = new CommentQuery();
-        commentQuery.setParent(coid);
+        commentQuery.setParentId(coid);
         Comment comment = commentMapper.getCommentById(coid);
         List<Comment> commentChild = commentMapper.getCommentsByQuery(commentQuery);
         Integer count = 0 ;

@@ -8,6 +8,7 @@ import com.hq.common.exception.InvalidKaptchaException;
 import com.hq.common.log.LogManager;
 import com.hq.common.log.LogTaskFactory;
 import com.hq.common.rest.Result;
+import com.hq.config.BlogProperties;
 import com.hq.controller.BaseController;
 import com.hq.model.User;
 import com.hq.service.UserService;
@@ -49,10 +50,13 @@ public class AuthController extends BaseController
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private BlogProperties blogProperties;
+
     @RequestMapping(value = "/login",method = RequestMethod.GET)
     @ApiOperation("跳转到登录页")
     public String login(){
-        return "/admin/login";
+        return "admin/login";
     }
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
@@ -66,14 +70,17 @@ public class AuthController extends BaseController
                          "password", required = true) String password,
                  @ApiParam(name = "remeberme", value = "记住我", required = false) @RequestParam(name =
                          "remeberme", required = false) String remeberme,
-                 @ApiParam(name = "captcha", value = "验证码", required = true) @RequestParam(name =
-                         "captcha", required = true) String captcha){
-        //判断验证码是否正确
+                 @ApiParam(name = "captcha", value = "验证码", required = false) @RequestParam(name =
+                         "captcha", required = false) String captcha){
+
         HttpSession httpSession = super.getSession(request);
-        String code = (String) httpSession.getAttribute(Constants
-                .KAPTCHA_SESSION_KEY);
-        if (StringUtils.isEmpty(code) || !code.equalsIgnoreCase(captcha)){
-            throw new InvalidKaptchaException();
+        if (blogProperties.getKaptchaOpen()){
+            //判断验证码是否正确
+            String code = (String) httpSession.getAttribute(Constants
+                    .KAPTCHA_SESSION_KEY);
+            if (StringUtils.isEmpty(code) || !code.equalsIgnoreCase(captcha)){
+                throw new InvalidKaptchaException();
+            }
         }
         //对错误次数进行计数
         Integer errorCount = cache.get(LOGIN_ERROR_COUNT);

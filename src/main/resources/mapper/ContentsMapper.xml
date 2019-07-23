@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hq.dao.ContentsMapper">
+
+  <sql id="BASE_TABLE">
+    t_contents
+  </sql>
+
+  <sql id="BASE_COLNUM">
+    c.cid,c.title,c.titlePic,c.slug,c.createTime,c.modifyTime,c.authorId,c.type,c.status,c.tags,
+    c.categories,c.hits,c.commentsNum,c.allowComment,c.allowPing,c.allowFeed,c.allowShow,c.content
+  </sql>
+
+  <!-- 用户表 -->
+  <sql id="TABLE_USER">
+    <include refid="com.hq.dao.UserMapper.BASE_TABLE"></include>
+  </sql>
+
+  <!-- 关联查询的用户 -->
+  <sql id="REL_USER_COLUMN">
+    u.username,
+  </sql>
+
+  <resultMap id="BaseResultMap" type="com.hq.model.Contents">
+    <id column="cid" jdbcType="INTEGER" property="cid" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="titlePic" jdbcType="VARCHAR" property="titlePic" />
+    <result column="slug" jdbcType="VARCHAR" property="slug" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifyTime" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="authorId" jdbcType="INTEGER" property="authorId" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="tags" jdbcType="VARCHAR" property="tags" />
+    <result column="categories" jdbcType="VARCHAR" property="categories" />
+    <result column="hits" jdbcType="INTEGER" property="hits" />
+    <result column="commentsNum" jdbcType="INTEGER" property="commentsNum" />
+    <result column="allowComment" jdbcType="INTEGER" property="allowComment" />
+    <result column="allowPing" jdbcType="INTEGER" property="allowPing" />
+    <result column="allowFeed" jdbcType="INTEGER" property="allowFeed" />
+    <result column="allowShow" jdbcType="INTEGER" property="allowShow" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_contents
+    where cid = #{cid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hq.model.Contents" keyProperty="cid" useGeneratedKeys="true">
+    insert into t_contents (cid, title, titlePic, 
+      slug, createTime, modifyTime, 
+      authorId, type, status, 
+      tags, categories, hits, 
+      commentsNum, allowComment, allowPing, 
+      allowFeed, allowShow, content
+      )
+    values (#{cid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{titlePic,jdbcType=VARCHAR},
+      #{slug,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{authorId,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{tags,jdbcType=VARCHAR}, #{categories,jdbcType=VARCHAR}, #{hits,jdbcType=INTEGER}, 
+      #{commentsNum,jdbcType=INTEGER}, #{allowComment,jdbcType=BIT}, #{allowPing,jdbcType=BIT}, 
+      #{allowFeed,jdbcType=BIT}, #{allowShow,jdbcType=BIT}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.hq.model.Contents">
+    update t_contents
+    set title = #{title,jdbcType=VARCHAR},
+      titlePic = #{titlePic,jdbcType=VARCHAR},
+      slug = #{slug,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      modifyTime = #{modifyTime,jdbcType=TIMESTAMP},
+      authorId = #{authorId,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      tags = #{tags,jdbcType=VARCHAR},
+      categories = #{categories,jdbcType=VARCHAR},
+      hits = #{hits,jdbcType=INTEGER},
+      commentsNum = #{commentsNum,jdbcType=INTEGER},
+      allowComment = #{allowComment,jdbcType=BIT},
+      allowPing = #{allowPing,jdbcType=BIT},
+      allowFeed = #{allowFeed,jdbcType=BIT},
+      allowShow = #{allowShow,jdbcType=BIT},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where cid = #{cid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select cid, title, titlePic, slug, createTime, modifyTime, authorId, type, status, 
+    tags, categories, hits, commentsNum, allowComment, allowPing, allowFeed, allowShow, 
+    content
+    from t_contents
+    where cid = #{cid,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select cid, title, titlePic, slug, createTime, modifyTime, authorId, type, status, 
+    tags, categories, hits, commentsNum, allowComment, allowPing, allowFeed, allowShow, 
+    content
+    from t_contents
+  </select>
+
+  <select id="getContentsByQuery" resultType="com.hq.model.Contents" parameterType="com.hq.dto.ContentQuery">
+    select
+    <include refid="BASE_COLNUM"/>
+    from
+    <include refid="BASE_TABLE"/> as c
+    <where>
+      <if test="tag != null">
+        and c.tags like CONCAT('%',#{tag,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="category != null">
+        AND c.categories LIKE CONCAT('%',#{category, jdbcType=VARCHAR},'%')
+      </if>
+      <if test="status != null">
+        AND c.status = #{status, jdbcType=VARCHAR}
+      </if>
+      <if test="title != null">
+        AND c.title LIKE CONCAT('%',#{title, jdbcType=VARCHAR},'%')
+      </if>
+      <if test="content != null">
+        AND c.content LIKE CONCAT('%',#{content, jdbcType=VARCHAR},'%')
+      </if>
+      <if test="type != null">
+        AND c.type = #{type, jdbcType=VARCHAR}
+      </if>
+      <if test="startTime != null">
+        AND c.createTime &gt;= #{startTime, jdbcType=INTEGER}
+      </if>
+      <if test="endTime != null">
+        AND c.createTime &lt;= #{endTime, jdbcType=INTEGER}
+      </if>
+    </where>
+    ORDER BY c.createTime DESC
+  </select>
+
+  <select id="getArticleCount" resultType="java.lang.Long">
+    SELECT count(1)
+    FROM
+    <include refid="BASE_TABLE"/>
+  </select>
+
+  <!--更新文章-->
+  <update id="updateArticleById" parameterType="com.hq.model.Contents">
+    update
+    <include refid="BASE_TABLE"/>
+    <set>
+      <if test="title != null">
+        title = #{title, jdbcType=VARCHAR},
+      </if>
+      <if test="titlePic != null">
+        titlePic = #{titlePic, jdbcType=VARCHAR},
+      </if>
+      <if test="slug != null">
+        slug = #{slug, jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content, jdbcType=LONGVARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type, jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status, jdbcType=VARCHAR},
+      </if>
+      <if test="tags != null">
+        tags = #{tags, jdbcType=VARCHAR},
+      </if>
+      <if test="categories != null">
+        categories = #{categories, jdbcType=VARCHAR},
+      </if>
+      <if test="hits != null">
+        hits = #{hits, jdbcType=INTEGER},
+      </if>
+      <if test="commentsNum != null">
+        commentsNum = #{commentsNum, jdbcType=INTEGER},
+      </if>
+      <if test="allowComment != null">
+        allowComment = #{allowComment, jdbcType=INTEGER},
+      </if>
+      <if test="allowPing != null">
+        allowPing = #{allowPing, jdbcType=INTEGER},
+      </if>
+      <if test="allowFeed != null">
+        allowFeed = #{allowFeed, jdbcType=INTEGER},
+      </if>
+      <if test="allowShow != null">
+        allowShow = #{allowShow, jdbcType=INTEGER},
+      </if>
+    </set>
+    where cid = #{cid,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateArticleCommentCountById">
+    UPDATE
+    <include refid="BASE_TABLE"/>
+    set commentsNum = #{commentsNum,jdbcType=INTEGER}
+    where cid = #{cid,jdbcType=INTEGER}
+  </update>
+  
+  <resultMap id="archiveDtoMap" type="com.hq.dto.ArchiveDto">
+    <id column="date" property="date"/>
+    <result column="count" property="count"/>
+  </resultMap>
+
+  <select id="getArchive" resultMap="archiveDtoMap" parameterType="com.hq.dto.ContentQuery">
+    SELECT createTime as date,count(1) as COUNT
+    FROM
+    <include refid="BASE_TABLE"/>
+    <where>
+      type = 'post'
+      AND status = 'publish'
+      <if test="startTime != null">
+        AND createTime &gt;= #{startTime,jdbcType=INTEGER}
+      </if>
+      <if test="endTime !=null ">
+        AND createTime &lt;= #{endTime,jdbcType=INTEGER}
+      </if>
+    </where>
+    GROUP by DATE
+    ORDER by DATE DESC
+  </select>
+
+  <select id="searchArticle" resultType="com.hq.model.Contents">
+    SELECT 
+    <include refid="BASE_COLNUM"/>
+    FROM 
+    <include refid="BASE_TABLE"/> as c
+    <where>
+      c.title like CONCAT('%',#{param, jdbcType=VARCHAR},'%')
+      or
+      c.content like CONCAT('%',#{param, jdbcType=VARCHAR},'%')
+    </where>
+  </select>
+</mapper>

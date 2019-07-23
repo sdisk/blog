@@ -89,7 +89,7 @@ public class SiteServiceImpl implements SiteService {
         dto.setArticles(artices);
         dto.setComments(comments);
         dto.setLinks(links);
-        dto.setAttachs(attachs);
+        dto.setAttaches(attachs);
         return dto;
     }
 

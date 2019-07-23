@@ -3,6 +3,8 @@ package com.hq.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
  * @description:
  * @author: Mr.Huang
@@ -10,8 +12,10 @@ import lombok.Setter;
  **/
 @Getter
 @Setter
-public class StatisticsDto {
+public class StatisticsDto implements Serializable{
 
+
+    private static final long serialVersionUID = 8078552237638716651L;
     /**
      * 文章数
      */
@@ -30,5 +34,5 @@ public class StatisticsDto {
     /**
      * 附件数
      */
-    private Long attachs;
+    private Long attaches;
 }

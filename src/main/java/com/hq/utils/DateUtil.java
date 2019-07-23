@@ -721,5 +721,10 @@ public class DateUtil {
     }
 
 
-
+    public static String formatByTimeStamp(Timestamp timestamp, String patten)
+    {
+        Date date = timestamp;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(patten);
+        return simpleDateFormat.format(date);
+    }
 }

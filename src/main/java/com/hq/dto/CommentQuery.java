@@ -29,6 +29,6 @@ public class CommentQuery {
     /**
      * 父评论编号
      */
-    private Integer parent;
+    private Integer parentId;
 
 }

@@ -80,7 +80,7 @@ CREATE TABLE `t_login_log` (
   `createTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
    `succeed` varchar(20) DEFAULT NULL COMMENT '是否执行成功',
   `ip` varchar(20) DEFAULT NULL COMMENT '登陆者ip地址',
-  `messgae` varchar(200) DEFAULT NULL COMMENT '备注',
+  `message` varchar(200) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
@@ -99,7 +99,7 @@ CREATE TABLE `t_operation_log` (
   `createTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
    `succeed` varchar(20) DEFAULT NULL COMMENT '是否执行成功',
   `ip` varchar(20) DEFAULT NULL COMMENT '登陆者ip地址',
-  `messgae` varchar(200) DEFAULT NULL COMMENT '备注',
+  `message` varchar(200) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 

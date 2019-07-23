@@ -29,9 +29,9 @@
                     <i class="fa fa-angle-left"></i>&nbsp;上一页
                 </a>
             </li>
-            <th:block th:each="nav :: ${pageInfo.navigatepageNums}">
+            <th:block th:each="nav : ${pageInfo.navigatepageNums}">
                 <li th:class="${nav==pageInfo.pageNum}?'active':''">
-                    <a th:href="@{'?page='+${nav}" th:text="{nav}"></a>
+                    <a th:href="@{'?page='+${nav}}" th:text="${nav}"></a>
                 </li>
             </th:block>
             <th:block th:if="${pageInfo.hasNextPage}">

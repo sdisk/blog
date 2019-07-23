@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hq.dao.AttachMapper">
+
+  <sql id="BASE_TABLE">
+    t_attach
+  </sql>
+
+  <sql id="BASE_COLUMN">
+    aa.id,aa.fname,aa.ftype,aa.fkey,aa.authorId,aa.createTime>
+  </sql>
+
+  <sql id="table_user">
+    <include refid="com.hq.dao.UserMapper.BASE_TABLE"></include>
+  </sql>
+
+  <resultMap id="BaseResultMap" type="com.hq.model.Attach">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="fname" jdbcType="VARCHAR" property="fname" />
+    <result column="ftype" jdbcType="VARCHAR" property="ftype" />
+    <result column="creatorId" jdbcType="INTEGER" property="creatorId" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="fkey" jdbcType="LONGVARCHAR" property="fkey" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_attach
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hq.model.Attach">
+    insert into t_attach (id, fname, ftype, 
+      creatorId, createTime, fkey
+      )
+    values (#{id,jdbcType=INTEGER}, #{fname,jdbcType=VARCHAR}, #{ftype,jdbcType=VARCHAR}, 
+      #{creatorid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{fkey,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.hq.model.Attach">
+    update t_attach
+    set fname = #{fname,jdbcType=VARCHAR},
+      ftype = #{ftype,jdbcType=VARCHAR},
+      creatorId = #{creatorid,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      fkey = #{fkey,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, fname, ftype, creatorId, createTime, fkey
+    from t_attach
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, fname, ftype, creatorId, createTime, fkey
+    from t_attach
+  </select>
+
+  <select id="getAttachCount" resultType="java.lang.Long">
+    SELECT count(1) FROM
+    <include refid="BASE_TABLE"/>
+  </select>
+
+  <insert id="addAttAch" parameterType="com.hq.model.Attach">
+    INSERT INTO
+    <include refid="BASE_TABLE"/>
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      fname, ftype, fkey, authorId, created,
+    </trim>
+    <trim  prefix="VALUES(" suffix=")" suffixOverrides=",">
+      #{fname, jdbcType=VARCHAR}, #{ftype, jdbcType=VARCHAR}, #{fkey, jdbcType=VARCHAR}, #{authorId,jdbcType=INTEGER}, UNIX_TIMESTAMP(NOW()),
+    </trim>
+  </insert>
+  <!-- 批量新增附件 -->
+  <insert id="batchAddAttAch" parameterType="list" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO
+    <include refid="BASE_TABLE"/>
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      fname, ftype, fkey, authorId, created,
+    </trim>
+    VALUES
+    <foreach collection="list" item="AttAchDomain" index="index" separator=",">
+      (
+      <trim suffix="" suffixOverrides=",">
+        #{fname, jdbcType=VARCHAR}, #{ftype, jdbcType=VARCHAR}, #{authorId,jdbcType=INTEGER}, UNIX_TIMESTAMP(NOW()),
+      </trim>
+      )
+    </foreach>
+  </insert>
+
+  <!-- 删除附件 -->
+  <delete id="deleteAttAch">
+    DELETE FROM
+    <include refid="BASE_TABLE"/>
+    WHERE
+    id = #{id, jdbcType=INTEGER}
+  </delete>
+
+  <!-- 更新附件信息 -->
+  <update id="updateAttAch" parameterType="com.hq.model.Attach">
+    UPDATE
+    <include refid="BASE_TABLE"/>
+    <set>
+      <if test="fname != null">
+        fname = #{fname, jdbcType=VARCHAR},
+      </if>
+      <if test="ftype != null">
+        ftype = #{ftype, jdbcType=VARCHAR},
+      </if>
+      <if test="authorId != null">
+        authorId = #{authorId,jdbcType=INTEGER},
+        created = UNIX_TIMESTAMP(NOW()),
+      </if>
+    </set>
+  </update>
+
+</mapper>

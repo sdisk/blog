@@ -81,12 +81,15 @@ public class LogTaskFactory {
         };
     }
 
-    public static TimerTask operationLog(Integer userId, String businessName, String clazzName ,String methodName ,String msg){
+    public static TimerTask operationLog(Integer userId, String businessName, String clazzName ,
+                                         String methodName ,String ip, String msg){
         return new TimerTask() {
             @Override
             public void run() {
                 try{
-                    OperationLog operationLog = LogFactory.createOperationLog(BussinessLogType.BUSSINESS, userId, businessName, clazzName, methodName, msg, LogSucceed.SUCCESS);
+                    OperationLog operationLog = LogFactory.createOperationLog(BussinessLogType
+                            .BUSSINESS, userId, businessName, clazzName, methodName, msg,
+                            LogSucceed.SUCCESS, ip);
                     operationLogMapper.insert(operationLog);
                 } catch (Exception e){
                     log.error("创建业务日志异常!",e);
@@ -96,13 +99,15 @@ public class LogTaskFactory {
         };
     }
 
-    public static TimerTask exceptionLog(Integer userId, Exception exception){
+    public static TimerTask exceptionLog(Integer userId, Exception exception, String ip){
         return new TimerTask() {
             @Override
             public void run() {
                 try{
                     String msg = ToolUtil.getExceptionMsg(exception);
-                    OperationLog operationLog = LogFactory.createOperationLog(BussinessLogType.BUSSINESS_EXCEPTION, userId, null, null, null, msg, LogSucceed.FAIL);
+                    OperationLog operationLog = LogFactory.createOperationLog(BussinessLogType
+                            .BUSSINESS_EXCEPTION, userId, null, null, null, msg, LogSucceed
+                            .FAIL,ip);
                     operationLogMapper.insert(operationLog);
                 } catch (Exception e){
                     log.error("创建业务异常日志异常!",e);

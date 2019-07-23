@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -159,6 +160,24 @@ public class Commons {
         return "";
     }
 
+    /**
+     * 格式化unix时间戳为日期
+     *
+     * @param unixTime
+     * @param patten
+     * @return
+     */
+    public static String fmtdate(Timestamp timestamp, String patten) {
+        if (null != timestamp && StringUtils.isNotBlank(patten)) {
+            return DateUtil.formatByTimeStamp(timestamp, patten);
+        }
+        return "";
+    }
+    public static String fmtdate_en(Timestamp timestamp){
+        String fmtdate = fmtdate(timestamp, "yyyy/MM/dd HH:mm:ss");
+        String rs = "<span>" + fmtdate + "</span> ";
+        return rs;
+    }
     /**
      * 英文格式的日期
      * @param unixTime

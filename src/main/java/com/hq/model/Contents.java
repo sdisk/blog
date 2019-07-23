@@ -1,5 +1,6 @@
 package com.hq.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,6 +35,7 @@ public class Contents implements Serializable
      */
     private String content;
 
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp createTime;
 
     private Timestamp modifyTime;

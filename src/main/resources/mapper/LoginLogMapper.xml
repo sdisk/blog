@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hq.dao.LoginLogMapper">
+
+  <sql id="base_table">
+    t_login_log
+  </sql>
+
+  <sql id="base_column">
+    id,logName,userId,createTime,succeed,ip,message
+  </sql>
+
+  <resultMap id="BaseResultMap" type="com.hq.model.LoginLog">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="logName" jdbcType="VARCHAR" property="logName" />
+    <result column="userId" jdbcType="INTEGER" property="userId" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="succeed" jdbcType="VARCHAR" property="succeed" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="message" jdbcType="VARCHAR" property="message" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_login_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hq.model.LoginLog">
+    insert into t_login_log (id, logName, userId, 
+      createTime, succeed, ip, 
+      message)
+    values (#{id,jdbcType=INTEGER}, #{logName,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{succeed,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
+      #{message,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.hq.model.LoginLog">
+    update t_login_log
+    set logName = #{logName,jdbcType=VARCHAR},
+      userId = #{userId,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      succeed = #{succeed,jdbcType=VARCHAR},
+      ip = #{ip,jdbcType=VARCHAR},
+      message = #{message,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, logName, userId, createTime, succeed, ip, message
+    from t_login_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, logName, userId, createTime, succeed, ip, message
+    from t_login_log
+  </select>
+</mapper>

@@ -65,7 +65,7 @@ $.hui.prototype.alertDelWarn = function (options) {
     this.alertBox(options);
 };
 $.hui.prototype.alertConfirm = function (options) {
-    options = options.length ? {text:options}:(options || {} );
+    options = options || {};
     options.title = options.title || '确定要删除吗？';
     options.text = options.text;
     options.showCancelButton= true;
@@ -186,16 +186,12 @@ function getTopWinow(){
     }
     return p;
 }
+//设置ajax请求完成后运行的函数,
 $.ajaxSetup({
-    contentType: "application/x-www-form-urlencoded;charset=utf-8",
-    complete: function (XMLHttpRequest, textStatus) {
-        //通过XMLHttpRequest取得响应头，sessionstatus，
-        var sessionstatus = XMLHttpRequest.getResponseHeader("sessionstatus");
-        if (sessionstatus == "timeout") {
-            //如果超时就处理 ，指定要跳转的页面
+    complete:function(xhr,data){
+        if("REDIRECT" == xhr.getResponseHeader("REDIRECT")){ //若HEADER中含有REDIRECT说明后端想重定向，
             var top = getTopWinow();
-            console.log("11");
-            top.location = "global/sessionError";
+            top.location.href = xhr.getResponseHeader("CONTENTPATH");//将后端重定向的地址取出来,重定向到登录页
         }
     }
 });

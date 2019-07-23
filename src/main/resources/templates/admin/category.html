@@ -3,6 +3,7 @@
 <header th:replace="admin/header :: headerFragment(${title},${active})"></header>
 <body class="fixed-left">
 <div id="wrapper">
+    <div th:replace="admin/header :: header-body"></div>
     <div class="content-page">
         <div class="container">
             <div class="row">
@@ -27,13 +28,13 @@
                                         <button type="button" th:class="'btn btn-'+${adminCommons.rand_color()}+' dropdown-toggle waves-effect waves-light'"
                                                 data-toggle="dropdown" aria-expanded="false">
                                             <th:block th:text="${c.name}"></th:block>
-                                            <th:block th:text="' ('+${c.name}+')'"></th:block>
+                                            <th:block th:text="' ('+${c.count}+')'"></th:block>
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu" role="menu">
                                             <li>
-                                                <a href="javascript:void(0);" th:abbr="mid = ${c.mid} ,cname =  ${c.name}" class="edit-category">修改</a>
-                                                <a href="javascript:void(0);" th:abbr="mid = ${c.mid}" class="del-category">删除</a>
+                                                <a href="javascript:void(0);" th:attr="mid = ${c.mid} ,cname =  ${c.name}" class="edit-category">修改</a>
+                                                <a href="javascript:void(0);" th:attr="mid = ${c.mid}" class="del-category">删除</a>
                                             </li>
                                         </ul>
                                     </th:block>
@@ -50,7 +51,7 @@
                         <div class="panel-body">
                             <th:block th:each=" c : ${tags}">
                                 <div class="btn-group m-b-10">
-                                    <button type="button" th:class="'btn btn-'+${adminComons.rand_color()}+' dropdown-toggle wabes-effect waves-light'"
+                                    <button type="button" th:class="'btn btn-'+${adminCommons.rand_color()}+' dropdown-toggle wabes-effect waves-light'"
                                             data-toggle="dropdown" aria-expanded="false">
                                         <th:block th:text="${c.name}"/>
                                         <th:block th:text="' ('+${c.count}+')'"/>
@@ -128,7 +129,7 @@
                     url: '/admin/category/delete',
                     data: {mid: mid},
                     success: function (result) {
-                        if (result && result.code == 'success') {
+                        if (result && result.code == '200') {
                             hui.alertOkAndReload('删除成功');
                         } else {
                             hui.alertError(result.msg || '删除失败');

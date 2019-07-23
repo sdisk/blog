@@ -89,7 +89,8 @@ public class FileService {
     }
 
     public String getUploadPath(String extName) {
-        String filePath = DateUtil.getCurrentYear() + File.separator + DateUtil.getCurrentMonth() + File.separator;
+        String filePath = DateUtil.getTodayYear() + File.separator + DateUtil.getCurrentMonth() + File
+                .separator;
 
         if (StringUtils.isEmpty(extName)){
             return filePath;
@@ -251,7 +252,7 @@ public class FileService {
      * @return
      */
     public String qiniuSave(MultipartFile file, String filePath, String fileName) {
-        Configuration cfg = new Configuration(Zone.zone0());
+        Configuration cfg = new Configuration(Zone.zone2()); //华南
         UploadManager uploadManager = new UploadManager(cfg);
         Auth auth = Auth.create(qiniuConfig.getAccessKey(), qiniuConfig.getSecretKey());
         String upToken = auth.uploadToken(qiniuConfig.getBucket());
