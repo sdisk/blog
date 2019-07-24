@@ -7,10 +7,15 @@
   </sql>
 
   <sql id="BASE_COLUMN">
-    aa.id,aa.fname,aa.ftype,aa.fkey,aa.authorId,aa.createTime>
+    aa.id,aa.fname,aa.ftype,aa.fkey,aa.creatorId,aa.createTime>
   </sql>
 
-  <sql id="table_user">
+  <!-- 关联查询的用户表需要的字段 -->
+  <sql id="REL_USER_COLUMN">
+    u.username,
+  </sql>
+
+  <sql id="TABLE_USER">
     <include refid="com.hq.dao.UserMapper.BASE_TABLE"></include>
   </sql>
 
@@ -31,7 +36,7 @@
       creatorId, createTime, fkey
       )
     values (#{id,jdbcType=INTEGER}, #{fname,jdbcType=VARCHAR}, #{ftype,jdbcType=VARCHAR}, 
-      #{creatorid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{fkey,jdbcType=LONGVARCHAR}
+      #{creatorid,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{fkey,jdbcType=LONGVARCHAR}
       )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.hq.model.Attach">
@@ -39,7 +44,7 @@
     set fname = #{fname,jdbcType=VARCHAR},
       ftype = #{ftype,jdbcType=VARCHAR},
       creatorId = #{creatorid,jdbcType=INTEGER},
-      createTime = #{createtime,jdbcType=TIMESTAMP},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
       fkey = #{fkey,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -62,10 +67,10 @@
     INSERT INTO
     <include refid="BASE_TABLE"/>
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      fname, ftype, fkey, authorId, created,
+      fname, ftype, fkey, creatorId, createTime,
     </trim>
     <trim  prefix="VALUES(" suffix=")" suffixOverrides=",">
-      #{fname, jdbcType=VARCHAR}, #{ftype, jdbcType=VARCHAR}, #{fkey, jdbcType=VARCHAR}, #{authorId,jdbcType=INTEGER}, UNIX_TIMESTAMP(NOW()),
+      #{fname, jdbcType=VARCHAR}, #{ftype, jdbcType=VARCHAR}, #{fkey, jdbcType=VARCHAR}, #{creatorId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
     </trim>
   </insert>
   <!-- 批量新增附件 -->
@@ -73,7 +78,7 @@
     INSERT INTO
     <include refid="BASE_TABLE"/>
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      fname, ftype, fkey, authorId, createtime,
+      fname, ftype, fkey, authorId, createTime,
     </trim>
     VALUES
     <foreach collection="list" item="AttAchDomain" index="index" separator=",">
@@ -85,6 +90,20 @@
     </foreach>
   </insert>
 
+  <!-- 根据主键获取附件信息 -->
+  <select id="getAttAchById" resultType="com.hq.dto.AttachDto">
+    SELECT
+    <trim suffix="" suffixOverrides=",">
+      <include refid="BASE_COLUMN"/>
+      <include refid="REL_USER_COLUMN"/>
+    </trim>
+    FROM
+    <include refid="BASE_TABLE"/> AS aa
+    LEFT JOIN <include refid="TABLE_USER"/> AS u
+    ON aa.creatorId = u.uid
+    WHERE aa.id = #{id, jdbcType=INTEGER}
+  </select>
+
   <!-- 删除附件 -->
   <delete id="deleteAttAch">
     DELETE FROM
@@ -93,22 +112,16 @@
     id = #{id, jdbcType=INTEGER}
   </delete>
 
-  <!-- 更新附件信息 -->
-  <update id="updateAttAch" parameterType="com.hq.model.Attach">
-    UPDATE
-    <include refid="BASE_TABLE"/>
-    <set>
-      <if test="fname != null">
-        fname = #{fname, jdbcType=VARCHAR},
-      </if>
-      <if test="ftype != null">
-        ftype = #{ftype, jdbcType=VARCHAR},
-      </if>
-      <if test="authorId != null">
-        authorId = #{authorId,jdbcType=INTEGER},
-        created = UNIX_TIMESTAMP(NOW()),
-      </if>
-    </set>
-  </update>
-
+  <select id="getAtts" resultType="com.hq.dto.AttachDto">
+    SELECT
+    <trim suffix="" suffixOverrides=",">
+      <include refid="BASE_COLUMN"/>
+      <include refid="REL_USER_COLUMN"/>
+    </trim>
+    FROM
+    <include refid="BASE_TABLE"/> AS aa
+    LEFT JOIN <include refid="TABLE_USER"/> AS u
+    ON aa.creatorId = u.uid
+    ORDER BY aa.createTime DESC
+  </select>
 </mapper>

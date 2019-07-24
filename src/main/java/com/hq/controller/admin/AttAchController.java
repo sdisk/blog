@@ -24,16 +24,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Map;
 
 /**
@@ -111,6 +109,7 @@ public class AttAchController extends BaseController {
                 attach.setFtype(ToolUtil.isImage(file.getInputStream()) ? Types.IMAGE.getType() : Types.FILE.getType());
                 attach.setFname(fileName);
                 attach.setFkey(upMap.get("previewUrl"));
+                attach.setCreateTime(new Timestamp(System.currentTimeMillis()));
                 attachService.addAttAch(attach);
                 return ResultUtil.success();
             } else {
@@ -120,6 +119,27 @@ public class AttAchController extends BaseController {
         } catch (IOException e) {
             e.printStackTrace();
             throw new BlogException(BlogExceptionEnum.UPLOAD_FILE_FAIL);
+        }
+    }
+    @ApiOperation("删除文件记录")
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public Result deleteFileInfo(
+            @ApiParam(name = "id", value = "文件主键", required = true)
+            @RequestParam(name = "id", required = true)
+                    Integer id,
+            HttpServletRequest request
+    ){
+        try {
+            AttachDto attAch = attachService.getAttAchById(id);
+            if (null == attAch){
+                throw new BlogException(BlogExceptionEnum.FILE_NOT_FOUND);
+            }
+            attachService.deleteAttAch(id);
+            return ResultUtil.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BlogException(BlogExceptionEnum.ATTACH_DELETE_FAIL);
         }
     }
 }

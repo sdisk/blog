@@ -14,4 +14,8 @@ public interface AttachService {
     PageInfo<AttachDto> getAtts(int page, int limit);
 
     void addAttAch(Attach attach);
+
+    AttachDto getAttAchById(Integer id);
+
+    void deleteAttAch(Integer id);
 }

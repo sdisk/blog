@@ -47,6 +47,7 @@ public enum BlogExceptionEnum implements ServiceExceptionEnum{
      * Attach
      */
     UPLOAD_FILE_FAIL(400,"上传附件失败"),
+    ATTACH_DELETE_FAIL(400,"删除附件失败"),
     /**
      * Comment
      */

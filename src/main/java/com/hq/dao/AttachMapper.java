@@ -1,5 +1,6 @@
 package com.hq.dao;
 
+import com.hq.dto.AttachDto;
 import com.hq.model.Attach;
 
 import java.util.List;
@@ -18,4 +19,10 @@ public interface AttachMapper {
     Long getAttachCount();
 
     void addAttAch(Attach attach);
+
+    List<AttachDto> getAtts();
+
+    AttachDto getAttAchById(Integer id);
+
+    void deleteAttAch(Integer id);
 }

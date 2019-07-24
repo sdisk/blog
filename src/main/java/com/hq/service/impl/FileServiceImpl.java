@@ -315,7 +315,7 @@ public class FileServiceImpl implements FileService {
         }
         String previewUrl = cdnUrl + "/" + retPath.replace(File.separator, "/");
         Map<String, String> upMap = new HashMap<>();
-        upMap.put("priviewUrl", previewUrl);
+        upMap.put("previewUrl", previewUrl);
         upMap.put("filePath", retPath);
         upMap.put("fileName", fileName);
         return upMap;
