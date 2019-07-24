@@ -147,7 +147,7 @@ public class HomeController extends BaseController{
     }
 
     @ApiOperation("分类")
-    @RequestMapping(value = "/blog/categories/{category}")
+    @RequestMapping(value = "/blog/categories/{category}", method = RequestMethod.GET)
     public String categories(@ApiParam(name = "category", value = "分类名", required = true)
                              @PathVariable("category")String category, HttpServletRequest request){
         return this.categories(category, 1, 10, request);
@@ -325,7 +325,7 @@ public class HomeController extends BaseController{
     }
 
     @ApiOperation("作品主页")
-    @RequestMapping(value = {"",".index"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"","/index"}, method = RequestMethod.GET)
     public String photo(HttpServletRequest request,
                         @ApiParam(name = "limit",value = "条数",required = false)
                         @RequestParam(name = "limit", required = false, defaultValue = "10")int limit){

@@ -18,6 +18,7 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.util.Properties;
@@ -33,16 +34,26 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Autowired
     private BaseInterceptor baseInterceptor;
 
+    @Autowired
+    private BlogProperties blogProperties;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry)
     {
-        registry.addInterceptor(baseInterceptor);
+        registry.addInterceptor(baseInterceptor)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
     }
 
     @Bean
     public ServletRegistrationBean druidServletRegistration(){
         ServletRegistrationBean registrationBean = new ServletRegistrationBean(new StatViewServlet());
         registrationBean.addUrlMappings("/druid/*");
+        //查看druid监控页面的登录信息
+        registrationBean.addInitParameter("loginUsername", "admin");
+        registrationBean.addInitParameter("loginPassword", "123456");
+        //是否能够重置数据.
+        //registrationBean.addInitParameter("resetEnable", "false");
         return registrationBean;
     }
 
@@ -102,6 +113,17 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean(xssFilter);
         registrationBean.addUrlPatterns("/*");
         return registrationBean;
+    }
+
+    /**
+     * 增加swagger的支持
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        if (blogProperties.getSwaggerOpen()) {
+            registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+            registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+        }
     }
 
     @Bean

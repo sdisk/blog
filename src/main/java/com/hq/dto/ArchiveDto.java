@@ -4,6 +4,7 @@ import com.hq.model.Contents;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,8 +12,9 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class ArchiveDto
+public class ArchiveDto implements Serializable
 {
+    private static final long serialVersionUID = 25861610632183070L;
     private String date;
     private String count;
     private List<Contents> articles;

@@ -35,10 +35,12 @@ public class Contents implements Serializable
      */
     private String content;
 
-    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
-    private Timestamp createTime;
+    /**
+     * GMT unix时间戳
+     */
+    private Integer createTime;
 
-    private Timestamp modifyTime;
+    private Integer modifyTime;
 
     private Integer authorId;
 

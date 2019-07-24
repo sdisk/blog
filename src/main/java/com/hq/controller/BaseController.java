@@ -21,8 +21,6 @@ import java.util.List;
  **/
 public abstract class BaseController {
 
-    @Autowired
-    private ContentService contentService;
 
     @Autowired
     private MetaService metaService;

@@ -5,6 +5,9 @@ import org.apache.commons.lang3.StringUtils;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -94,6 +97,18 @@ public class DateUtil {
         }
     }
 
+    public static void main(String[] args) throws ParseException {
+       String a = "2019-07-23 17:33:05";
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date date1 = format.parse(a);
+
+        String c = DateUtil.getFirstDayOfMonth(date1.getYear(), date1.getMonth());
+        String d = DateUtil.getLastDayOfMonth(date1.getYear(), date1.getMonth());
+
+        System.out.println(c);
+        System.out.println(d);
+
+    }
     public static Date dateFormat(String date) {
         return dateFormat(date, "yyyy-MM-dd HH:mm:ss");
     }
@@ -726,5 +741,45 @@ public class DateUtil {
         Date date = timestamp;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(patten);
         return simpleDateFormat.format(date);
+    }
+    /**
+     * 获取指定年月的第一天
+     * @param year
+     * @param month
+     * @return
+     */
+    public static String getFirstDayOfMonth(int year, int month) {
+        Calendar cal = Calendar.getInstance();
+        //设置年份
+        cal.set(Calendar.YEAR, year);
+        //设置月份
+        cal.set(Calendar.MONTH, month-1);
+        //获取某月最小天数
+        int firstDay = cal.getMinimum(Calendar.DATE);
+        //设置日历中月份的最小天数
+        cal.set(Calendar.DAY_OF_MONTH, firstDay);
+        //格式化日期
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(cal.getTime());
+    }
+    /**
+     * 获取指定年月的最后一天
+     * @param year
+     * @param month
+     * @return
+     */
+    public static String getLastDayOfMonth(int year, int month) {
+        Calendar cal = Calendar.getInstance();
+        //设置年份
+        cal.set(Calendar.YEAR, year);
+        //设置月份
+        cal.set(Calendar.MONTH, month-1);
+        //获取某月最大天数
+        int lastDay = cal.getActualMaximum(Calendar.DATE);
+        //设置日历中月份的最大天数
+        cal.set(Calendar.DAY_OF_MONTH, lastDay);
+        //格式化日期
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(cal.getTime());
     }
 }

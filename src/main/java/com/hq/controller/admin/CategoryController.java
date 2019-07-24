@@ -70,7 +70,7 @@ public class CategoryController extends BaseController {
 
     @ApiOperation("删除分类")
     @BussinessLog("删除分类")
-    @RequestMapping(value = "delete")
+    @RequestMapping(value = "delete", method = RequestMethod.POST)
     @ResponseBody
     public Result delete(@ApiParam(name = "mid", value = "主键", required = true)@RequestParam(name = "mid", required = true) Integer mid){
         try{

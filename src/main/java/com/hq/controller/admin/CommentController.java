@@ -72,7 +72,7 @@ public class CommentController extends BaseController {
     public @ResponseBody Result changeStatus(@ApiParam(name = "coid", value = "评论主键", required = true)
                                              @RequestParam(name = "coid", required = true)Integer coid,
                                              @ApiParam(name = "status", value = "状态", required = true)
-                                             @RequestParam(name = "status", required = true)Integer status){
+                                             @RequestParam(name = "status", required = true) String status){
         try {
             Comment comment = commentService.getCommentById(coid);
             if (null != comment){

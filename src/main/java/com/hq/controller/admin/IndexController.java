@@ -75,14 +75,17 @@ public class IndexController extends BaseController {
     @BussinessLog("访问首页")
     public String index(HttpServletRequest request){
         List<Comment> comments = siteService.getComments(COMMENT_NUM);
-        List<Contents> contents = siteService.getArticles(ARTICLE_NUM);
+        List<Contents> articles = siteService.getArticles(ARTICLE_NUM);
         StatisticsDto statisticsDto = siteService.getStatistics();
         List<OperationLog> logs = operationLogService.getLogs(LOG_NUM);
 
         request.setAttribute("comments", comments);
-        request.setAttribute("contents", contents);
+        request.setAttribute("articles", articles);
         request.setAttribute("statistics", statisticsDto);
         request.setAttribute("logs", logs);
+        if (blogProperties.getSwaggerOpen()){
+            request.setAttribute("swagger", "swagger");
+        }
         return "admin/index";
     }
 

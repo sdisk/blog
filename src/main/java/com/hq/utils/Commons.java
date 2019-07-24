@@ -149,6 +149,16 @@ public class Commons {
     /**
      * 格式化unix时间戳为日期
      *
+     * @param timestamp
+     * @return
+     */
+    public static String fmtdate(Timestamp timestamp) {
+        return fmtdate(timestamp, "yyyy-MM-dd");
+    }
+
+    /**
+     * 格式化unix时间戳为日期
+     *
      * @param unixTime
      * @param patten
      * @return
@@ -174,8 +184,9 @@ public class Commons {
         return "";
     }
     public static String fmtdate_en(Timestamp timestamp){
-        String fmtdate = fmtdate(timestamp, "yyyy/MM/dd HH:mm:ss");
-        String rs = "<span>" + fmtdate + "</span> ";
+        String fmtdate = fmtdate(timestamp, "d,MMM,yyyy");
+        String[] dateArr = fmtdate.split(",");
+        String rs = "<span>" + dateArr[0] + "</span> " + dateArr[1] + "  " + dateArr[2];
         return rs;
     }
     /**

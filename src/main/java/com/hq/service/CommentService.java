@@ -28,5 +28,5 @@ public interface CommentService{
 
     void deleteComment(Integer coid);
 
-    void updateCommentStatus(Integer coid, Integer status);
+    void updateCommentStatus(Integer coid, String status);
 }

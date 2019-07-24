@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface CommentMapper {
+
     int deleteByPrimaryKey(Integer coid);
 
     int insert(Comment record);
@@ -35,7 +36,16 @@ public interface CommentMapper {
      */
     List<Comment> getCommentsByCid(@Param("cid")Integer cid);
 
+    /**
+     * 添加评论
+     * @param comments
+     */
     void addComment(Comment comments);
 
-    void updateCommentStatus(Integer coid, Integer status);
+    /**
+     * 更新评论状态
+     * @param coid
+     * @param status
+     */
+    void updateCommentStatus(@Param("coid") Integer coid, @Param("status") String status);
 }

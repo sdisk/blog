@@ -114,8 +114,8 @@ public class SiteServiceImpl implements SiteService {
                 cond.setStartTime(start);
                 cond.setEndTime(end);
                 cond.setType(contentQuery.getType());
-                List<Contents> contentss = contentsMapper.getContentsByQuery(cond);
-                archiveDto.setArticles(contentss);
+                List<Contents> contentList = contentsMapper.getContentsByQuery(cond);
+                archiveDto.setArticles(contentList);
             });
         }
     }

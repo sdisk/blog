@@ -14,4 +14,6 @@ public interface OperationLogMapper {
     List<OperationLog> selectAll();
 
     int updateByPrimaryKey(OperationLog record);
+
+    List<OperationLog> getByNum(int logNum);
 }

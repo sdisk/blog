@@ -164,7 +164,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void updateCommentStatus(Integer coid, Integer status) {
+    public void updateCommentStatus(Integer coid, String status) {
         if (null == coid){
             throw new BlogException(BlogExceptionEnum.PARAM_IS_EMPTY);
         }

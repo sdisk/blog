@@ -3,6 +3,8 @@ package com.hq.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 /**
  * @description: 文章查询条件
  * @author: Mr.Huang
@@ -37,11 +39,11 @@ public class ContentQuery {
      */
     private String type;
     /**
-     * 开始时间戳
+     * 开始时间
      */
     private Integer startTime;
     /**
-     * 结束时间戳
+     * 结束时间
      */
     private Integer endTime;
 }
