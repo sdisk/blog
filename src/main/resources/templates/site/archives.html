@@ -20,7 +20,7 @@
                                             <a th:href="${commons.blogPermalink(article.cid)}" th:utext="${article.title}"></a>
                                         </div>
                                         <div class="item-meta clearfix">
-                                            <div class="item-meta-date" th:utext="${'发布于 '+commons.fmtdate(article.created)}"></div>
+                                            <div class="item-meta-date" th:utext="${'发布于 '+commons.fmtdate(article.createTime)}"></div>
                                         </div>
                                     </div>
                                 </div>

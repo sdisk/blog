@@ -41,7 +41,7 @@
                                                 </th:block>
                                             </td>
                                             <td>
-                                                <th:block th:text="${post.createTime}"></th:block>
+                                                <th:block th:text="${commons.fmtdate(post.createTime, 'yyyy-MM-dd HH:mm:ss')}"/>
                                             </td>
                                             <td>
                                                 <th:block th:text="${post.hits}"></th:block>

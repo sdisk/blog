@@ -114,6 +114,18 @@
                            th:class="${active}=='setting'?'waves-effect active':'waves-effect'"><i
                                 class="fa fa-gear" aria-hidden="true"></i><span> 系统设置 </span></a>
                     </li>
+                    <li>
+                        <a th:href="@{/druid/index.html}"
+                           class="waves-effect"><i
+                                class="fa fa-camera" aria-hidden="true"></i><span> 数据库监控 </span></a>
+                    </li>
+                    <th:block th:if="${swagger}">
+                        <li>
+                            <a th:href="@{/swagger-ui.html}"
+                               class="waves-effect"><i
+                                    class="fa fa-file-text-o" aria-hidden="true"></i><span> 接口文档 </span></a>
+                        </li>
+                    </th:block>
                 </ul>
                 <div class="clearfix"></div>
             </div>

@@ -32,7 +32,7 @@
                                         </td>
                                         <td th:text="${comment.author}"></td>
                                         <td th:text="${comment.createTime}"></td>
-                                        <td th:text="${comment.email}"></td>
+                                        <td th:text="${comment.mail}"></td>
                                         <td><a th:href="@{${comment.url}}" target="_blank" th:text="${comment.url}"></a></td>
                                         <td>
                                             <th:block th:if="${comment.status} == 'approved'">
@@ -44,11 +44,11 @@
                                         </td>
                                         <td>
                                             <th:block th:if="${comment.status == 'not_audit'}">
-                                                <a href="javascript:void(0)" th:onclick="'updateStatus('+${comments.coid}+');'" class="btn btn-success btn-sm waves-effect waves-light m-b-6">
+                                                <a href="javascript:void(0)" th:onclick="'updateStatus('+${comment.coid}+');'" class="btn btn-success btn-sm waves-effect waves-light m-b-6">
                                                     <i class="fa fa-check-circle-o"><span>通过</span></i>
                                                 </a>
                                             </th:block>
-                                            <a href="javascript:void(0)" th:onclick="'delComment('+${comment.coid}+');'" class="btn btn-danger btn-sm waves-effect waves-light m-b-5">
+                                            <a href="javascript:void(0)" th:onclick="'delComment('+${comment.coid}+');'" class="btn btn-danger btn-sm waves-effect waves-light m-b-6">
                                                 <i class="fa fa-trash-o"><span>删除</span></i>
                                             </a>
                                         </td>

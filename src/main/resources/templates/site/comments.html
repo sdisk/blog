@@ -12,12 +12,12 @@
                 <th:block th:each="comment:${comments}">
                     <li th:id="'li-comment-'+${comment.coid}">
                         <figure th:id="'comment-'+${comment.coid}">
-                            <img th:src="@{${commons.geavtar(comment.mail)}(s='80',r='G',d='')}" alt="" class="img-responsive"/>
+                            <img th:src="@{${commons.gravatar(comment.mail)}(s='80',r='G',d='')}" alt="" class="img-responsive"/>
                         </figure>
                         <section>
-                            <h4><a th:href="${comment.url}" target="_blank" th:text="${comment.author}"></a> </h4>
+                            <h4><a th:href="${comment.url}" target="blank" th:text="${comment.author}"></a> </h4>
                             <div class="date-pan">
-                                <th:block th:tetx="${comment.created}"></th:block>
+                                <th:block th:tetx="${#dates.format(comment.createTime,'yyyy-MM-dd HH:mm:ss')}"></th:block>
                             </div>
                             <th:block th:utext="${commons.article(comment.content)}"></th:block>
                         </section>

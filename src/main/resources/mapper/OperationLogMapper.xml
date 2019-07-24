@@ -62,4 +62,12 @@
     ip, message
     from t_operation_log
   </select>
+
+  <select id="getByNum" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+     select id, logType, logName, userId, className, method, data, createTime, succeed,
+    ip, message
+    from t_operation_log
+    order by createTime desc
+    limit 0,#{logNum}
+  </select>
 </mapper>

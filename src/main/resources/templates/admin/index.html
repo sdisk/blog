@@ -55,7 +55,7 @@
                                 <div class="panel-body">
                                     <ul class="list-group">
                                         <li class="list-group-item" th:each="article : ${articles}">
-                                            <span class="badge badge-primary" th:title="${article.commentsNum}+'条评论'" th:text="{article.commentsNum}"></span>
+                                            <span class="badge badge-primary" th:title="${article.commentsNum}+'条评论'" th:text="${article.commentsNum}"></span>
                                             <a target="_blank" th:href="${commons.site_url('/blog/article/')}+${article.cid}" th:text="${article.title}"></a>
                                         </li>
                                     </ul>
@@ -79,7 +79,7 @@
                                                 <a th:href="@{comment.url}" th:text="${comment.author}" target="_blank"></a>
                                             </div>
                                             <th:block th:unless="${comment.url}!=null and ${comment.url}!=''" th:text="${comment.author}"></th:block>
-                                            与<th:block th:text="${commons.fmtdate(comment.created,'MM月dd日HH:mm')}"></th:block>:
+                                            与<th:block th:text="${commons.fmtdate(comment.createTime,'MM月dd日HH:mm')}"></th:block>:
                                             <a th:href="${commons.site_url('/blog/article/')}+${comment.cid}+'#comments-content'" target="_blank" th:utext="${commons.article(comment.content)}"></a>
                                         </li>
                                     </ul>
@@ -95,7 +95,7 @@
                                     <ul class="list-group">
                                         <li class="list-group-item" th:each="log: ${logs}">
                                             <span
-                                                    th:text="${log.creatTime}+' => '+${log.logName}"></span>
+                                                    th:text="${#dates.format(log.createTime,'yyyy-MM-dd HH:mm:ss')}+' => '+${log.logName}"></span>
                                         </li>
                                     </ul>
                                 </div>

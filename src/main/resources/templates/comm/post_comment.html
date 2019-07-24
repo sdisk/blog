@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="post_comment">
 <body>
-<script th:src="@{/site/js/layui.js}"/>
+<script th:src="@{/site/js/layer.js}"></script>
 <script type="text/javascript">
     /*<![CDATA[*/
     (function () {
@@ -31,8 +31,12 @@
                    success:function(result){
                        $("#comment-form input[name=coid]").val('');
                        if (result && result.code =='200'){
-                           alert("评论已提交到后台审核！");
-                           window.location.reload();
+                           layer.msg("评论已提交到后台审核！",{
+                               icon:6,
+                               time:2000 },
+                               function (){
+                                   window.location.reload();
+                               })
                        }else {
                            if (result.msg) {
                                layer.msg(result.msg,{

@@ -26,8 +26,8 @@
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="titlePic" jdbcType="VARCHAR" property="titlePic" />
     <result column="slug" jdbcType="VARCHAR" property="slug" />
-    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="modifyTime" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="createTime" jdbcType="INTEGER" property="createTime" />
+    <result column="modifyTime" jdbcType="INTEGER" property="modifyTime" />
     <result column="authorId" jdbcType="INTEGER" property="authorId" />
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="status" jdbcType="VARCHAR" property="status" />
@@ -47,14 +47,14 @@
   </delete>
   <insert id="insert" parameterType="com.hq.model.Contents" keyProperty="cid" useGeneratedKeys="true">
     insert into t_contents (cid, title, titlePic, 
-      slug, createTime, modifyTime, 
+      slug, createTime,
       authorId, type, status, 
       tags, categories, hits, 
       commentsNum, allowComment, allowPing, 
       allowFeed, allowShow, content
       )
     values (#{cid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{titlePic,jdbcType=VARCHAR},
-      #{slug,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{slug,jdbcType=VARCHAR}, UNIX_TIMESTAMP(NOW()),
       #{authorId,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
       #{tags,jdbcType=VARCHAR}, #{categories,jdbcType=VARCHAR}, #{hits,jdbcType=INTEGER}, 
       #{commentsNum,jdbcType=INTEGER}, #{allowComment,jdbcType=BIT}, #{allowPing,jdbcType=BIT}, 
@@ -66,8 +66,8 @@
     set title = #{title,jdbcType=VARCHAR},
       titlePic = #{titlePic,jdbcType=VARCHAR},
       slug = #{slug,jdbcType=VARCHAR},
-      createTime = #{createTime,jdbcType=TIMESTAMP},
-      modifyTime = #{modifyTime,jdbcType=TIMESTAMP},
+      createTime = #{createTime,jdbcType=INTEGER},
+      modifyTime = #{modifyTime,jdbcType=INTEGER},
       authorId = #{authorId,jdbcType=INTEGER},
       type = #{type,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
@@ -153,6 +153,7 @@
       <if test="content != null">
         content = #{content, jdbcType=LONGVARCHAR},
       </if>
+        modifyTime = UNIX_TIMESTAMP(NOW()),
       <if test="type != null">
         type = #{type, jdbcType=VARCHAR},
       </if>
@@ -200,7 +201,9 @@
   </resultMap>
 
   <select id="getArchive" resultMap="archiveDtoMap" parameterType="com.hq.dto.ContentQuery">
-    SELECT createTime as date,count(1) as COUNT
+    SELECT
+      FROM_UNIXTIME(createTime, '%Y年%m月') as date,
+      count(1) as COUNT
     FROM
     <include refid="BASE_TABLE"/>
     <where>

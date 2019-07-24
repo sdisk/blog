@@ -14,14 +14,14 @@
                 <p>Some blogs and life logs about Java.</p>
             </article>
             <ul class="grid-lod effect-2" id="grid">
-                <th:block th:each="artile,articleStat : ${articles.list}">
+                <th:block th:each="article,articleStat : ${articles.list}">
                     <th:block th:if="${articleStat.index % 2 == 0}">
                         <li>
                             <section class="blog-content">
                                 <a th:href="${commons.blogPermalink(article.cid)}">
                                     <figure>
-                                        <div class="post-data">
-                                            <th:block th:utext="${article.createTime}"></th:block>
+                                        <div class="post-date">
+                                            <th:block th:utext="${commons.fmtdate_en(article.createTime)}"></th:block>
                                         </div>
                                         <img th:src="${commons.show_thumb(article.content) ?:commons.randomBlogPic(1322)}" alt=""
                                              class="img-responsive"/>
@@ -47,7 +47,7 @@
                                 <a th:href="${commons.blogPermalink(article.cid)}">
                                     <figure>
                                         <div class="post-date">
-                                            <th:block th:utext="${commons.fmtdate_en(article.created)}"></th:block>
+                                            <th:block th:utext="${commons.fmtdate_en(article.createTime)}"></th:block>
                                         </div>
                                         <img th:src="${commons.show_thumb(article.content) ?:commons.randomBlogPic(1221)}" alt=""
                                              class="img-responsive"/>

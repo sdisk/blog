@@ -8,7 +8,7 @@
         <article class="post-details" id="post-details">
             <header role="bog-header" class="bog-header text-center">
                 <h3>
-                    <th:block th:utext="${article.createTime}"></th:block>
+                    <th:block th:utext="${commons.fmtdate_en(article.createTime)}"></th:block>
                 </h3>
                 <h2>
                     <th:block th:text="${article.title}"></th:block>

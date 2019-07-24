@@ -73,7 +73,7 @@
     INSERT INTO
     <include refid="BASE_TABLE"/>
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      fname, ftype, fkey, authorId, created,
+      fname, ftype, fkey, authorId, createtime,
     </trim>
     VALUES
     <foreach collection="list" item="AttAchDomain" index="index" separator=",">
