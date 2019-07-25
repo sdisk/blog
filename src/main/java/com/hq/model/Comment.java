@@ -3,8 +3,10 @@ package com.hq.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Getter
 @Setter
@@ -27,9 +29,9 @@ public class Comment implements Serializable
     private String author;
 
     /**
-     * 评论者用户id
+     * 评论者头像
      */
-    private Integer authorId;
+    private String gavatar;
 
     /**
      * 评论所属内容作者id
@@ -75,4 +77,15 @@ public class Comment implements Serializable
      * 评论内容
      */
     private String content;
+
+    /**
+     * 是否是作者评论 0:不是 1:是
+     */
+    private Integer isAdmin;
+
+    /**
+     * 当前评论下的所有子评论
+     */
+    @Transient
+    private List<Comment> childComments;
 }

@@ -7,8 +7,8 @@
   </sql>
 
   <sql id="BASE_COLUMN">
-    cm.coid,cm.cid,cm.createTime,cm.author,cm.ownerId,cm.mail,
-    cm.url,cm.ip,cm.agent,cm.type,cm.status,cm.parentId,cm.content
+    cm.coid,cm.cid,cm.createTime,cm.author,cm.gavatar,cm.ownerId,cm.mail,
+    cm.url,cm.ip,cm.agent,cm.type,cm.status,cm.isAdmin,cm.parentId,cm.content
   </sql>
 
   <resultMap id="BaseResultMap" type="com.hq.model.Comment">
@@ -16,7 +16,7 @@
     <result column="cid" jdbcType="INTEGER" property="cid" />
     <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
     <result column="author" jdbcType="VARCHAR" property="author" />
-    <result column="authorId" jdbcType="INTEGER" property="authorId" />
+    <result column="gavatar" jdbcType="VARCHAR" property="gavatar" />
     <result column="ownerId" jdbcType="INTEGER" property="ownerId" />
     <result column="mail" jdbcType="VARCHAR" property="mail" />
     <result column="url" jdbcType="VARCHAR" property="url" />
@@ -24,6 +24,7 @@
     <result column="agent" jdbcType="VARCHAR" property="agent" />
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="isAdmin" jdbcType="INTEGER" property="isAdmin" />
     <result column="parentId" jdbcType="INTEGER" property="parentId" />
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
@@ -33,22 +34,22 @@
   </delete>
   <insert id="insert" parameterType="com.hq.model.Comment">
     insert into t_comment (coid, cid, createTime, 
-      author, authorId, ownerId, 
+      author, gavatar, ownerId, 
       mail, url, ip, agent, 
-      type, status, parentId, 
+      type, status, isAdmin,parentId,
       content)
     values (#{coid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{author,jdbcType=VARCHAR}, #{authorid,jdbcType=INTEGER}, #{ownerid,jdbcType=INTEGER}, 
+      #{author,jdbcType=VARCHAR}, #{gavatar,jdbcType=INTEGER}, #{ownerid,jdbcType=INTEGER}, 
       #{mail,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{agent,jdbcType=VARCHAR}, 
-      #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{parentid,jdbcType=INTEGER}, 
-      #{content,jdbcType=LONGVARCHAR})
+      #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{isAdmin,jdbcType=INTEGER},
+      #{parentid,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.hq.model.Comment">
     update t_comment
     set cid = #{cid,jdbcType=INTEGER},
       createTime = #{createTime,jdbcType=TIMESTAMP},
       author = #{author,jdbcType=VARCHAR},
-      authorId = #{authorid,jdbcType=INTEGER},
+      gavatar = #{gavatar,jdbcType=INTEGER},
       ownerId = #{ownerid,jdbcType=INTEGER},
       mail = #{mail,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
@@ -61,14 +62,14 @@
     where coid = #{coid,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select coid, cid, createTime, author, authorId, ownerId, mail, url, ip, agent, type, 
-    status, parentId, content
+    select coid, cid, createTime, author, gavatar, ownerId, mail, url, ip, agent, type, 
+    status,isAdmin, parentId, content
     from t_comment
     where coid = #{coid,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select coid, cid, createTime, author, authorId, ownerId, mail, url, ip, agent, type, 
-    status, parentId, content
+    select coid, cid, createTime, author, gavatar, ownerId, mail, url, ip, agent, type, 
+    status,isAdmin, parentId, content
     from t_comment
   </select>
 
@@ -92,7 +93,7 @@
         AND cm.parentId = #{parent,jdbcType=INTEGER}
       </if>
     </where>
-    ORDER BY cm.createTime
+    ORDER BY cm.createTime DESC
   </select>
 
   <select id="getCommentCount" resultType="java.lang.Long">
@@ -100,7 +101,7 @@
     <include refid="BASE_TABLE"/>
   </select>
 
-  <!-- 根据文章的主键获取评论列表:只显示正常的评论 -->
+  <!-- 根据文章的主键获取评论列表:只显示审核通过的评论 -->
   <select id="getCommentsByCid" resultType="com.hq.model.Comment">
     select
     <include refid="BASE_COLUMN"/>
@@ -109,7 +110,7 @@
     where
     cm.cid = #{cid,jdbcType=INTEGER}
     and cm.status = 'approved'
-    order by cm.createTime
+    order by cm.createTime DESC
   </select>
 
   <select id="getCommentById" resultType="com.hq.model.Comment">
@@ -124,14 +125,15 @@
     insert  into
     <include refid="BASE_TABLE"/>
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      cid,createTime,author,authorId,ownerId,mail,
-      url,ip,agent,type,status,parentId,content,
+      cid,createTime,author,gavatar,ownerId,mail,
+      url,ip,agent,type,status,isAdmin,parentId,content,
     </trim>
     <trim prefix="values(" suffix=")" suffixOverrides=",">
       #{cid,jdbcType=INTEGER}, #{createTime, jdbcType=INTEGER},
-      #{author, jdbcType=VARCHAR}, #{authorId, jdbcType=INTEGER}, #{ownerId, jdbcType=INTEGER},
+      #{author, jdbcType=VARCHAR}, #{gavatar, jdbcType=INTEGER}, #{ownerId, jdbcType=INTEGER},
       #{mail, jdbcType=VARCHAR}, #{url, jdbcType=VARCHAR}, #{ip, jdbcType=VARCHAR}, #{agent, jdbcType=VARCHAR},
-      #{type, jdbcType=VARCHAR}, #{status, jdbcType=VARCHAR}, #{parentId, jdbcType=INTEGER}, #{content, jdbcType=LONGVARCHAR},
+      #{type, jdbcType=VARCHAR}, #{status, jdbcType=VARCHAR}, #{isAdmin, jdbcType=INTEGER},
+      #{parentId, jdbcType=INTEGER},#{content, jdbcType=LONGVARCHAR},
     </trim>
   </insert>
   <update id="updateCommentStatus" >

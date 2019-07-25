@@ -17,6 +17,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
+import nl.bitwalker.useragentutils.Browser;
+import nl.bitwalker.useragentutils.OperatingSystem;
+import nl.bitwalker.useragentutils.UserAgent;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -300,23 +303,40 @@ public class HomeController extends BaseController{
         author = EmojiParser.parseToAliases(author);
         text = EmojiParser.parseToAliases(text);
 
-        Comment comments = new Comment();
-        comments.setAuthor(author);
-        comments.setCid(cid);
-        comments.setIp(request.getRemoteAddr());
-        comments.setUrl(url);
-        comments.setContent(text);
-        comments.setMail(mail);
-        comments.setParentId(coid);
+        Comment comment = new Comment();
+        comment.setAuthor(author);
+        comment.setCid(cid);
+        comment.setIp(request.getRemoteAddr());
+        comment.setUrl(url);
+        comment.setContent(text);
+        comment.setMail(mail);
+        if (StringUtils.isNotBlank(comment.getMail())) {
+            comment.setGavatar(Commons.gravatar(comment.getMail()));
+        }
+        comment.setIsAdmin(0);
+        comment.setParentId(coid);
+        //获取浏览器信息
+        String ua = request.getHeader("User-Agent");
+        //转成UserAgent对象
+        UserAgent userAgent = UserAgent.parseUserAgentString(ua);
+        //获取浏览器信息
+        Browser browser = userAgent.getBrowser();
+        //获取系统信息
+        OperatingSystem os = userAgent.getOperatingSystem();
+        //系统名称
+        String system = os.getName();
+        //浏览器名称
+        String browserName = browser.getName();
+        comment.setAgent(browserName+ "  "+ system);
         try {
-            commentService.addComment(comments);
+            commentService.addComment(comment);
             cookie("tale_remember_author", URLEncoder.encode(author, "UTF-8"), 7 * 24 * 60 * 60, response);
             cookie("tale_remember_mail", URLEncoder.encode(mail, "UTF-8"), 7 * 24 * 60 * 60, response);
             if (StringUtils.isNotBlank(url)) {
                 cookie("tale_remember_url", URLEncoder.encode(url, "UTF-8"), 7 * 24 * 60 * 60, response);
             }
-            // 设置对每个文章1分钟可以评论一次
-            cache.hset(Types.COMMENTS_FREQUENCY.getType(), val, 1, 60);
+            // 设置对每个文章30s可以评论一次
+            cache.hset(Types.COMMENTS_FREQUENCY.getType(), val, 1, 30);
 
             return ResultUtil.success();
         } catch (Exception e) {

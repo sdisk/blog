@@ -614,8 +614,7 @@ color:#404040;
 	margin-bottom: 39px
 }
 .comments-reply li figure {
-	float: left;
-	width: 70px;
+	width: 48px;
 	background-color: #000
 }
 .comments-reply li section {
@@ -831,4 +830,42 @@ input[type="submit"] {
 .blog-details {
 	max-width: 750px;
 	margin: 0 auto;
+}
+
+.comment-img {
+	float: left!important;
+	margin-right: 16px !important;
+	width: 48px !important;
+	height: 48px !important;
+	border-radius: 50%!important;
+	cursor: pointer!important;
+	-webkit-transition: 0.4s!important;
+	-webkit-transition: -webkit-transform 0.4s ease-out!important;
+	-moz-transition: -moz-transform 0.4s ease-out!important;
+	transition: transform 0.4s ease-out !important;
+}
+.comment-list-admin {
+	display: inline-block;
+	margin-right: 5px !important;
+	padding: 2px 5px !important;
+	border-radius: 2px !important;
+	background: #87ceeb!important;
+	color: #fff!important;
+	font-size: 12px !important;
+}
+
+.comment-img:hover {
+	transform: rotate(360deg)!important;
+}
+
+.comment-list-one-footer-time {
+	margin-right: 5px !important;
+	color: #b3b3b3!important;
+	font-size: 12px !important;
+}
+
+.comment-list-footer-reback {
+	color: #ef2f11!important;
+	font-size: 14px !important;
+	cursor: pointer!important;
 }

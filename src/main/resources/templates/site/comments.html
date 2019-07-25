@@ -12,14 +12,19 @@
                 <th:block th:each="comment:${comments}">
                     <li th:id="'li-comment-'+${comment.coid}">
                         <figure th:id="'comment-'+${comment.coid}">
-                            <img th:src="@{${commons.gravatar(comment.mail)}(s='80',r='G',d='')}" alt="" class="img-responsive"/>
+                            <img th:src="@{${comment.gavatar}(s='80',r='G',d='')}" alt="" class="comment-img"/>
                         </figure>
                         <section>
-                            <h4><a th:href="${comment.url}" target="blank" th:text="${comment.author}"></a> </h4>
-                            <div class="date-pan">
-                                <th:block th:tetx="${#dates.format(comment.createTime,'yyyy-MM-dd HH:mm:ss')}"></th:block>
-                            </div>
+                            <h4><a th:href="${comment.url}" target="blank" th:text="${comment.author}"></a>
+                                <th:block th:if="${comment.isAdmin == 1}">
+                                <label class="comment-list-admin">作者</label>
+                                </th:block>
+                            </h4>
                             <th:block th:utext="${commons.article(comment.content)}"></th:block>
+                            <div class="commont-footer">
+                                <span class="comment-list-one-footer-time" th:utext="${#dates.format(comment.createTime,'yyyy-MM-dd HH:mm')}"></span>
+                                <span at="${comment.coid}" class="comment-list-footer-reback">回复</span>
+                            </div>
                         </section>
                     </li>
                 </th:block>

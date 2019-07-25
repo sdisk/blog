@@ -27,7 +27,7 @@ CREATE TABLE `t_comment` (
   `cid` int(10) unsigned DEFAULT '0',
   `createTime` TIMESTAMP not null DEFAULT CURRENT_TIMESTAMP,
   `author` varchar(200) DEFAULT NULL,
-  `authorId` int(10) unsigned DEFAULT '0',
+  `gavatar` varchar(64) DEFAULT NULL,
   `ownerId` int(10) unsigned DEFAULT '0',
   `mail` varchar(200) DEFAULT NULL,
   `url` varchar(200) DEFAULT NULL,
@@ -36,6 +36,7 @@ CREATE TABLE `t_comment` (
   `content` text,
   `type` varchar(16) DEFAULT 'comment',
   `status` varchar(16) DEFAULT 'approved',
+  `isAdmin` int(1) DEFAULT '0',
   `parentId` int(10) unsigned DEFAULT '0',
   PRIMARY KEY (`coid`),
   KEY `cid` (`cid`)
