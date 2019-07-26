@@ -1,63 +1,58 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="comments">
+<link th:href="@{/site/css/comment.css}" rel="stylesheet" type="text/css">
 <body>
-<div th:if="${article.allowComment}" class="comment-allow">
-    <div id="comment-content" th:if="${article}!=null">
-        <div th:id="${article.cid}?:0" class="comments-pan">
-            <h3>
-                <th:block th:text="${article.commentsNum ?: 0}"></th:block>
-                Comments
-            </h3>
-            <ul th:if="${comments}" class="comments-reply">
-                <th:block th:each="comment:${comments}">
-                    <li th:id="'li-comment-'+${comment.coid}">
-                        <figure th:id="'comment-'+${comment.coid}">
-                            <img th:src="@{${comment.gavatar}(s='80',r='G',d='')}" alt="" class="comment-img"/>
-                        </figure>
-                        <section>
-                            <h4><a th:href="${comment.url}" target="blank" th:text="${comment.author}"></a>
-                                <th:block th:if="${comment.isAdmin == 1}">
-                                <label class="comment-list-admin">作者</label>
-                                </th:block>
-                            </h4>
-                            <th:block th:utext="${commons.article(comment.content)}"></th:block>
-                            <div class="commont-footer">
-                                <span class="comment-list-one-footer-time" th:utext="${#dates.format(comment.createTime,'yyyy-MM-dd HH:mm')}"></span>
-                                <span at="${comment.coid}" class="comment-list-footer-reback">回复</span>
-                            </div>
-                        </section>
-                    </li>
-                </th:block>
-            </ul>
-            <div class="commentys-form">
-                <h4>Leave a comment</h4>
-                <div class="row">
-                    <form id="comment-form" class="comment-form" role="form" onsubmit="return Comment.subbimtComment();">
-                        <input type="hidden" name="coid" id="coid"/>
-                        <input type="hidden" name="cid" id="cid" th:value="${article.cid}"/>
-                        <input type="hidden" name="_csrf_token" th:value="${_csrf_token}"/>
-                        <div class="col-xs-12 col-sm-4 col-md-4">
-                            <input type="text" name="author" maxlength="16" id="author" placeholder="姓名（*）"/>
-                        </div>
-                        <div class="col-xs-12 col-sm-4 col-md-4">
-                            <input type="email" name="mail"  id="mail" placeholder="邮箱（*）"/>
-                        </div>
-                        <div class="col-xs-12 col-sm-4 col-md-4">
-                            <input type="url" name="url"  id="url" placeholder="网址（https://）"/>
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="col-xs-12 col-sm-12 col-md-12">
-                            <textarea name="text" id="textarea" placeholder="以上信息可以为空,评论不能为空哦!"
-                            required="required" minlength="5" maxlength="2000"></textarea>
-                        </div>
-                        <div class="text-center">
-                            <input type="submit" value="提交评论"/>
-                        </div>
-                    </form>
-                </div>
+<div th:if="${article.allowComment}" class="comment-container">
+    <div class="comment-wrap">
+        <form id="comment-form"  role="form" onsubmit="return Comment.subbimtComment();">
+            <div class="comment-header">
+                <input type="hidden" name="coid" id="coid" >
+                <input type="hidden" name="cid" id="cid" th:value="${article.cid}"/>
+                <input type="hidden" name="_csrf_token" th:value="${_csrf_token}"/>
+                <input type="text" class="comment-input comment-input-who" name="author" maxlength="16" placeholder="昵称(*)">
+                <input type="email" class="comment-input comment-input-email" name="mail" id="mail"  placeholder="邮箱(*)">
+                <input type="url" class="comment-input comment-input-website" id="url"  placeholder="网址(https://)">
             </div>
-        </div>
+            <div class="comment-content">
+                <textarea class="comment-input-content" name="commentContent" id="commentContent" placeholder="赶快评论一个吧!"
+                required="required" minlength="5" maxlength="2000"></textarea>
+            </div>
+            <div class="comment-footer">
+                <button type="button" class="comment-cancel-reply" id="comment-cancel-reply" style="display: none;">取消回复</button>
+                <button type="submit" class="comment-submit">提交评论</button>
+            </div>
+        </form>
     </div>
+    <div class="comment-message" style="text-align: center;padding: 20px;display: none"></div>
+    <div class="comment-info">
+         <span id="comment-info-total" style="font-weight: 600" th:text="${article.commentsNum ?: 0}"/>评论
+    </div>
+    <ul th:if="${comments != null}" class="comment-list" id="comments-list">
+        <th:block th:each="comment:${comments}">
+            <li class="comment-list-one" th:id="'comment-id-'+${comment.coid}">
+                <img th:src="@{${comment.gavatar}(s='80',r='G',d='')}" alt="" class="comment-img"/>
+                <section>
+                    <div class="comment-list-one-head">
+                        <a class="comment-list-one-head-name" rel="nofollow" th:href="${comment.url}" target="blank" th:text="${comment.author}"></a>
+                        <span class="comment-ua-info" style="display: none" th:text="${comment.agent}"></span>
+                        <th:block th:if="${comment.isAdmin == 1}">
+                            <label class="comment-list-admin">作者</label>
+                        </th:block>
+                    </div>
+                    <div class="comment-list-one-content">
+                        <th:block th:utext="${commons.article(comment.content)}"></th:block>
+                    </div>
+                    <div class="comment-list-one-footer">
+                        <span class="comment-list-one-footer-time" th:utext="${#dates.format(comment.createTime,'yyyy-MM-dd HH:mm')}"></span>
+                        <span at="${comment.coid}" class="comment-list-one-footer-reback">回复</span>
+                    </div>
+                    </section>
+                <th:block th:if="${comment.childComments !=null && comment.childComments.size() >0}">
+                    <div th:replace="comm/macros :: subComment(${comment.childComments})"></div>
+                </th:block>
+            </li>
+        </th:block>
+    </ul>
 </div>
 </body>
 </html>

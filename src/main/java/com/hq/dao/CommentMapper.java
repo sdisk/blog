@@ -48,4 +48,6 @@ public interface CommentMapper {
      * @param status
      */
     void updateCommentStatus(@Param("coid") Integer coid, @Param("status") String status);
+
+    List<Comment> getAllCommentsByCId(Integer cid);
 }

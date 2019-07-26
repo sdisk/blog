@@ -101,7 +101,7 @@ public class HomeController extends BaseController{
         request.setAttribute("article", article);
         //更新文章的点击量
         this.updateArticleHit(article.getCid(),article.getHits());
-        List<Comment> commentList = commentService.getCommentsByCId(cid);
+        List<Comment> commentList = commentService.getAllCommentsByCId(cid);
         request.setAttribute("comments",commentList);
         request.setAttribute("active","blog");
         return "site/blog-datails";
@@ -314,7 +314,7 @@ public class HomeController extends BaseController{
             comment.setGavatar(Commons.gravatar(comment.getMail()));
         }
         comment.setIsAdmin(0);
-        comment.setParentId(coid);
+        comment.setParentId(null == coid ? 0 : coid);
         //获取浏览器信息
         String ua = request.getHeader("User-Agent");
         //转成UserAgent对象

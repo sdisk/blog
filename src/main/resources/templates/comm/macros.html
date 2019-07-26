@@ -45,5 +45,34 @@
         </ul>
     </div>
 </div>
+
+<div th:fragment="subComment(comments)">
+    <ul th:if="${comments != null}" class="comment-list" style="margin-left: 30px; border-left: 1px solid #f1f1f1">
+        <th:block th:each="comment:${comments}">
+            <li class="comment-list-one" th:id="'comment-id-'+${comment.coid}">
+                <img th:src="@{${comment.gavatar}(s='80',r='G',d='')}" alt="" class="comment-img"/>
+                <section>
+                    <div class="comment-list-one-head">
+                        <a class="comment-list-one-head-name" rel="nofollow" th:href="${comment.url}" target="blank" th:text="${comment.author}"></a>
+                        <span class="comment-ua-info" style="display: none" th:text="${comment.agent}"></span>
+                        <th:block th:if="${comment.isAdmin == 1}">
+                            <label class="comment-list-admin">作者</label>
+                        </th:block>
+                    </div>
+                    <div class="comment-list-one-content">
+                        <th:block th:utext="${commons.article(comment.content)}"></th:block>
+                    </div>
+                    <div class="comment-list-one-footer">
+                        <span class="comment-list-one-footer-time" th:utext="${#dates.format(comment.createTime,'yyyy-MM-dd HH:mm')}"></span>
+                        <span at="${comment.coid}" class="comment-list-one-footer-reback">回复</span>
+                    </div>
+                </section>
+                <th:block th:if="${comment.childComments !=null && comment.childComments.size() >0}">
+                    <div th:replace="comm/macros :: subComment(${comment.childComments})"></div>
+                </th:block>
+            </li>
+        </th:block>
+    </ul>
+</div>
 </body>
 </html>

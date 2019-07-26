@@ -29,4 +29,11 @@ public interface CommentService{
     void deleteComment(Integer coid);
 
     void updateCommentStatus(Integer coid, String status);
+
+    /**
+     * 查询文章的树形评论
+     * @param cid
+     * @return
+     */
+    List<Comment> getAllCommentsByCId(Integer cid);
 }

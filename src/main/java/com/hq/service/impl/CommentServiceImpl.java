@@ -2,6 +2,7 @@ package com.hq.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import com.hq.common.constant.ErrorConstant;
 import com.hq.common.exception.BlogException;
 import com.hq.common.exception.BlogExceptionEnum;
@@ -23,6 +24,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -164,10 +167,19 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = "commentCache", allEntries = true)
     public void updateCommentStatus(Integer coid, String status) {
         if (null == coid){
             throw new BlogException(BlogExceptionEnum.PARAM_IS_EMPTY);
         }
         commentMapper.updateCommentStatus(coid, status);
+    }
+
+    @Override
+    @Cacheable(value = "commentCache", key = "'allCommentsByCId_'+#p0")
+    public List<Comment> getAllCommentsByCId(Integer cid) {
+        List<Comment> commentList = commentMapper.getAllCommentsByCId(cid);
+        return commentList;
     }
 }

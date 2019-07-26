@@ -28,6 +28,48 @@
     <result column="parentId" jdbcType="INTEGER" property="parentId" />
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
+
+  <resultMap id="AllResultMap" type="com.hq.model.Comment">
+    <id column="coid" jdbcType="INTEGER" property="coid" />
+    <result column="cid" jdbcType="INTEGER" property="cid" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="gavatar" jdbcType="VARCHAR" property="gavatar" />
+    <result column="ownerId" jdbcType="INTEGER" property="ownerId" />
+    <result column="mail" jdbcType="VARCHAR" property="mail" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="agent" jdbcType="VARCHAR" property="agent" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="isAdmin" jdbcType="INTEGER" property="isAdmin" />
+    <result column="parentId" jdbcType="INTEGER" property="parentId" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <collection column="coid" javaType="java.util.ArrayList" property="childComments"
+                ofType="com.hq.model.Comment" select="getSubComment" />
+  </resultMap>
+
+  <resultMap id="NextResultMap" type="com.hq.model.Comment">
+    <id column="coid" jdbcType="INTEGER" property="coid" />
+    <result column="cid" jdbcType="INTEGER" property="cid" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="gavatar" jdbcType="VARCHAR" property="gavatar" />
+    <result column="ownerId" jdbcType="INTEGER" property="ownerId" />
+    <result column="mail" jdbcType="VARCHAR" property="mail" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="agent" jdbcType="VARCHAR" property="agent" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="isAdmin" jdbcType="INTEGER" property="isAdmin" />
+    <result column="parentId" jdbcType="INTEGER" property="parentId" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <collection column="coid" javaType="java.util.ArrayList" property="childComments"
+                ofType="com.hq.model.Comment" select="getSubComment" />
+  </resultMap>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_comment
     where coid = #{coid,jdbcType=INTEGER}
@@ -142,4 +184,20 @@
     set status = #{status,jdbcType=VARCHAR}
     where coid = #{coid,jdbcType=VARCHAR}
   </update>
+
+  <select id="getAllCommentsByCId" resultMap="AllResultMap">
+    SELECT
+    <include refid="BASE_COLUMN"/>
+    from <include refid="BASE_TABLE"/> cm
+    WHERE cm.cid = #{coid,jdbcType=INTEGER} and cm.parentId = 0    and cm.status = 'approved'
+    order by cm.createTime DESC
+  </select>
+
+  <select id="getSubComment" resultMap="NextResultMap">
+    SELECT
+    <include refid="BASE_COLUMN"/>
+    from <include refid="BASE_TABLE"/> cm
+    WHERE cm.parentId = #{id}
+  </select>
+
 </mapper>
