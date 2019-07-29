@@ -112,7 +112,12 @@ public class CommentServiceImpl implements CommentService {
             throw new BlogException(400, "该文章不存在");
         }
         comments.setOwnerId(article.getAuthorId());
-        comments.setStatus(STATUS_MAP.get(STATUS_BLANK));
+        if ("0".equals(comments.getIsAdmin())){
+            comments.setStatus(STATUS_MAP.get(STATUS_BLANK));
+        } else {
+            //作者评论不需要审核
+            comments.setStatus(STATUS_MAP.get(STATUS_NORMAL));
+        }
         comments.setCreateTime(DateUtil.getTimestampNow());
         commentMapper.addComment(comments);
 

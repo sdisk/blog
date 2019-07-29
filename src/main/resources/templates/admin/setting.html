@@ -188,7 +188,7 @@
             url : '/admin/setting',
             data: param,
             success: function (result) {
-                if(result && result.code == 'success'){
+                if(result && result.code == '200'){
                     hui.alertOk('设置保存成功');
                 } else {
                     hui.alertError(result.msg || '设置保存失败');

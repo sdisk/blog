@@ -10,6 +10,7 @@ import com.hq.dto.ArchiveDto;
 import com.hq.dto.ContentQuery;
 import com.hq.model.Comment;
 import com.hq.model.Contents;
+import com.hq.model.User;
 import com.hq.service.*;
 import com.hq.utils.*;
 import com.vdurmont.emoji.EmojiParser;
@@ -96,8 +97,7 @@ public class HomeController extends BaseController{
     public String articleDetail(@ApiParam(name = "cid",value = "文章主键",required = true)
                                 @PathVariable("cid")Integer cid,HttpServletRequest request){
         Contents article = contentService.getArticlesById(cid);
-        ContentQuery contentQuery = new ContentQuery();
-        contentQuery.setType(Types.ARTICLE.getType());
+
         request.setAttribute("article", article);
         //更新文章的点击量
         this.updateArticleHit(article.getCid(),article.getHits());
@@ -239,7 +239,7 @@ public class HomeController extends BaseController{
         request.setAttribute("articles", pageInfo);
         request.setAttribute("type", "search");
         request.setAttribute("param_name", param);
-        return "blog/index";
+        return "site/blog";
     }
 
     /**
@@ -263,7 +263,8 @@ public class HomeController extends BaseController{
                                         @RequestParam(name = "mail", required = false) String mail,
                                         @RequestParam(name = "url", required = false) String url,
                                         @RequestParam(name = "text", required = true) String text,
-                                        @RequestParam(name = "_csrf_token", required = true) String _csrf_token){
+                                        @RequestParam(name = "_csrf_token", required = true) String _csrf_token,
+                                        @RequestParam(name = "isAdmin", required = true) String isAdmin){
         String ref = request.getHeader("Referer");
         if (StringUtils.isBlank(ref) || StringUtils.isBlank(_csrf_token)){
             return ResultUtil.fail("访问失败");
@@ -304,16 +305,25 @@ public class HomeController extends BaseController{
         text = EmojiParser.parseToAliases(text);
 
         Comment comment = new Comment();
-        comment.setAuthor(author);
         comment.setCid(cid);
         comment.setIp(request.getRemoteAddr());
-        comment.setUrl(url);
         comment.setContent(text);
-        comment.setMail(mail);
+
         if (StringUtils.isNotBlank(comment.getMail())) {
             comment.setGavatar(Commons.gravatar(comment.getMail()));
         }
-        comment.setIsAdmin(0);
+        User user = ToolUtil.getLoginUser(request);
+        if (StringUtils.isNotBlank(isAdmin) && user != null){
+            comment.setIsAdmin(1);
+            comment.setGavatar(Commons.gravatar(user.getEmail()));
+            comment.setAuthor(user.getUsername());
+            comment.setMail(user.getEmail());
+        } else {
+            comment.setAuthor(author);
+            comment.setIsAdmin(0);
+            comment.setUrl(url);
+            comment.setMail(mail);
+        }
         comment.setParentId(null == coid ? 0 : coid);
         //获取浏览器信息
         String ua = request.getHeader("User-Agent");
@@ -330,10 +340,10 @@ public class HomeController extends BaseController{
         comment.setAgent(browserName+ "  "+ system);
         try {
             commentService.addComment(comment);
-            cookie("tale_remember_author", URLEncoder.encode(author, "UTF-8"), 7 * 24 * 60 * 60, response);
-            cookie("tale_remember_mail", URLEncoder.encode(mail, "UTF-8"), 7 * 24 * 60 * 60, response);
+            cookie("remember_author", URLEncoder.encode(author, "UTF-8"), 7 * 24 * 60 * 60, response);
+            cookie("remember_mail", URLEncoder.encode(mail, "UTF-8"), 7 * 24 * 60 * 60, response);
             if (StringUtils.isNotBlank(url)) {
-                cookie("tale_remember_url", URLEncoder.encode(url, "UTF-8"), 7 * 24 * 60 * 60, response);
+                cookie("remember_url", URLEncoder.encode(url, "UTF-8"), 7 * 24 * 60 * 60, response);
             }
             // 设置对每个文章30s可以评论一次
             cache.hset(Types.COMMENTS_FREQUENCY.getType(), val, 1, 30);

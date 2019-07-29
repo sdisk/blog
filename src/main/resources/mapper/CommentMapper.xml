@@ -197,7 +197,7 @@
     SELECT
     <include refid="BASE_COLUMN"/>
     from <include refid="BASE_TABLE"/> cm
-    WHERE cm.parentId = #{id}
+    WHERE cm.parentId = #{id} and cm.status = 'approved'
   </select>
 
 </mapper>

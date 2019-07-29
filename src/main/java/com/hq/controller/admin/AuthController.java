@@ -42,9 +42,9 @@ public class AuthController extends BaseController
 {
     private static final String LOGIN_ERROR_COUNT = "login_error_count";
     /**
-     * 缓存10分钟
+     * 缓存1小时
      */
-    private static final int LOGIN_ERROR_EXPIRES = 600;
+    private static final int LOGIN_ERROR_EXPIRES = 3600;
 
     @Autowired
     private UserService userService;
@@ -52,7 +52,7 @@ public class AuthController extends BaseController
     @Autowired
     private BlogProperties blogProperties;
 
-    @RequestMapping(value = "/login",method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     @ApiOperation("跳转到登录页")
     public String login(HttpServletRequest request){
         if (blogProperties.getKaptchaOpen()){

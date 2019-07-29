@@ -90,7 +90,7 @@ public class ArticleController extends BaseController {
                                  @ApiParam(name = "allowComment",value = "是否允许评论",required = true)@RequestParam(name = "allowComment",required = true)Boolean allowComment,
                                  @ApiParam(name = "allowPing",value = "是否允许ping",required = true)@RequestParam(name = "allowPing",required = true)Boolean allowPing,
                                  @ApiParam(name = "allowFeed",value = "是否出行在聚合中",required = true)@RequestParam(name = "allowFeed",required = true)Boolean allowFeed,
-                                 @ApiParam(name = "allowShow",value = "是否公开可见",required = true)@RequestParam(name = "allowShow",required = true)Boolean allowShow){
+                                 @ApiParam(name = "allowShow",value = "是否公开可见",required = false)@RequestParam(name = "allowShow",required = false)Boolean allowShow){
         Contents contents = new Contents();
         contents.setTitle(title);
         contents.setTitlePic(titlePic);
@@ -104,7 +104,8 @@ public class ArticleController extends BaseController {
         contents.setAllowComment(allowComment ? 1 : 0);
         contents.setAllowPing(allowPing ? 1 : 0);
         contents.setAllowFeed(allowFeed ? 1 : 0);
-        contents.setAllowShow(allowShow ? 1 : 0);
+        contents.setAllowShow(1);
+        //contents.setAllowShow(allowShow ? 1 : 0);
         contents.setCommentsNum(0);
         contentService.save(contents);
         return ResultUtil.success();

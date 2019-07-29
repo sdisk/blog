@@ -64,7 +64,7 @@
                     </div>
                     <div class="comment-list-one-footer">
                         <span class="comment-list-one-footer-time" th:utext="${#dates.format(comment.createTime,'yyyy-MM-dd HH:mm')}"></span>
-                        <span at="${comment.coid}" class="comment-list-one-footer-reback">回复</span>
+                        <span th:attr="at=${comment.coid}" class="comment-list-one-footer-reback">回复</span>
                     </div>
                 </section>
                 <th:block th:if="${comment.childComments !=null && comment.childComments.size() >0}">

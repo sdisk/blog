@@ -6,15 +6,16 @@
     <div class="comment-wrap">
         <form id="comment-form"  role="form" onsubmit="return Comment.subbimtComment();">
             <div class="comment-header">
-                <input type="hidden" name="coid" id="coid" >
+                <input type="hidden" name="coid" id="coid" th:value="${coid}">
                 <input type="hidden" name="cid" id="cid" th:value="${article.cid}"/>
                 <input type="hidden" name="_csrf_token" th:value="${_csrf_token}"/>
-                <input type="text" class="comment-input comment-input-who" name="author" maxlength="16" placeholder="昵称(*)">
+                <input type="hidden" name="isAdmin" th:value="${isAdmin}"/>
+                <input type="text" class="comment-input comment-input-who" name="author" id="author" maxlength="16" placeholder="昵称(*)">
                 <input type="email" class="comment-input comment-input-email" name="mail" id="mail"  placeholder="邮箱(*)">
-                <input type="url" class="comment-input comment-input-website" id="url"  placeholder="网址(https://)">
+                <input type="url" class="comment-input comment-input-website" name="url" id="url"  placeholder="网址(https://)">
             </div>
             <div class="comment-content">
-                <textarea class="comment-input-content" name="commentContent" id="commentContent" placeholder="赶快评论一个吧!"
+                <textarea class="comment-input-content" name="text" id="commentContent" placeholder="赶快评论一个吧!"
                 required="required" minlength="5" maxlength="2000"></textarea>
             </div>
             <div class="comment-footer">
@@ -44,7 +45,7 @@
                     </div>
                     <div class="comment-list-one-footer">
                         <span class="comment-list-one-footer-time" th:utext="${#dates.format(comment.createTime,'yyyy-MM-dd HH:mm')}"></span>
-                        <span at="${comment.coid}" class="comment-list-one-footer-reback">回复</span>
+                        <span th:attr="at=${comment.coid}" class="comment-list-one-footer-reback">回复</span>
                     </div>
                     </section>
                 <th:block th:if="${comment.childComments !=null && comment.childComments.size() >0}">

@@ -2,13 +2,17 @@ package com.hq.controller.admin;
 
 import com.github.pagehelper.PageInfo;
 import com.hq.common.annotion.BussinessLog;
+import com.hq.common.constant.Types;
 import com.hq.common.exception.BlogException;
 import com.hq.common.exception.BlogExceptionEnum;
 import com.hq.common.rest.Result;
 import com.hq.controller.BaseController;
 import com.hq.dto.CommentQuery;
+import com.hq.dto.ContentQuery;
 import com.hq.model.Comment;
+import com.hq.model.Contents;
 import com.hq.service.CommentService;
+import com.hq.service.ContentService;
 import com.hq.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,12 +20,10 @@ import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @description: 评论管理
@@ -36,6 +38,9 @@ public class CommentController extends BaseController {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private ContentService contentService;
 
     @ApiOperation("评论列表")
     @RequestMapping(value = "",method = RequestMethod.GET)
@@ -86,5 +91,25 @@ public class CommentController extends BaseController {
             return ResultUtil.fail(e.getMessage());
         }
         return ResultUtil.success();
+    }
+
+    @ApiOperation("作者回复评论")
+    @BussinessLog("作者回复评论")
+    @RequestMapping(value = "/reply/{coid}", method = RequestMethod.GET)
+    public String reply(@ApiParam(name = "coid", value = "评论主键", required = true)
+                            @PathVariable(name = "coid", required = true)Integer coid,
+                        HttpServletRequest request){
+        Comment comment = commentService.getCommentById(coid);
+        Contents article = contentService.getArticlesById(comment.getCid());
+
+        request.setAttribute("article", article);
+
+        List<Comment> commentList = commentService.getAllCommentsByCId(comment.getCid());
+        request.setAttribute("comments", commentList);
+        request.setAttribute("active", "blog");
+        request.setAttribute("isAdmin", "1");
+        request.setAttribute("coid", coid);
+        //跳转到文章页
+        return "site/blog-datails";
     }
 }

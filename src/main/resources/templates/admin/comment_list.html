@@ -48,6 +48,11 @@
                                                     <i class="fa fa-check-circle-o"><span>通过</span></i>
                                                 </a>
                                             </th:block>
+                                            <th:block th:unless="${comment.status == 'not_audit'}">
+                                                <a th:href="@{'/admin/comments/reply/'+${comment.coid}}" target="_blank" class="btn btn-info btn-sm waves-effect waves-light m-b-6">
+                                                    <i class="fa fa-rocket"><span>回复</span></i>
+                                                </a>
+                                            </th:block>
                                             <a href="javascript:void(0)" th:onclick="'delComment('+${comment.coid}+');'" class="btn btn-danger btn-sm waves-effect waves-light m-b-6">
                                                 <i class="fa fa-trash-o"><span>删除</span></i>
                                             </a>

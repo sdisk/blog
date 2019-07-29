@@ -16,7 +16,7 @@
             <li><a th:href="@{/about}" title="About">About</a></li>
             <li><a th:href="@{/blog/index}" title="Blog">Blog</a></li>
             <li><a th:href="@{/blog/archives}" title="Archives">Archives</a></li>
-            <li><a th:href="@{/blog/category}" title="Category">Category</a></li>
+          <!--  <li><a th:href="@{/blog/category}" title="Category">Category</a></li>-->
         </ul>
     </nav>
     <!--nav-->
@@ -124,5 +124,11 @@
 //            }
 //        ]
 //    }).init()
+    function search() {
+        var param = $("#search-inp").val();
+        if (param != ""){
+            window.location.href='/blog/search?param='+param;
+        }
+    }
 </script>
 </html>

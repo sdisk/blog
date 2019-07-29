@@ -13,11 +13,11 @@
         <div class="navbar-menu">
             <a th:href="@{/blog/index}" title="Blog">Blog</a>
             <a th:href="@{/blog/archives}" title="Archive">Archive</a>
-            <a th:href="@{/blog/categories}" title="Category">Category</a>
+            <!--<a th:href="@{/blog/categories}" title="Category">Category</a>-->
         </div>
-        <div class="navbar-search" onclick="">
+        <div class="navbar-search" onclick="search()">
             <span class="icon-search"></span>
-            <form role="search" onsubmit="return false;">
+            <form role="search">
                 <span class="search-box">
                     <input type="text" id="search-inp" class="input" placeholder="搜索..." maxlength="30"
                            autocomplete="off">
