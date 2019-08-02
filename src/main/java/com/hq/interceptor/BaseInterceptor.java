@@ -57,7 +57,6 @@ public class BaseInterceptor implements HandlerInterceptor
         String uri = request.getRequestURI();
         log.info("UserAgent: {}", request.getHeader(USER_AGENT));
         log.info("用户访问地址: {}, 来路地址: {}", uri, IPUtil.getIpAddrByRequest(request));
-
         //请求拦截
         User user = ToolUtil.getLoginUser(request);
         if (null == user){

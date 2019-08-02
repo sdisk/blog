@@ -13,6 +13,7 @@ import com.hq.model.Meta;
 import com.hq.service.ContentService;
 import com.hq.service.MetaService;
 import com.hq.utils.ResultUtil;
+import com.hq.utils.ToolUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -90,7 +91,8 @@ public class ArticleController extends BaseController {
                                  @ApiParam(name = "allowComment",value = "是否允许评论",required = true)@RequestParam(name = "allowComment",required = true)Boolean allowComment,
                                  @ApiParam(name = "allowPing",value = "是否允许ping",required = true)@RequestParam(name = "allowPing",required = true)Boolean allowPing,
                                  @ApiParam(name = "allowFeed",value = "是否出行在聚合中",required = true)@RequestParam(name = "allowFeed",required = true)Boolean allowFeed,
-                                 @ApiParam(name = "allowShow",value = "是否公开可见",required = false)@RequestParam(name = "allowShow",required = false)Boolean allowShow){
+                                 @ApiParam(name = "allowShow",value = "是否公开可见",required = false)@RequestParam(name = "allowShow",required = false)Boolean allowShow,
+                                 HttpServletRequest request){
         Contents contents = new Contents();
         contents.setTitle(title);
         contents.setTitlePic(titlePic);
@@ -98,6 +100,7 @@ public class ArticleController extends BaseController {
         contents.setContent(content);
         contents.setType(type);
         contents.setStatus(status);
+        contents.setAuthorId(ToolUtil.getLoginUser(request).getUid());
         contents.setTags(type.equals(Types.ARTICLE.getType()) ? tags : null);
         //只允许博客文章有分类，防止作品被计入分类
         contents.setCategories(type.equals(Types.ARTICLE.getType())? categories : null);

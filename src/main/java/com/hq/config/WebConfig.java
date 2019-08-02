@@ -7,6 +7,7 @@ import com.alibaba.druid.support.spring.stat.BeanTypeAutoProxyCreator;
 import com.alibaba.druid.support.spring.stat.DruidStatInterceptor;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;
+import com.hq.common.listen.ConfigListener;
 import com.hq.common.xss.XssFilter;
 import com.hq.interceptor.BaseInterceptor;
 import org.springframework.aop.Advisor;
@@ -14,12 +15,13 @@ import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.aop.support.JdkRegexpMethodPointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Properties;
 
@@ -29,7 +31,7 @@ import java.util.Properties;
  * @create: 2019-03-19 09:45
  **/
 @Configuration
-public class WebConfig extends WebMvcConfigurerAdapter {
+public class WebConfig implements WebMvcConfigurer {
 
     @Autowired
     private BaseInterceptor baseInterceptor;
@@ -42,7 +44,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     {
         registry.addInterceptor(baseInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
+                .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**", "/site/**",
+                        "/admin/js/**", "/admin/css/**", "/admin/images/**", "/admin/fonts/**", "/admin/plugins/**", "/admin/editormd/**");
     }
 
     @Bean
@@ -124,6 +127,14 @@ public class WebConfig extends WebMvcConfigurerAdapter {
             registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
             registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
         }
+    }
+
+    /**
+     * ConfigListener注册
+     */
+    @Bean
+    public ServletListenerRegistrationBean<ConfigListener> configListenerRegistration() {
+        return new ServletListenerRegistrationBean<>(new ConfigListener());
     }
 
     @Bean

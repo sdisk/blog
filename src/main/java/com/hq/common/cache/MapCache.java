@@ -103,6 +103,9 @@ public class MapCache
         cachePool.remove(key);
     }
 
+    public boolean isEmpty(){
+        return cachePool.isEmpty();
+    }
     /**
      * 清空缓存
      */

@@ -25,6 +25,8 @@
     </div>
 </main>
 <div th:replace="site/footer::footer(${commons.site_title()},${commons.site_record()},${commons.site_url()})"></div>
+<script th:src="@{/site/js/comment.js}" type="text/javascript"></script>
+<script th:src="@{/site/js/layer.js}" type="text/javascript"></script>
 </body>
-<div th:replace="comm/post_comment::post_comment"></div>
 </html>
+

@@ -24,7 +24,7 @@
                                 <h2>
                                     <th:block th:text="${archive.title}"></th:block>
                                 </h2>
-                                <p><th:block th:utext="${archive.created}"></th:block></p>
+                                <p><th:block th:utext="${commons.fmtdate_en(article.createTime)}"></th:block></p>
                                 <a th:href="${commons.photoPermalink(archive.cid)}">View more</a>
                             </figcaption>
                         </figure>
@@ -42,7 +42,7 @@
                                 <figure class="effect-oscar"> <img th:src="${commons.show_thumb(archive.content)}" alt="" class="img-responsive"/>
                                     <figcaption>
                                         <h2><th:block th:text="${archive.title}" ></th:block></h2>
-                                        <p><th:block th:utext="${commons.fmtdate_en(archive.created)}"></th:block></p>
+                                        <p><th:block th:utext="${commons.fmtdate_en(archive.createTime)}"></th:block></p>
                                         <a th:href="${commons.photoPermalink(archive.cid)}">View more</a> </figcaption>
                                 </figure>
                             </li>

@@ -4,12 +4,12 @@
 <body>
 <div th:if="${article.allowComment}" class="comment-container">
     <div class="comment-wrap">
-        <form id="comment-form"  role="form" onsubmit="return Comment.subbimtComment();">
+        <form id="comment-form"  role="form" onsubmit="return subbimtComment();">
             <div class="comment-header">
                 <input type="hidden" name="coid" id="coid" th:value="${coid}">
                 <input type="hidden" name="cid" id="cid" th:value="${article.cid}"/>
                 <input type="hidden" name="_csrf_token" th:value="${_csrf_token}"/>
-                <input type="hidden" name="isAdmin" th:value="${isAdmin}"/>
+                <input type="hidden" name="isAdmin" id="isAdmin" th:value="${isAdmin}"/>
                 <input type="text" class="comment-input comment-input-who" name="author" id="author" maxlength="16" placeholder="昵称(*)">
                 <input type="email" class="comment-input comment-input-email" name="mail" id="mail"  placeholder="邮箱(*)">
                 <input type="url" class="comment-input comment-input-website" name="url" id="url"  placeholder="网址(https://)">
@@ -20,7 +20,7 @@
             </div>
             <div class="comment-footer">
                 <button type="button" class="comment-cancel-reply" id="comment-cancel-reply" style="display: none;">取消回复</button>
-                <button type="submit" class="comment-submit">提交评论</button>
+                <input type="submit" class="comment-submit" value="提交评论"/>
             </div>
         </form>
     </div>

@@ -39,4 +39,5 @@ public interface ContentsMapper {
      * @return
      */
     int updateArticleCommentCountById(@Param("cid") Integer cid, @Param("commentsNum") Integer commentsNum);
+
 }

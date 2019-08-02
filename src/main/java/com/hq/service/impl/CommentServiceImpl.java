@@ -2,10 +2,11 @@ package com.hq.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.google.common.collect.Lists;
-import com.hq.common.constant.ErrorConstant;
+import com.hq.common.cache.MapCache;
+import com.hq.common.constant.Constants;
 import com.hq.common.exception.BlogException;
 import com.hq.common.exception.BlogExceptionEnum;
+import com.hq.common.log.LogManager;
 import com.hq.dao.CommentMapper;
 import com.hq.dao.ContentsMapper;
 import com.hq.dto.CommentQuery;
@@ -14,20 +15,20 @@ import com.hq.model.Contents;
 import com.hq.service.CommentService;
 import com.hq.service.ContentService;
 import com.hq.utils.DateUtil;
+import com.hq.utils.EmailToolUtil;
 import com.hq.utils.ToolUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -47,12 +48,17 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private ContentService contentService;
 
+    @Autowired
+    private EmailToolUtil emailToolUtil;
+
     private static final Map<String, String> STATUS_MAP = new ConcurrentHashMap<>();
 
     //评论正常显示
     private static final String STATUS_NORMAL = "approved";
     //评论不显示
     private static final String STATUS_BLANK = "not_audit";
+
+    private MapCache cache = MapCache.single();
 
     static{
         STATUS_MAP.put("approved", STATUS_NORMAL);
@@ -112,7 +118,7 @@ public class CommentServiceImpl implements CommentService {
             throw new BlogException(400, "该文章不存在");
         }
         comments.setOwnerId(article.getAuthorId());
-        if ("0".equals(comments.getIsAdmin())){
+        if (0 == comments.getIsAdmin()){
             comments.setStatus(STATUS_MAP.get(STATUS_BLANK));
         } else {
             //作者评论不需要审核
@@ -179,6 +185,45 @@ public class CommentServiceImpl implements CommentService {
             throw new BlogException(BlogExceptionEnum.PARAM_IS_EMPTY);
         }
         commentMapper.updateCommentStatus(coid, status);
+
+        if (STATUS_NORMAL.equals(status)){
+            Comment comment = commentMapper.getCommentById(coid);
+            if (StringUtils.isBlank(comment.getMail())){
+                return;
+            }
+            LogManager.getLogManager().executeLog(new TimerTask() {
+                @Override
+                public void run() {
+                    Contents contents = contentsMapper.selectByPrimaryKey(comment.getCid());
+                    if (comment.getParentId() == 0){
+                        Map<String, Object> valueMap = new HashMap<>(5);
+                        valueMap.put("contentTitle", contents.getTitle());
+                        valueMap.put("contentUrl", cache.get("basePath")+ "/blog/article/"+ comment.getCid());
+                        valueMap.put("commentContent", comment.getContent());
+                        valueMap.put("blogUrl", cache.get("blogUrl"));
+                        valueMap.put("blogTitle", cache.get("blogTitle"));
+                        emailToolUtil.sendTemplateMail(new String[]{comment.getMail()}, Constants.MAIL_SUBJECT_PASS, "comm/pass_mail.html", valueMap);
+                    } else {
+                        Comment commentPar = commentMapper.getCommentById(comment.getParentId());
+                        if (StringUtils.isBlank(commentPar.getMail())){
+                            return;
+                        }
+                        Map<String, Object> valueMap = new HashMap<>(8);
+                        String url = cache.get("basePath")+ "/blog/article/"+ comment.getCid();
+                        valueMap.put("commentAuthor", commentPar.getAuthor());
+                        valueMap.put("contentTitle", contents.getTitle());
+                        valueMap.put("contentUrl", url);
+                        valueMap.put("commentContent", commentPar.getContent());
+                        valueMap.put("replyAuthor", comment.getAuthor());
+                        valueMap.put("replyContent", comment.getContent());
+                        valueMap.put("blogUrl", cache.get("blogUrl"));
+                        valueMap.put("blogTitle", cache.get("blogTitle"));
+                        emailToolUtil.sendTemplateMail(new String[]{commentPar.getMail()}, Constants.MAIL_SUBJECT_REPLY, "comm/reply_mail.html", valueMap);
+                    }
+
+                }
+            });
+        }
     }
 
     @Override

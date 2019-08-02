@@ -71,4 +71,10 @@ public class Constants
      * 上传文件最大1M
      */
     public static Integer MAX_FILE_SIZE = 1048576;
+
+    public static String MAIL_SUBJECT_COMMENT = "您的博客有新的评论！";
+
+    public static String MAIL_SUBJECT_PASS = "您的评论已审核通过！";
+
+    public static String MAIL_SUBJECT_REPLY = "您的评论有了新回复！";
 }

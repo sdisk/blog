@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class LogManager {
 
     //日志操作记录演示
-    private static final int OPERATE_DELAY_TIME = 1;
+    private static final int OPERATE_DELAY_TIME = 10;
 
     //异步操作记录日志的线程池
     private ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(10);

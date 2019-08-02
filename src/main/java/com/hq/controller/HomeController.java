@@ -1,10 +1,12 @@
 package com.hq.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.hq.common.cache.MapCache;
 import com.hq.common.constant.Constants;
 import com.hq.common.constant.Types;
 import com.hq.common.exception.BlogException;
 import com.hq.common.exception.BlogExceptionEnum;
+import com.hq.common.log.LogManager;
 import com.hq.common.rest.Result;
 import com.hq.dto.ArchiveDto;
 import com.hq.dto.ContentQuery;
@@ -23,6 +25,7 @@ import nl.bitwalker.useragentutils.OperatingSystem;
 import nl.bitwalker.useragentutils.UserAgent;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -31,8 +34,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @program: blog
@@ -44,6 +46,9 @@ import java.util.List;
 @Controller
 @Slf4j
 public class HomeController extends BaseController{
+
+    @Value("${tyche.email.to}")
+    private String noticeEmail;
 
     @Autowired
     private SiteService siteService;
@@ -62,6 +67,10 @@ public class HomeController extends BaseController{
     @Autowired
     private OptionService optionService;
 
+    @Autowired
+    private EmailToolUtil emailToolUtil;
+
+    private MapCache cache = MapCache.single();
 
     @ApiIgnore
     @RequestMapping(value = {"/about", "/about/index"}, method = RequestMethod.GET)
@@ -72,7 +81,7 @@ public class HomeController extends BaseController{
     }
 
     @ApiOperation("blog首页")
-    @RequestMapping(value = {"/blog/","/blog/index"},method = RequestMethod.GET)
+    @RequestMapping(value = {"/", "/blog/", "/blog/index"}, method = RequestMethod.GET)
     public String blogIndex(HttpServletRequest request, @ApiParam(name = "limit", value = "页数", required = false)
                             @RequestParam(name = "limit", required = false, defaultValue = "11")int limit){
         return this.blogIndex(request, 1 ,limit);
@@ -265,6 +274,7 @@ public class HomeController extends BaseController{
                                         @RequestParam(name = "text", required = true) String text,
                                         @RequestParam(name = "_csrf_token", required = true) String _csrf_token,
                                         @RequestParam(name = "isAdmin", required = true) String isAdmin){
+        boolean sendMail = false;
         String ref = request.getHeader("Referer");
         if (StringUtils.isBlank(ref) || StringUtils.isBlank(_csrf_token)){
             return ResultUtil.fail("访问失败");
@@ -309,8 +319,8 @@ public class HomeController extends BaseController{
         comment.setIp(request.getRemoteAddr());
         comment.setContent(text);
 
-        if (StringUtils.isNotBlank(comment.getMail())) {
-            comment.setGavatar(Commons.gravatar(comment.getMail()));
+        if (StringUtils.isNotBlank(mail)) {
+            comment.setGavatar(Commons.gravatar(mail));
         }
         User user = ToolUtil.getLoginUser(request);
         if (StringUtils.isNotBlank(isAdmin) && user != null){
@@ -323,6 +333,7 @@ public class HomeController extends BaseController{
             comment.setIsAdmin(0);
             comment.setUrl(url);
             comment.setMail(mail);
+            sendMail = true;
         }
         comment.setParentId(null == coid ? 0 : coid);
         //获取浏览器信息
@@ -348,6 +359,45 @@ public class HomeController extends BaseController{
             // 设置对每个文章30s可以评论一次
             cache.hset(Types.COMMENTS_FREQUENCY.getType(), val, 1, 30);
 
+            if (sendMail && null == coid){
+                //博客有新评论，发送邮件通知作者进行审核
+                LogManager.getLogManager().executeLog(new TimerTask() {
+                    @Override
+                    public void run() {
+                        Contents contents = contentService.getArticlesById(cid);
+                        User user = userService.getUserInfoById(contents.getAuthorId());
+                        Map<String, Object> valueMap = new HashMap<>(5);
+                        valueMap.put("author", user.getUsername());
+                        valueMap.put("contentTitle", contents.getTitle());
+                        valueMap.put("visitor", comment.getAuthor());
+                        valueMap.put("commentContent", comment.getContent());
+                        valueMap.put("contentUrl", cache.get("basePath")+ "/blog/article/"+ cid);
+                        log.info("发送新评论邮件 --> contentTitle:{}", contents.getTitle());
+                        emailToolUtil.sendTemplateMail(new String[]{noticeEmail}, Constants.MAIL_SUBJECT_COMMENT, "comm/comment_mail.html", valueMap);
+                    }
+                });
+            } else if (null != coid && StringUtils.isNotBlank(isAdmin)){
+                //作者回复
+                LogManager.getLogManager().executeLog(new TimerTask() {
+                    @Override
+                    public void run() {
+                        Comment commentPar = commentService.getCommentById(comment.getParentId());
+                        Contents contents = contentService.getArticlesById(cid);
+                        Map<String, Object> valueMap = new HashMap<>(8);
+                        String url = cache.get("basePath")+ "/blog/article/"+ comment.getCid();
+                        valueMap.put("commentAuthor", commentPar.getAuthor());
+                        valueMap.put("contentTitle", contents.getTitle());
+                        valueMap.put("contentUrl", url);
+                        valueMap.put("commentContent", commentPar.getContent());
+                        valueMap.put("replyAuthor", comment.getAuthor());
+                        valueMap.put("replyContent", comment.getContent());
+                        valueMap.put("blogUrl", cache.get("blogUrl"));
+                        valueMap.put("blogTitle", cache.get("blogTitle"));
+                        log.info("发送作者评论邮件 --> contentTitle:{}", contents.getTitle());
+                        emailToolUtil.sendTemplateMail(new String[]{commentPar.getMail()}, Constants.MAIL_SUBJECT_REPLY, "comm/reply_mail.html", valueMap);
+                    }
+                });
+            }
             return ResultUtil.success();
         } catch (Exception e) {
             throw new BlogException(BlogExceptionEnum.ADD_NEW_COMMENT_FAIL);
@@ -355,7 +405,7 @@ public class HomeController extends BaseController{
     }
 
     @ApiOperation("作品主页")
-    @RequestMapping(value = {"","/index"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/photo"}, method = RequestMethod.GET)
     public String photo(HttpServletRequest request,
                         @ApiParam(name = "limit",value = "条数",required = false)
                         @RequestParam(name = "limit", required = false, defaultValue = "10")int limit){
@@ -374,7 +424,7 @@ public class HomeController extends BaseController{
        contentQuery.setType(Types.PHOTO.getType());
        PageInfo<Contents> articles = contentService.getArticlesByQuery(contentQuery, page ,limit);
        request.setAttribute("archives", articles);
-       request.setAttribute("active", "work");
+       request.setAttribute("active", "photo");
        return "site/index";
     }
 
@@ -383,7 +433,7 @@ public class HomeController extends BaseController{
     public String article(@ApiParam(name = "cid", value = "文章主键", required = true) @PathVariable("cid")Integer cid, HttpServletRequest request){
         Contents article = contentService.getArticlesById(cid);
         request.setAttribute("archive", article);
-        request.setAttribute("active", "work");
+        request.setAttribute("active", "photo");
         return "site/works-details";
     }
 
